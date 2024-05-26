@@ -1,0 +1,94 @@
+<script setup lang="ts">
+const props = defineProps<{
+  sumOfThreeDice: any;
+  감도: number;
+}>();
+</script>
+<template>
+  <div class="flex gap-1">
+    <SumDice
+      :sum="4"
+      :description="60"
+      :count="sumOfThreeDice[0].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="5"
+      :description="20"
+      :count="sumOfThreeDice[1].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="6"
+      :description="18"
+      :count="sumOfThreeDice[2].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="7"
+      :description="12"
+      :count="sumOfThreeDice[3].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="8"
+      :description="8"
+      :count="sumOfThreeDice[4].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="9"
+      :description="6"
+      :count="sumOfThreeDice[5].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="10"
+      :description="6"
+      :count="sumOfThreeDice[6].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="11"
+      :description="6"
+      :count="sumOfThreeDice[7].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="12"
+      :description="6"
+      :count="sumOfThreeDice[8].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="13"
+      :description="8"
+      :count="sumOfThreeDice[9].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="14"
+      :description="12"
+      :count="sumOfThreeDice[10].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="15"
+      :description="18"
+      :count="sumOfThreeDice[11].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="16"
+      :description="20"
+      :count="sumOfThreeDice[12].value"
+      :감도="감도"
+    />
+    <SumDice
+      :sum="17"
+      :description="60"
+      :count="sumOfThreeDice[13].value"
+      :감도="감도"
+    />
+  </div>
+</template>

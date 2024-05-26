@@ -1,178 +1,157 @@
+<script setup lang="ts">
+import { computed, ref } from "vue";
+import DiceHistory from "~/components/diceHistory.vue";
+import DoubleDiceWarp from "~/components/doubleDiceWarp.vue";
+
+const 감도 = ref(5);
+
+const 기록들 = ref<number[][]>([]);
+
+const 선택된주사위들 = ref<number[]>([0, 0, 0]);
+const 주사위입력 = () => {
+  기록들.value.push(선택된주사위들.value);
+
+  anyTriple.value++;
+  for (let i = 0; i < 6; i++) {
+    triples[i].value++;
+    if (선택된주사위들.value.filter((val) => val === i + 1).length === 3) {
+      triples[i].value = 0;
+      anyTriple.value = 0;
+    }
+  }
+
+  for (let i = 0; i < 6; i++) {
+    doubles[i].value++;
+    if (선택된주사위들.value.filter((val) => val === i + 1).length === 2) {
+      doubles[i].value = 0;
+    }
+  }
+
+  for (let i = 0; i < 14; i++) {
+    sumOfThreeDice[i].value++;
+  }
+  const sum = 선택된주사위들.value.reduce((a, b) => a + b, 0);
+  if (3 < sum && sum < 18) {
+    sumOfThreeDice[sum - 4].value = 0;
+  }
+
+  선택된주사위들.value = [0, 0, 0];
+};
+const 랜덤입력 = () => {
+  선택된주사위들.value = Array(3)
+    .fill(0)
+    .map(() => Math.floor(Math.random() * 6) + 1);
+  기록들.value.push(선택된주사위들.value);
+
+  anyTriple.value++;
+  for (let i = 0; i < 6; i++) {
+    triples[i].value++;
+    if (선택된주사위들.value.filter((val) => val === i + 1).length === 3) {
+      triples[i].value = 0;
+      anyTriple.value = 0;
+    }
+  }
+
+  for (let i = 0; i < 6; i++) {
+    doubles[i].value++;
+    if (선택된주사위들.value.filter((val) => val === i + 1).length === 2) {
+      doubles[i].value = 0;
+    }
+  }
+
+  for (let i = 0; i < 14; i++) {
+    sumOfThreeDice[i].value++;
+  }
+  const sum = 선택된주사위들.value.reduce((a, b) => a + b, 0);
+  if (3 < sum && sum < 18) {
+    sumOfThreeDice[sum - 4].value = 0;
+  }
+
+  선택된주사위들.value = [0, 0, 0];
+};
+
+let interval: NodeJS.Timeout | null = null;
+const 자동입력 = () => {
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  } else {
+    let count = 0;
+    interval = setInterval(() => {
+      랜덤입력();
+      count++;
+    }, 100);
+  }
+};
+
+const anyTriple = ref<number>(0);
+const triples = Array(6)
+  .fill(0)
+  .map(() => ref<number>(0));
+const doubles = Array(6)
+  .fill(0)
+  .map(() => ref<number>(0));
+const sumOfThreeDice = Array(14)
+  .fill(0)
+  .map(() => ref<number>(0));
+
+const isDiceInputDisabled = computed(() => 선택된주사위들.value.includes(0));
+</script>
 <template>
-  <div class="p-4 bg-emerald-700 flex flex-col gap-1">
-    <div class="flex gap-1">
-      <Card class="w-fit px-2 py-1 flex flex-col bg-emerald-500 border-0">
-        <div class="flex justify-center text-white">1:8</div>
-        <div class="flex gap-1">
-          <Card class="w-fit px-1 py-1 flex flex-col border-0 bg-emerald-700 h-32 justify-between">
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">1</Card>
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">1</Card>
-          </Card>
-          <Card class="w-fit px-1 py-1 flex flex-col border-0 bg-emerald-700 h-32 justify-between">
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">2</Card>
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">2</Card>
-          </Card>
-          <Card class="w-fit px-1 py-1 flex flex-col border-0 bg-emerald-700 h-32 justify-between">
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">3</Card>
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">3</Card>
-          </Card>
+  <div class="p-4 bg-emerald-700 flex flex-col gap-1 items-center">
+    <div class="flex gap-1 items-end">
+      <DiceTable
+        :선택된주사위들="선택된주사위들"
+        @firstClick="(arg: number) => 선택된주사위들[0] = arg"
+        @secondClick="(arg: number) => 선택된주사위들[1] = arg"
+        @thirdClick="(arg: number) => 선택된주사위들[2] = arg"
+      />
+      <Button
+        variant="outline"
+        :disabled="isDiceInputDisabled"
+        @click="주사위입력()"
+        >선택완료</Button
+      >
+      <Button @click="랜덤입력()">랜덤입력</Button>
+      <Button @click="자동입력()">자동입력</Button>
+      <div class="flex items-center gap-1 text-white">
+        <Button @click="감도++">+</Button>
+        <div>
+          {{ 감도 }}
         </div>
+        <Button @click="감도--">-</Button>
+      </div>
+      <Card
+        class="w-fit h-fit flex px-2 py-1 bg-red-500 bg-opacity-50 text-yellow-500 border-0"
+        >{{ 기록들.length }}
       </Card>
-
-      <Card class="w-fit px-2 py-1 flex flex-col bg-emerald-500 border-0">
-        <div class="flex justify-center text-white">1:150</div>
-        <div class="flex flex-col gap-1">
-          <Card class="w-fit px-3 py-1 flex gap-3 border-0 bg-emerald-700">
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">1</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">1</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">1</Card>
-          </Card>
-          <Card class="w-fit px-3 py-1 flex gap-3 border-0 bg-emerald-700">
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">2</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">2</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">2</Card>
-          </Card>
-          <Card class="w-fit px-3 py-1 flex gap-3 border-0 bg-emerald-700">
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">3</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">3</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">3</Card>
-          </Card>
-        </div>
-      </Card>
-
-      <Card class="w-fit px-2 py-1 flex flex-col bg-emerald-500 border-0">
-        <div class="flex justify-center text-white">1:30</div>
-        <div class="flex justify-center text-sm text-yellow-200">ANY TRIPLE</div>
-        <div class="flex flex-col gap-1">
-          <Card class="w-fit px-1 py-1 flex gap-3 border-0 bg-emerald-700">
-            <div class="flex flex-col gap-1">
-              <div class="flex items-center gap-1">
-                <Card class="w-fit px-2 border-0 bg-emerald-100">1</Card>
-                <p class="text-white">X3</p>
-              </div>
-              <div class="flex items-center gap-1">
-                <Card class="w-fit px-2 border-0 bg-emerald-100">3</Card>
-                <p class="text-white">X3</p>
-              </div>
-              <div class="flex items-center gap-1">
-                <Card class="w-fit px-2 border-0 bg-emerald-100">5</Card>
-                <p class="text-white">X3</p>
-              </div>
-            </div>
-            <div class="flex flex-col gap-1">
-              <div class="flex items-center gap-1">
-                <Card class="w-fit px-2 border-0 bg-emerald-100">2</Card>
-                <p class="text-white">X3</p>
-              </div>
-              <div class="flex items-center gap-1">
-                <Card class="w-fit px-2 border-0 bg-emerald-100">4</Card>
-                <p class="text-white">X3</p>
-              </div>
-              <div class="flex items-center gap-1">
-                <Card class="w-fit px-2 border-0 bg-emerald-100">5</Card>
-                <p class="text-white">X3</p>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </Card>
-
-      <Card class="w-fit px-2 py-1 flex flex-col bg-emerald-500 border-0">
-        <div class="flex justify-center text-white">1:150</div>
-        <div class="flex flex-col gap-1">
-          <Card class="w-fit px-1 py-1 flex gap-3 border-0 bg-emerald-700">
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">4</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">4</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">4</Card>
-          </Card>
-          <Card class="w-fit px-1 py-1 flex gap-3 border-0 bg-emerald-700">
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">5</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">5</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">5</Card>
-          </Card>
-          <Card class="w-fit px-1 py-1 flex gap-3 border-0 bg-emerald-700">
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">6</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">6</Card>
-            <Card class="w-fit px-3 py-1 border-0 bg-emerald-100">6</Card>
-          </Card>
-        </div>
-      </Card>
-
-      <Card class="w-fit px-2 py-1 flex flex-col bg-emerald-500 border-0">
-        <div class="flex justify-center text-white">1:8</div>
-        <div class="flex gap-1">
-          <Card class="w-fit px-1 py-1 flex flex-col border-0 bg-emerald-700 h-32 justify-between">
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">4</Card>
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">4</Card>
-          </Card>
-          <Card class="w-fit px-1 py-1 flex flex-col border-0 bg-emerald-700 h-32 justify-between">
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">5</Card>
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">5</Card>
-          </Card>
-          <Card class="w-fit px-1 py-1 flex flex-col border-0 bg-emerald-700 h-32 justify-between">
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">6</Card>
-            <Card class="w-fit px-4 py-2 border-0 bg-emerald-100">6</Card>
-          </Card>
-        </div>
-      </Card>
+      <DiceHistory v-if="기록들.length" :기록들="기록들" />
     </div>
     <div class="flex gap-1">
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">4</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">5</div>
-        <div class="text-emerald-100 text-sm">1:20</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">6</div>
-        <div class="text-emerald-100 text-sm">1:18</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">7</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">8</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">9</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">10</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">11</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">4</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">12</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">13</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">14</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">15</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
-      <Card class="w-14 px-3 py-2 flex flex-col border-0 bg-emerald-500 justify-between items-center gap-2">
-        <div class="text-emerald-100 text-3xl font-bold">16</div>
-        <div class="text-emerald-100 text-sm">1:60</div>
-      </Card>
+      <DoubleDiceWarp
+        :주사위들="[1, 2, 3]"
+        :doubles="[doubles[0].value, doubles[1].value, doubles[2].value]"
+        :감도="감도"
+      />
+      <TripleDiceWarp
+        :주사위들="[1, 2, 3]"
+        :triples="[triples[0].value, triples[1].value, triples[2].value]"
+        :감도="감도"
+      />
+
+      <AnyTriple :count="anyTriple" :감도="감도" />
+
+      <TripleDiceWarp
+        :주사위들="[4, 5, 6]"
+        :triples="[triples[3].value, triples[4].value, triples[5].value]"
+        :감도="감도"
+      />
+      <DoubleDiceWarp
+        :주사위들="[4, 5, 6]"
+        :doubles="[doubles[3].value, doubles[4].value, doubles[5].value]"
+        :감도="감도"
+      />
     </div>
+    <SumDiceWrap :sumOfThreeDice="sumOfThreeDice" :감도="감도" />
   </div>
 </template>
