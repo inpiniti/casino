@@ -1,47 +1,273 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const emit = defineEmits(["click"]);
+const ballClickHandler = (number: number) => {
+  emit("click", number);
+};
+const props = defineProps<{
+  카운트배열: number[];
+}>();
+</script>
 <template>
-  <div class="flex bg-red-800 w-fit">
-    <RouletteBallTbody
-      :numbers="[
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-        [10, 11, 12],
-      ]"
-      :colors="[
-        ['red', 'black', 'red'],
-        ['black', 'red', 'black'],
-        ['red', 'black', 'red'],
-        ['black', 'red', 'black'],
-      ]"
-    />
-    <RouletteBallTbody
-      :numbers="[
-        [13, 14, 15],
-        [16, 17, 18],
-        [19, 20, 21],
-        [22, 23, 24],
-      ]"
-      :colors="[
-        ['red', 'black', 'red'],
-        ['black', 'red', 'black'],
-        ['red', 'black', 'red'],
-        ['black', 'red', 'black'],
-      ]"
-    />
-    <RouletteBallTbody
-      :numbers="[
-        [25, 26, 27],
-        [28, 29, 30],
-        [31, 32, 33],
-        [34, 35, 36],
-      ]"
-      :colors="[
-        ['red', 'black', 'red'],
-        ['black', 'red', 'black'],
-        ['red', 'black', 'red'],
-        ['black', 'red', 'black'],
-      ]"
-    />
+  <div
+    class="flex bg-red-800 w-fit divide-solid divide-x divide-white divide-opacity-50"
+  >
+    <RouletteGreenBallTr>
+      <RouletteGreenBall
+        number="00"
+        :count="카운트배열[36]"
+        @click="ballClickHandler(37)"
+      />
+      <RouletteGreenBall
+        number="0"
+        :count="카운트배열[37]"
+        @click="ballClickHandler(38)"
+      />
+    </RouletteGreenBallTr>
+    <RouletteBallTbody>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="3"
+          :count="카운트배열[2]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="2"
+          :count="카운트배열[1]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="1"
+          :count="카운트배열[0]"
+          color="red"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="6"
+          :count="카운트배열[5]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="5"
+          :count="카운트배열[4]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="4"
+          :count="카운트배열[3]"
+          color="black"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="9"
+          :count="카운트배열[8]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="8"
+          :count="카운트배열[7]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="7"
+          :count="카운트배열[6]"
+          color="red"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="12"
+          :count="카운트배열[11]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="11"
+          :count="카운트배열[10]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="10"
+          :count="카운트배열[9]"
+          color="black"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+    </RouletteBallTbody>
+    <RouletteBallTbody>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="15"
+          :count="카운트배열[14]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="14"
+          :count="카운트배열[13]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="13"
+          :count="카운트배열[12]"
+          color="black"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="18"
+          :count="카운트배열[17]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="17"
+          :count="카운트배열[16]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="16"
+          :count="카운트배열[15]"
+          color="red"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="21"
+          :count="카운트배열[20]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="20"
+          :count="카운트배열[19]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="19"
+          :count="카운트배열[18]"
+          color="red"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="24"
+          :count="카운트배열[23]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="23"
+          :count="카운트배열[22]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="22"
+          :count="카운트배열[21]"
+          color="black"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+    </RouletteBallTbody>
+    <RouletteBallTbody>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="27"
+          :count="카운트배열[26]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="26"
+          :count="카운트배열[25]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="25"
+          :count="카운트배열[24]"
+          color="red"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="30"
+          :count="카운트배열[29]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="29"
+          :count="카운트배열[28]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="28"
+          :count="카운트배열[27]"
+          color="black"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="33"
+          :count="카운트배열[32]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="32"
+          :count="카운트배열[31]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="31"
+          :count="카운트배열[30]"
+          color="black"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+      <RouletteBallTr>
+        <RouletteBall
+          :number="36"
+          :count="카운트배열[35]"
+          color="red"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="35"
+          :count="카운트배열[34]"
+          color="black"
+          @click="ballClickHandler"
+        />
+        <RouletteBall
+          :number="34"
+          :count="카운트배열[33]"
+          color="red"
+          @click="ballClickHandler"
+        />
+      </RouletteBallTr>
+    </RouletteBallTbody>
   </div>
 </template>

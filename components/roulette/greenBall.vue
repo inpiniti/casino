@@ -1,13 +1,8 @@
 <script setup lang="ts">
 const props = defineProps<{
-  number: number;
-  color: string;
+  number: string;
   count: number;
 }>();
-const emit = defineEmits(["click"]);
-const onClick = () => {
-  emit("click", props.number);
-};
 
 const bgcolor = computed(() => {
   switch (Math.floor(props.count / 18) - 2) {
@@ -48,7 +43,7 @@ const bgcolor = computed(() => {
     case 18:
       return "bg-rose-500";
     default:
-      return "bg-red-700";
+      return "bg-green-700";
   }
 });
 
@@ -58,16 +53,10 @@ const 가이드 = computed(() => {
 </script>
 <template>
   <div
-    class="relative p-2 hover:bg-red-700 cursor-pointer"
+    class="relative hover:bg-green-600 flex-1 h-full p-1 text-white flex items-center justify-center cursor-pointer"
     :class="bgcolor"
-    @click="onClick"
   >
     <div class="absolute text-xs text-white top-0 left-1">{{ 가이드 }}</div>
-    <div
-      class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center"
-      :class="color == 'red' ? 'bg-red-600' : 'bg-black'"
-    >
-      {{ number }}
-    </div>
+    {{ props.number }}
   </div>
 </template>
