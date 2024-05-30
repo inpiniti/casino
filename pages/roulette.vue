@@ -1,14 +1,15 @@
 <script setup lang="ts">
 const 나온구술배열 = ref<number[]>([]);
 const 카운트배열 = ref<number[]>(Array(38).fill(0));
+const 감도 = ref(2);
 
 let 시뮬레이션ID: NodeJS.Timeout | null = null;
-let 시뮬레이션속도: number = 100; // 기본값은 1초
+let 시뮬레이션속도: number = 10; // 기본값은 1초
 
 const ballClickHandler = (number: number) => {
   나온구술배열.value.push(number);
   카운트배열.value = 카운트배열.value.map((count) => count + 1);
-  카운트배열.value[number - 1] = 0;
+  카운트배열.value[number - 1] -= 38;
 };
 
 const BLACK_COLOR = [
@@ -31,6 +32,11 @@ const 자동입력 = () => {
   <div class="bg-red-700 flex flex-col items-center justify-center p-4 gap-2">
     <div class="flex gap-2 items-end">
       <Button @click="자동입력()">자동입력</Button>
+      <div>
+        <Button @click="감도++" size="sm">+</Button>
+        {{ 감도 }}
+        <Button @click="감도--">-</Button>
+      </div>
       <Card
         class="w-fit h-fit flex px-2 py-1 bg-red-500 bg-opacity-50 text-yellow-500 border-0"
         >{{ 나온구술배열.length }}
@@ -60,6 +66,7 @@ const 자동입력 = () => {
     <RouletteBallTable
       @click="ballClickHandler"
       :카운트배열="카운트배열"
+      :감도="감도"
       class="border border-white border-opacity-50"
     />
   </div>

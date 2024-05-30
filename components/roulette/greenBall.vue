@@ -2,10 +2,11 @@
 const props = defineProps<{
   number: string;
   count: number;
+  감도: number;
 }>();
 
 const bgcolor = computed(() => {
-  switch (Math.floor(props.count / 18) - 2) {
+  switch (Math.floor(props.count / 18) - props.감도) {
     case 1:
       return "bg-red-500";
     case 2:
@@ -48,7 +49,7 @@ const bgcolor = computed(() => {
 });
 
 const 가이드 = computed(() => {
-  return Math.max(0, Math.floor(props.count / 18) - 2);
+  return Math.max(0, Math.floor(props.count / 18) - props.감도);
 });
 </script>
 <template>

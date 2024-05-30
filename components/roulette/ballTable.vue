@@ -5,6 +5,7 @@ const ballClickHandler = (number: number) => {
 };
 const props = defineProps<{
   카운트배열: number[];
+  감도: number;
 }>();
 </script>
 <template>
@@ -15,11 +16,13 @@ const props = defineProps<{
       <RouletteGreenBall
         number="00"
         :count="카운트배열[36]"
+        :감도="감도"
         @click="ballClickHandler(37)"
       />
       <RouletteGreenBall
         number="0"
         :count="카운트배열[37]"
+        :감도="감도"
         @click="ballClickHandler(38)"
       />
     </RouletteGreenBallTr>
@@ -28,18 +31,21 @@ const props = defineProps<{
         <RouletteBall
           :number="3"
           :count="카운트배열[2]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="2"
           :count="카운트배열[1]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="1"
           :count="카운트배열[0]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
@@ -48,18 +54,21 @@ const props = defineProps<{
         <RouletteBall
           :number="6"
           :count="카운트배열[5]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="5"
           :count="카운트배열[4]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="4"
           :count="카운트배열[3]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
@@ -68,18 +77,21 @@ const props = defineProps<{
         <RouletteBall
           :number="9"
           :count="카운트배열[8]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="8"
           :count="카운트배열[7]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="7"
           :count="카운트배열[6]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
@@ -88,18 +100,21 @@ const props = defineProps<{
         <RouletteBall
           :number="12"
           :count="카운트배열[11]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="11"
           :count="카운트배열[10]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="10"
           :count="카운트배열[9]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
@@ -110,18 +125,21 @@ const props = defineProps<{
         <RouletteBall
           :number="15"
           :count="카운트배열[14]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="14"
           :count="카운트배열[13]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="13"
           :count="카운트배열[12]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
@@ -130,18 +148,21 @@ const props = defineProps<{
         <RouletteBall
           :number="18"
           :count="카운트배열[17]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="17"
           :count="카운트배열[16]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="16"
           :count="카운트배열[15]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
@@ -150,18 +171,21 @@ const props = defineProps<{
         <RouletteBall
           :number="21"
           :count="카운트배열[20]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="20"
           :count="카운트배열[19]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="19"
           :count="카운트배열[18]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
@@ -170,18 +194,21 @@ const props = defineProps<{
         <RouletteBall
           :number="24"
           :count="카운트배열[23]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="23"
           :count="카운트배열[22]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="22"
           :count="카운트배열[21]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
@@ -192,18 +219,21 @@ const props = defineProps<{
         <RouletteBall
           :number="27"
           :count="카운트배열[26]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="26"
           :count="카운트배열[25]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="25"
           :count="카운트배열[24]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
@@ -212,18 +242,21 @@ const props = defineProps<{
         <RouletteBall
           :number="30"
           :count="카운트배열[29]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="29"
           :count="카운트배열[28]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="28"
           :count="카운트배열[27]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
@@ -232,18 +265,21 @@ const props = defineProps<{
         <RouletteBall
           :number="33"
           :count="카운트배열[32]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="32"
           :count="카운트배열[31]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="31"
           :count="카운트배열[30]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
@@ -252,18 +288,21 @@ const props = defineProps<{
         <RouletteBall
           :number="36"
           :count="카운트배열[35]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="35"
           :count="카운트배열[34]"
+          :감도="감도"
           color="black"
           @click="ballClickHandler"
         />
         <RouletteBall
           :number="34"
           :count="카운트배열[33]"
+          :감도="감도"
           color="red"
           @click="ballClickHandler"
         />
