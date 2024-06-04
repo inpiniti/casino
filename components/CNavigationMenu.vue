@@ -5,6 +5,9 @@
         <NuxtLink to="/" class="px-2 font-bold"> casino </NuxtLink>
       </NavigationMenuItem>
       <NavigationMenuItem>
+        <NuxtLink to="/stock/detail" class="px-2"> stock </NuxtLink>
+      </NavigationMenuItem>
+      <NavigationMenuItem>
         <NuxtLink to="/daisai" class="px-2"> daisai </NuxtLink>
       </NavigationMenuItem>
       <NavigationMenuItem>
