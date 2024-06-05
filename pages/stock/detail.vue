@@ -35,7 +35,7 @@ type Stock = {
   Volume: number; // 거래량
 };
 
-const stockList = useState<Stock[]>("stockList");
+const stockList = useState<Stock[]>("stockList", () => []);
 
 const cStockList = computed(() => {
   return stockList.value

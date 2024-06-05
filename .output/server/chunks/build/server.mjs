@@ -672,7 +672,7 @@ const _routes = [
         meta: {},
         alias: [],
         redirect: void 0 ,
-        component: () => import('./detail-sN5xRxsI.mjs').then((m) => m.default || m)
+        component: () => import('./detail-CbkdyVXr.mjs').then((m) => m.default || m)
       }
     ]
   }

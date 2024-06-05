@@ -212,7 +212,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "detail",
   __ssrInlineRender: true,
   setup(__props) {
-    const stockList = useState("stockList");
+    const stockList = useState("stockList", () => []);
     const cStockList = computed(() => {
       return stockList.value.map((stock) => ({
         ...stock,
@@ -910,4 +910,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=detail-sN5xRxsI.mjs.map
+//# sourceMappingURL=detail-CbkdyVXr.mjs.map
