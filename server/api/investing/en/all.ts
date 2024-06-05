@@ -15,5 +15,22 @@ export default defineEventHandler(async (event) => {
     }
   );
 
+  console.log("==================status==================");
+  console.log(response.status);
+  console.log("==================statusText==================");
+  console.log(response.statusText);
+  console.log("==================headers==================");
+  console.log(response.headers);
+  console.log("==================body==================");
+  console.log(response.body);
+  console.log("==================bodyUsed==================");
+  console.log(response.bodyUsed);
+  console.log("==================ok==================");
+  console.log(response.ok);
+  console.log("==================redirected==================");
+  console.log(response.redirected);
+  console.log("==================type==================");
+  console.log(response.type);
+
   return await response.json();
 });
