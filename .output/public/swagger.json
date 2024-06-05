@@ -1,0 +1,29 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "inpiniti open api"
+  },
+  "paths": {
+    "/api/investing/en/all": {
+      "get": {
+        "summary": "미국의 모든 주식",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/api/investing/kr/all": {
+      "get": {
+        "summary": "한국의 모든 주식",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    }
+  }
+}
