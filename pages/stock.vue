@@ -37,7 +37,7 @@ type Stock = {
   Volume: number; // 거래량
 };
 
-const stockList = ref([<Stock>{}]);
+const stockList = useState<Stock[]>("stockList");
 
 onMounted(async () => {
   stockList.value = await fetch("/api/investing/en/all")
@@ -55,6 +55,6 @@ onMounted(async () => {
         <div>Change %: {{ item.ChgPct }}</div>
       </div>
     </div>
-    <div class="grow-[0] w-full"><slot /></div>
+    <div class="grow-[0] w-full"><NuxtPage /></div>
   </div>
 </template>
