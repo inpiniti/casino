@@ -39,14 +39,20 @@ type Stock = {
 
 const stockList = useState<Stock[]>("stockList", () => []);
 const intervalId = ref();
+const progressIntervalId = ref();
+const progress = ref(0);
 
 onMounted(() => {
   getInvesting();
   intervalId.value = setInterval(getInvesting, 1000 * 60 * 1);
+  progressIntervalId.value = setInterval(() => {
+    progress.value += (1 / 60) * 100;
+  }, 1000);
 });
 
 onUnmounted(() => {
   clearInterval(intervalId.value);
+  clearInterval(progressIntervalId.value);
 });
 
 const getInvesting = () => {
@@ -61,6 +67,9 @@ const getInvesting = () => {
     })
     .catch((e) => {
       console.error(e);
+    })
+    .finally(() => {
+      progress.value = 0;
     });
 };
 
@@ -102,6 +111,9 @@ function timeAgo(timestamp: any) {
 </script>
 
 <template>
+  <div class="h-1 bg-neutral-200 border-b">
+    <div class="bg-red-500 h-1" :style="{ width: `${progress}%` }"></div>
+  </div>
   <Table>
     <TableHeader>
       <TableRow>
@@ -132,42 +144,75 @@ function timeAgo(timestamp: any) {
         >
           변동률 (%)
         </TableHead>
-        <TableHead class="font-bold"> 최저가 ~ 마지막가격 ~ 최고가 </TableHead>
-        <TableHead class="font-bold">
-          일일성과 주간성과 월간성과 연간성과
-        </TableHead>
-        <TableHead class="font-bold">
-          시간당분석 일일분석 주간분석 월간분석
-        </TableHead>
+        <TableHead class="font-bold"> 가격 (최저,마지막,최고) </TableHead>
+        <TableHead class="font-bold"> 성과 (일일,주간,월간,연간) </TableHead>
+        <TableHead class="font-bold"> 분석 (시간당,일일,주간,월간) </TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
       <TableRow v-for="stock in cStockList" :key="stock.Name">
         <TableCell> {{ stock.CountryNameTranslated }}</TableCell>
         <TableCell class="font-bold">
-          {{ stock.Name }} ({{ timeAgo(Number(stock.Time)) }})
+          <div>
+            {{ stock.Name }}
+          </div>
+          <div>({{ timeAgo(Number(stock.Time)) }})</div>
         </TableCell>
-        <TableCell
-          >{{ stock.Volume }} / {{ stock.AvgVolume }} ({{
-            stock.volumeRate
-          }})</TableCell
-        >
+        <TableCell>
+          <div class="text-xs text-neutral-400">{{ stock.Volume }}</div>
+          <div class="text-xs text-neutral-400">/ {{ stock.AvgVolume }}</div>
+          <div>{{ stock.volumeRate }}%</div>
+        </TableCell>
         <TableCell>{{ stock.Chg }}</TableCell>
         <TableCell>
           {{ stock.ChgPct }}
         </TableCell>
         <TableCell>
-          {{ stock.Low }} ~ {{ stock.Last }} ~ {{ stock.High }}
+          <div class="text-xs text-neutral-400">{{ stock.Low }} ~</div>
+          <div>{{ stock.Last }} ~</div>
+          <div class="text-xs text-neutral-400">{{ stock.High }}</div>
         </TableCell>
         <TableCell>
-          {{ stock.PerformanceDay }} / {{ stock.PerformanceWeek }} /
-          {{ stock.PerformanceMonth }} / {{ stock.PerformanceYear }}</TableCell
-        >
+          <div
+            :class="stock.PerformanceDay > 0 ? 'text-red-500' : 'text-blue-500'"
+          >
+            {{ stock.PerformanceDay }} /
+          </div>
+          <div
+            :class="
+              stock.PerformanceWeek > 0 ? 'text-red-500' : 'text-blue-500'
+            "
+          >
+            {{ stock.PerformanceWeek }} /
+          </div>
+          <div
+            :class="
+              stock.PerformanceMonth > 0 ? 'text-red-500' : 'text-blue-500'
+            "
+          >
+            {{ stock.PerformanceMonth }} /
+          </div>
+          <div
+            :class="
+              stock.PerformanceYear > 0 ? 'text-red-500' : 'text-blue-500'
+            "
+          >
+            {{ stock.PerformanceYear }}
+          </div>
+        </TableCell>
         <TableCell>
-          <TechnicalTextColor :technicalText="stock.TechnicalHour" />
-          / <TechnicalTextColor :technicalText="stock.TechnicalDay" /> /
-          <TechnicalTextColor :technicalText="stock.TechnicalMonth" /> /
-          <TechnicalTextColor :technicalText="stock.TechnicalWeek" />
+          <div>
+            <TechnicalTextColor :technicalText="stock.TechnicalHour" /> /
+          </div>
+          <div>
+            <TechnicalTextColor :technicalText="stock.TechnicalDay" /> /
+          </div>
+          <div>
+            <TechnicalTextColor :technicalText="stock.TechnicalMonth" /> /
+          </div>
+          <div>
+            <TechnicalTextColor :technicalText="stock.TechnicalWeek" />
+          </div>
         </TableCell>
       </TableRow>
     </TableBody>
