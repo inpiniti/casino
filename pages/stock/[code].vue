@@ -38,9 +38,15 @@ type Stock = {
 };
 
 const stockList = useState<Stock[]>("stockList", () => []);
+const intervalId = ref();
 
 onMounted(() => {
   getInvesting();
+  intervalId.value = setInterval(getInvesting, 1000 * 60 * 1);
+});
+
+onUnmounted(() => {
+  clearInterval(intervalId.value);
 });
 
 const getInvesting = () => {
@@ -97,7 +103,6 @@ function timeAgo(timestamp: any) {
 
 <template>
   <Table>
-    <TableCaption>A list of your recent invoices.</TableCaption>
     <TableHeader>
       <TableRow>
         <TableHead>나라</TableHead>

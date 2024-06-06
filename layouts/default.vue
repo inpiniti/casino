@@ -3,13 +3,20 @@ interface Indices {
   [key: string]: any[];
 }
 
+const intervalId = ref();
 onMounted(() => {
+  getIndices();
+  intervalId.value = setInterval(getIndices, 1001 * 60 * 10);
+});
+
+const getIndices = () => {
   fetch(`/api/investing/indices`)
     .then((res) => res.json())
     .then((data) => {
       indices.value = data;
+      selectCountry();
     });
-});
+};
 
 // 검색어에 대한 필터
 const search = ref<string>("");
@@ -89,6 +96,20 @@ const nameTo = ({ name, indiceList }: { name: string; indiceList: any }) => {
   };
   selectedCountry.value = { name, indiceList };
   navigateTo(`/stock/${nameList[name]}`);
+};
+
+const selectCountry = () => {
+  if (selectedCountry.value != undefined) {
+    selectedCountry.value = {
+      name: selectedCountry.value.name,
+      indiceList: indices.value[selectedCountry.value.name],
+    };
+  } else {
+    selectedCountry.value = {
+      name: "Korea",
+      indiceList: indices.value["Korea"],
+    };
+  }
 };
 </script>
 <template>
