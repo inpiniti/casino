@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Install necessary libraries
-RUN apt-get update && apt-get install -y libnss3
+RUN apt-get update && apt-get install -y libnss3 libdbus-1-3
 
 # Automatically fix detected vulnerabilities
 # RUN npm audit fix
