@@ -1,6 +1,7 @@
 import cloudscraper from "cloudscraper";
 
 export const investingFetch = async (countryId: number, pageSize = 5) => {
+  console.timeLog("https://api.investing.com/api/financialdata/assets/equitiesByCountry/default");
   const result = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default`,
     qs: {
@@ -20,24 +21,18 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
     json: true,
   })
     .then((data: any) => {
-      console.log("success");
+      console.timeLog("success");
       return data;
     })
     .catch((err: any) => {
-      console.error(err);
+      console.timeLog(err.statusCode);
+      console.timeLog(err.statusMessage);
     });
   return result;
 };
 
-export const investingChartFetch = async ({
-  code,
-  interval,
-  period,
-}: {
-  code: string;
-  interval: string;
-  period: string;
-}) => {
+export const investingChartFetch = async ({ code, interval, period }: { code: string; interval: string; period: string }) => {
+  console.timeLog(`https://api.investing.com/api/financialdata/${code}/historical/chart/`);
   const response = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/${code}/historical/chart/`,
     qs: {
@@ -56,11 +51,12 @@ export const investingChartFetch = async ({
     json: true,
   })
     .then((data: any) => {
-      console.log("success");
+      console.timeLog("success");
       return data;
     })
     .catch((err: any) => {
-      console.error(err);
+      console.timeLog(err.statusCode);
+      console.timeLog(err.statusMessage);
     });
   return response;
 };
