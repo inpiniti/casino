@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install the project dependencies
 RUN npm install
 
+# Install necessary libraries
+RUN apt-get update && apt-get install -y libnss3
+
 # Automatically fix detected vulnerabilities
 # RUN npm audit fix
 
