@@ -1,7 +1,7 @@
 import cloudscraper from 'cloudscraper';
 
 const investingFetch = async (countryId, pageSize = 5) => {
-  console.timeLog("https://api.investing.com/api/financialdata/assets/equitiesByCountry/default");
+  console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
   const result = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default`,
     qs: {
@@ -19,16 +19,16 @@ const investingFetch = async (countryId, pageSize = 5) => {
     },
     json: true
   }).then((data) => {
-    console.timeLog("success");
+    console.log(`[${getKoreaTime()}] success`);
     return data;
   }).catch((err) => {
-    console.timeLog(err.statusCode);
-    console.timeLog(err.statusMessage);
+    console.log(`[${getKoreaTime()}] ${err.statusCode}`);
+    console.log(`[${getKoreaTime()}] ${err.statusMessage}`);
   });
   return result;
 };
 const investingChartFetch = async ({ code, interval, period }) => {
-  console.timeLog(`https://api.investing.com/api/financialdata/${code}/historical/chart/`);
+  console.log(`[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`);
   const response = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/${code}/historical/chart/`,
     qs: {
@@ -46,14 +46,25 @@ const investingChartFetch = async ({ code, interval, period }) => {
     },
     json: true
   }).then((data) => {
-    console.timeLog("success");
+    console.log(`[${getKoreaTime()}] success`);
     return data;
   }).catch((err) => {
-    console.timeLog(err.statusCode);
-    console.timeLog(err.statusMessage);
+    console.log(`[${getKoreaTime()}] ${err.statusCode}`);
+    console.log(`[${getKoreaTime()}] ${err.statusMessage}`);
   });
   return response;
 };
+function getKoreaTime() {
+  const date = /* @__PURE__ */ new Date();
+  date.setHours(date.getHours() + 9);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 
 export { investingChartFetch, investingFetch };
 //# sourceMappingURL=index.mjs.map

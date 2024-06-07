@@ -1,7 +1,7 @@
 import cloudscraper from "cloudscraper";
 
 export const investingFetch = async (countryId: number, pageSize = 5) => {
-  console.log(`[${new Date().toISOString()}] investingFetch(${countryId}, ${pageSize})`);
+  console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
   const result = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default`,
     qs: {
@@ -21,18 +21,18 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
     json: true,
   })
     .then((data: any) => {
-      console.log(`[${new Date().toISOString()}] success`);
+      console.log(`[${getKoreaTime()}] success`);
       return data;
     })
     .catch((err: any) => {
-      console.log(`[${new Date().toISOString()}] ${err.statusCode}`);
-      console.log(`[${new Date().toISOString()}] ${err.statusMessage}`);
+      console.log(`[${getKoreaTime()}] ${err.statusCode}`);
+      console.log(`[${getKoreaTime()}] ${err.statusMessage}`);
     });
   return result;
 };
 
 export const investingChartFetch = async ({ code, interval, period }: { code: string; interval: string; period: string }) => {
-  console.log(`[${new Date().toISOString()}] investingChartFetch(${code}, ${interval}, ${period})`);
+  console.log(`[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`);
   const response = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/${code}/historical/chart/`,
     qs: {
@@ -51,12 +51,26 @@ export const investingChartFetch = async ({ code, interval, period }: { code: st
     json: true,
   })
     .then((data: any) => {
-      console.log(`[${new Date().toISOString()}] success`);
+      console.log(`[${getKoreaTime()}] success`);
       return data;
     })
     .catch((err: any) => {
-      console.log(`[${new Date().toISOString()}] ${err.statusCode}`);
-      console.log(`[${new Date().toISOString()}] ${err.statusMessage}`);
+      console.log(`[${getKoreaTime()}] ${err.statusCode}`);
+      console.log(`[${getKoreaTime()}] ${err.statusMessage}`);
     });
   return response;
 };
+
+function getKoreaTime() {
+  const date = new Date();
+  date.setHours(date.getHours() + 9); // Convert to Korea time
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
