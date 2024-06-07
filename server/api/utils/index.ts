@@ -1,7 +1,7 @@
 import cloudscraper from "cloudscraper";
 
 export const investingFetch = async (countryId: number, pageSize = 5) => {
-  console.timeLog("https://api.investing.com/api/financialdata/assets/equitiesByCountry/default");
+  console.log(`[${new Date().toISOString()}] investingFetch(${countryId}, ${pageSize})`);
   const result = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default`,
     qs: {
@@ -21,18 +21,18 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
     json: true,
   })
     .then((data: any) => {
-      console.timeLog("success");
+      console.log(`[${new Date().toISOString()}] success`);
       return data;
     })
     .catch((err: any) => {
-      console.timeLog(err.statusCode);
-      console.timeLog(err.statusMessage);
+      console.log(`[${new Date().toISOString()}] ${err.statusCode}`);
+      console.log(`[${new Date().toISOString()}] ${err.statusMessage}`);
     });
   return result;
 };
 
 export const investingChartFetch = async ({ code, interval, period }: { code: string; interval: string; period: string }) => {
-  console.timeLog(`https://api.investing.com/api/financialdata/${code}/historical/chart/`);
+  console.log(`[${new Date().toISOString()}] investingChartFetch(${code}, ${interval}, ${period})`);
   const response = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/${code}/historical/chart/`,
     qs: {
@@ -51,12 +51,12 @@ export const investingChartFetch = async ({ code, interval, period }: { code: st
     json: true,
   })
     .then((data: any) => {
-      console.timeLog("success");
+      console.log(`[${new Date().toISOString()}] success`);
       return data;
     })
     .catch((err: any) => {
-      console.timeLog(err.statusCode);
-      console.timeLog(err.statusMessage);
+      console.log(`[${new Date().toISOString()}] ${err.statusCode}`);
+      console.log(`[${new Date().toISOString()}] ${err.statusMessage}`);
     });
   return response;
 };
