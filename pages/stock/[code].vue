@@ -39,20 +39,14 @@ type Stock = {
 
 const stockList = useState<Stock[]>("stockList", () => []);
 const intervalId = ref();
-const progressIntervalId = ref();
-const progress = ref(0);
 
 onMounted(() => {
   getInvesting();
   intervalId.value = setInterval(getInvesting, 1000 * 60 * 1);
-  progressIntervalId.value = setInterval(() => {
-    progress.value += (1 / 60) * 100;
-  }, 1000);
 });
 
 onUnmounted(() => {
   clearInterval(intervalId.value);
-  clearInterval(progressIntervalId.value);
 });
 
 const getInvesting = () => {
@@ -67,9 +61,6 @@ const getInvesting = () => {
     })
     .catch((e) => {
       console.error(e);
-    })
-    .finally(() => {
-      progress.value = 0;
     });
 };
 
@@ -80,6 +71,12 @@ const viewRecentData = ref(false); // 최근 한시간 이내 데이터만
 // 좋은 분석 데이터만
 
 const cStockList = computed(() => {
+  if (!Array.isArray(stockList.value)) {
+    // 3단계: stockList.value가 배열인지 확인
+    console.error("stockList.value is not an array", stockList.value); // 4단계: 디버깅 로그
+    return []; // 배열이 아니면 빈 배열 반환
+  }
+
   const oneHourAgo = Date.now() - 3600 * 1000; // Current time minus one hour in milliseconds
 
   return stockList.value
@@ -87,8 +84,14 @@ const cStockList = computed(() => {
       ...stock,
       volumeRate: Math.round((stock.Volume / stock.AvgVolume) * 100 * 10) / 10,
     }))
-    .filter((stock) => !viewRecentData.value || (viewRecentData.value && Number(stock.Time) * 1000 >= oneHourAgo)) // If viewRecentData.value is false, include all stocks
-    .filter((stock) => stock.Name.toLowerCase().includes(search.value.toLowerCase()))
+    .filter(
+      (stock) =>
+        !viewRecentData.value ||
+        (viewRecentData.value && Number(stock.Time) * 1000 >= oneHourAgo)
+    ) // If viewRecentData.value is false, include all stocks
+    .filter((stock) =>
+      stock.Name.toLowerCase().includes(search.value.toLowerCase())
+    )
     .sort((a, b) => {
       if (sorting.value === "Name") {
         return a.Name.localeCompare(b.Name);
@@ -105,86 +108,337 @@ const cStockList = computed(() => {
 });
 
 function timeAgo(timestamp: any) {
-  const secondsAgo = Math.floor((new Date().getTime() - timestamp * 1000) / 1000);
+  const secondsAgo = Math.floor(
+    (new Date().getTime() - timestamp * 1000) / 1000
+  );
   const hours = Math.floor(secondsAgo / 3600);
   const minutes = Math.floor((secondsAgo % 3600) / 60);
   const seconds = secondsAgo % 60;
 
-  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} 전`;
+  return `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} 전`;
 }
 </script>
 
 <template>
-  <div class="flex flex-col divide-y">
-    <div class="h-1 bg-neutral-200">
-      <div class="bg-red-500 h-1" :style="{ width: `${progress}%` }"></div>
-    </div>
-    <div class="flex divide-x border-r w-fit">
-      <div class="px-4 py-2 bg-neutral-100">
-        <input class="bg-neutral-100 focus:outline-none" type="text" v-model="search" placeholder="search" />
+  <div class="flex flex-col divide-y h-full">
+    <div class="shrink-0 flex divide-x border-r w-fit">
+      <div class="px-4 py-2">
+        <input
+          class="bg-neutral-100 focus:outline-none"
+          type="text"
+          v-model="search"
+          placeholder="search"
+        />
       </div>
-      <div class="px-4 py-2 text-neutral-400 flex items-center gap-2"><Switch id="airplane-mode" @click="viewRecentData = !viewRecentData" />최근 한시간 이내 데이터만</div>
+      <div class="px-4 py-2 text-neutral-400 flex items-center gap-2 text-sm">
+        <Switch
+          id="airplane-mode"
+          @click="viewRecentData = !viewRecentData"
+        />최근 데이터
+      </div>
+      <div class="text-neutral-400 flex items-center gap-2">
+        <Select v-model="sorting">
+          <SelectTrigger
+            class="bg-neutral-100 border-0 outline-none focus:outline-none"
+          >
+            <SelectValue placeholder="정렬" />
+          </SelectTrigger>
+          <SelectContent class="bg-neutral-100">
+            <SelectGroup>
+              <SelectLabel>Sort</SelectLabel>
+              <SelectItem value="volumeRate"> 거래량율 </SelectItem>
+              <SelectItem value="ChgPct"> 변동률 </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
-    <Table class="border-b">
-      <TableHeader>
-        <TableRow class="text-xs">
-          <TableHead>나라</TableHead>
-          <TableHead @click="sorting = 'Name'" class="cursor-pointer font-bold">
-            이름
-            <font-awesome-icon :icon="['fas', sorting == 'Name' ? 'sort-down' : 'sort']" />
-          </TableHead>
-          <TableHead @click="sorting = 'volumeRate'" class="cursor-pointer font-bold">
-            거래량 / 평균 거래량 (거래량률)
-            <font-awesome-icon :icon="['fas', sorting == 'volumeRate' ? 'sort-down' : 'sort']" />
-          </TableHead>
-          <TableHead @click="sorting = 'Chg'" class="cursor-pointer font-bold">변동치<font-awesome-icon :icon="['fas', sorting == 'Chg' ? 'sort-down' : 'sort']" /></TableHead>
-          <TableHead @click="sorting = 'ChgPct'" class="cursor-pointer font-bold"> 변동률 (%) <font-awesome-icon :icon="['fas', sorting == 'ChgPct' ? 'sort-down' : 'sort']" /></TableHead>
-          <TableHead class="font-bold"> 가격 (최저,마지막,최고) </TableHead>
-          <TableHead class="font-bold"> 성과 (일일,주간,월간,연간) </TableHead>
-          <TableHead class="font-bold"> 분석 (시간당,일일,주간,월간) </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow v-for="stock in cStockList" :key="stock.Name">
-          <TableCell> {{ stock.CountryNameTranslated }}</TableCell>
-          <TableCell class="font-bold">
-            <div>
+    <div class="grow-[0] overflow-hidden flex divide-x h-full">
+      <div
+        class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide divide-y"
+      >
+        <div
+          class="px-4 py-2 text-xs flex flex-col gap-1"
+          v-for="stock in cStockList"
+          :key="stock.Name"
+        >
+          <div class="flex justify-between items-center gap-2">
+            <div class="text-sm">
               {{ stock.Name }}
+              <Badge variant="outline">{{ stock.Symbol }}</Badge>
             </div>
-            <div>({{ timeAgo(Number(stock.Time)) }})</div>
-          </TableCell>
-          <TableCell>
-            <div class="text-xs text-neutral-400">{{ stock.Volume }}</div>
-            <div class="text-xs text-neutral-400">/ {{ stock.AvgVolume }}</div>
-            <div>{{ stock.volumeRate }}%</div>
-          </TableCell>
-          <TableCell>{{ stock.Chg }}</TableCell>
-          <TableCell>
-            {{ stock.ChgPct }}
-          </TableCell>
-          <TableCell>
-            <div class="text-xs text-neutral-400">{{ stock.Low }} ~</div>
-            <div>{{ stock.Last }} ~</div>
-            <div class="text-xs text-neutral-400">{{ stock.High }}</div>
-          </TableCell>
-          <TableCell>
-            <div :class="stock.PerformanceDay > 0 ? 'text-red-500' : 'text-blue-500'">{{ stock.PerformanceDay }} /</div>
-            <div :class="stock.PerformanceWeek > 0 ? 'text-red-500' : 'text-blue-500'">{{ stock.PerformanceWeek }} /</div>
-            <div :class="stock.PerformanceMonth > 0 ? 'text-red-500' : 'text-blue-500'">{{ stock.PerformanceMonth }} /</div>
-            <div :class="stock.PerformanceYear > 0 ? 'text-red-500' : 'text-blue-500'">
-              {{ stock.PerformanceYear }}
+            <div class="text-neutral-400">
+              {{ timeAgo(Number(stock.Time)) }}
             </div>
-          </TableCell>
-          <TableCell>
-            <div><TechnicalTextColor :technicalText="stock.TechnicalHour" /> /</div>
-            <div><TechnicalTextColor :technicalText="stock.TechnicalDay" /> /</div>
-            <div><TechnicalTextColor :technicalText="stock.TechnicalMonth" /> /</div>
-            <div>
+          </div>
+          <div class="text-sm flex items-center gap-3">
+            <div class="text-xl font-bold flex items-center gap-1">
+              <span class="text-xs font-normal text-neutral-400">종가</span>
+              {{ stock.Last }}
+            </div>
+            <div class="font-bold text-blue-400 flex items-center gap-1">
+              <span class="text-xs font-normal text-neutral-400">저가</span>
+              {{ stock.Low }}
+            </div>
+            <div class="font-bold text-red-400 flex items-center gap-1">
+              <span class="text-xs font-normal text-neutral-400">고가</span>
+              {{ stock.High }}
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="flex gap-1">
+              <span class="text-neutral-400">매출</span>
+              {{ stock.FundamentalRevenue }}
+            </div>
+            <div class="flex gap-1">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger as-child>
+                    <span class="text-neutral-400 cursor-pointer">
+                      주가수익비율(PER)
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>낮을수록 저평가</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              {{ stock.FundamentalRatio }}
+            </div>
+            <div class="flex gap-1">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span class="text-neutral-400 cursor-pointer">베타</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>베타계수가 1에 가까울 수록 시장과 동일한 선상</p>
+                    <p>
+                      0으로 갈수록 시장과 관계없이 주가 수익률을 내고 있다는 뜻
+                    </p>
+                    <p>1보다 큰 값들은 시장보다 수익률이 민감하게 반응</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              {{ stock.FundamentalBeta }}
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-neutral-500">성과</div>
+            <div class="flex items-center gap-1 flex-1">
+              <div class="text-neutral-400">일일</div>
+              <div
+                class="font-bold"
+                :class="
+                  stock.PerformanceDay > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceDay }}
+              </div>
+            </div>
+            <div class="flex items-center gap-1 flex-1">
+              <div class="text-neutral-400">주간</div>
+              <div
+                class="font-bold"
+                :class="
+                  stock.PerformanceWeek > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceWeek }}
+              </div>
+            </div>
+            <div class="flex items-center gap-1 flex-1">
+              <div class="text-neutral-400">월간</div>
+              <div
+                class="font-bold"
+                :class="
+                  stock.PerformanceMonth > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceMonth }}
+              </div>
+            </div>
+            <div class="flex items-center gap-1 flex-1">
+              <div class="text-neutral-400">연간</div>
+              <div
+                class="font-bold"
+                :class="
+                  stock.PerformanceYear > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceYear }}
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-neutral-500">분석</div>
+            <div class="flex items-center gap-1">
+              <div class="text-neutral-400">시간당</div>
+              <TechnicalTextColor :technicalText="stock.TechnicalHour" />
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="text-neutral-400">일일</div>
+              <TechnicalTextColor :technicalText="stock.TechnicalDay" />
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="text-neutral-400">주간</div>
+              <TechnicalTextColor :technicalText="stock.TechnicalMonth" />
+            </div>
+            <div class="flex items-center gap-1">
+              <div class="text-neutral-400">월간</div>
               <TechnicalTextColor :technicalText="stock.TechnicalWeek" />
             </div>
-          </TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+          </div>
+          <div class="flex gap-2">
+            <div
+              class="h-5 w-full bg-neutral-300 relative rounded overflow-hidden"
+            >
+              <div
+                class="h-5 bg-blue-500 absolute top-0 left-0 rounded"
+                :style="{ width: `${stock.volumeRate / 10}%` }"
+              ></div>
+              <div class="h-5 text-white absolute flex items-center px-2">
+                거래량 {{ stock.volumeRate }}% ({{ stock.Volume }} /
+                {{ stock.AvgVolume }})
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <div class="h-5 w-full bg-neutral-300 relative rounded">
+              <div
+                class="h-5 absolute top-0 left-0 rounded"
+                :class="stock.Chg > 0 ? 'bg-red-500' : 'bg-blue-500'"
+                :style="{ width: `${stock.ChgPct * 3}%` }"
+              ></div>
+              <div class="h-5 text-white absolute flex items-center px-2">
+                변동률 {{ stock.ChgPct }}% ({{ stock.Chg }})
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Table class="border-b w-5" v-if="false">
+        <TableHeader>
+          <TableRow class="text-xs">
+            <TableHead>나라</TableHead>
+            <TableHead
+              @click="sorting = 'Name'"
+              class="cursor-pointer font-bold"
+            >
+              이름
+              <font-awesome-icon
+                :icon="['fas', sorting == 'Name' ? 'sort-down' : 'sort']"
+              />
+            </TableHead>
+            <TableHead
+              @click="sorting = 'volumeRate'"
+              class="cursor-pointer font-bold"
+            >
+              거래량 / 평균 거래량 (거래량률)
+              <font-awesome-icon
+                :icon="['fas', sorting == 'volumeRate' ? 'sort-down' : 'sort']"
+              />
+            </TableHead>
+            <TableHead @click="sorting = 'Chg'" class="cursor-pointer font-bold"
+              >변동치<font-awesome-icon
+                :icon="['fas', sorting == 'Chg' ? 'sort-down' : 'sort']"
+            /></TableHead>
+            <TableHead
+              @click="sorting = 'ChgPct'"
+              class="cursor-pointer font-bold"
+            >
+              변동률 (%)
+              <font-awesome-icon
+                :icon="['fas', sorting == 'ChgPct' ? 'sort-down' : 'sort']"
+            /></TableHead>
+            <TableHead class="font-bold"> 가격 (최저,마지막,최고) </TableHead>
+            <TableHead class="font-bold">
+              성과 (일일,주간,월간,연간)
+            </TableHead>
+            <TableHead class="font-bold">
+              분석 (시간당,일일,주간,월간)
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow v-for="stock in cStockList" :key="stock.Name">
+            <TableCell> {{ stock.CountryNameTranslated }}</TableCell>
+            <TableCell class="font-bold">
+              <div>
+                {{ stock.Name }}
+              </div>
+              <div>({{ timeAgo(Number(stock.Time)) }})</div>
+            </TableCell>
+            <TableCell>
+              <div class="text-xs text-neutral-400">{{ stock.Volume }}</div>
+              <div class="text-xs text-neutral-400">
+                / {{ stock.AvgVolume }}
+              </div>
+              <div>{{ stock.volumeRate }}%</div>
+            </TableCell>
+            <TableCell>{{ stock.Chg }}</TableCell>
+            <TableCell>
+              {{ stock.ChgPct }}
+            </TableCell>
+            <TableCell>
+              <div class="text-xs text-neutral-400">{{ stock.Low }} ~</div>
+              <div>{{ stock.Last }} ~</div>
+              <div class="text-xs text-neutral-400">{{ stock.High }}</div>
+            </TableCell>
+            <TableCell>
+              <div
+                :class="
+                  stock.PerformanceDay > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceDay }} /
+              </div>
+              <div
+                :class="
+                  stock.PerformanceWeek > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceWeek }} /
+              </div>
+              <div
+                :class="
+                  stock.PerformanceMonth > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceMonth }} /
+              </div>
+              <div
+                :class="
+                  stock.PerformanceYear > 0 ? 'text-red-500' : 'text-blue-500'
+                "
+              >
+                {{ stock.PerformanceYear }}
+              </div>
+            </TableCell>
+            <TableCell>
+              <div>
+                <TechnicalTextColor :technicalText="stock.TechnicalHour" /> /
+              </div>
+              <div>
+                <TechnicalTextColor :technicalText="stock.TechnicalDay" /> /
+              </div>
+              <div>
+                <TechnicalTextColor :technicalText="stock.TechnicalMonth" /> /
+              </div>
+              <div>
+                <TechnicalTextColor :technicalText="stock.TechnicalWeek" />
+              </div>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      <div class="grow-[0] w-full">
+        <NuxtPage />
+      </div>
+    </div>
   </div>
 </template>
