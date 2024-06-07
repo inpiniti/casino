@@ -6,16 +6,26 @@ import 'fs';
 import 'path';
 import 'node:fs';
 import 'node:url';
-import 'cloudscraper';
 import 'puppeteer';
+import 'querystring';
 
 let store = null;
+let isUpdating = false;
 const jm = defineEventHandler(async (event) => {
-  (() => {
-    store = investingFetch(119, 83);
-  })();
-  return store;
+  const currentStore = store;
+  if (!isUpdating) {
+    updateStore();
+  }
+  return currentStore;
 });
+async function updateStore() {
+  isUpdating = true;
+  try {
+    store = await investingFetch(119, 83);
+  } finally {
+    isUpdating = false;
+  }
+}
 
 export { jm as default };
 //# sourceMappingURL=jm.mjs.map

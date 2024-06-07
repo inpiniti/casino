@@ -638,6 +638,14 @@ async function getRouteRules(url) {
 }
 const _routes = [
   {
+    name: "api",
+    path: "/api",
+    meta: {},
+    alias: [],
+    redirect: void 0 ,
+    component: () => import('./api-C2MnULAW.mjs').then((m) => m.default || m)
+  },
+  {
     name: "daisai",
     path: "/daisai",
     meta: {},
@@ -651,7 +659,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./index-asiPD2Q5.mjs').then((m) => m.default || m)
+    component: () => import('./index-CPf0-V9V.mjs').then((m) => m.default || m)
   },
   {
     name: "roulette",
@@ -662,12 +670,22 @@ const _routes = [
     component: () => import('./roulette-BU-fgCv9.mjs').then((m) => m.default || m)
   },
   {
-    name: "stock-code",
-    path: "/stock/:code()",
+    name: "stock",
+    path: "/stock",
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./_code_-C1EmxDga.mjs').then((m) => m.default || m)
+    component: () => import('./stock-CDxsDFOg.mjs').then((m) => m.default || m),
+    children: [
+      {
+        name: "stock-code",
+        path: ":code()",
+        meta: {},
+        alias: [],
+        redirect: void 0 ,
+        component: () => import('./_code_-Bi08pzo8.mjs').then((m) => m.default || m)
+      }
+    ]
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -1049,7 +1067,7 @@ function useLoadingIndicator(opts = {}) {
   const indicator = nuxtApp._loadingIndicator = nuxtApp._loadingIndicator || createLoadingIndicator(opts);
   return indicator;
 }
-const __nuxt_component_0 = defineComponent({
+const __nuxt_component_0$1 = defineComponent({
   name: "NuxtLoadingIndicator",
   props: {
     throttle: {
@@ -1108,7 +1126,7 @@ const __nuxt_component_0 = defineComponent({
   }
 });
 const layouts = {
-  default: () => import('./default-CWfXHyUE.mjs').then((m) => m.default || m)
+  default: () => import('./default-CT7ZrDVv.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -1240,7 +1258,7 @@ const RouteProvider = defineComponent({
     };
   }
 });
-const __nuxt_component_2 = defineComponent({
+const __nuxt_component_0 = defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -1359,9 +1377,9 @@ const _export_sfc = (sfc, props) => {
 };
 const _sfc_main$2 = {};
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
-  const _component_NuxtLoadingIndicator = __nuxt_component_0;
+  const _component_NuxtLoadingIndicator = __nuxt_component_0$1;
   const _component_NuxtLayout = __nuxt_component_1;
-  const _component_NuxtPage = __nuxt_component_2;
+  const _component_NuxtPage = __nuxt_component_0;
   _push(`<!--[-->`);
   _push(ssrRenderComponent(_component_NuxtLoadingIndicator, { class: "opacity-100-important" }, null, _parent));
   _push(ssrRenderComponent(_component_NuxtLayout, null, {
@@ -1406,7 +1424,7 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-kAKVP6Hd.mjs').then((r) => r.default || r));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-B0NoCZ4e.mjs').then((r) => r.default || r));
     const _Error = defineAsyncComponent(() => import('./error-500-BJibsGzA.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
@@ -1487,5 +1505,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { _export_sfc as _, useRouter as a, useRuntimeConfig as b, navigateTo as c, useNuxtApp as d, entry$1 as default, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRoute as u };
+export { _export_sfc as _, __nuxt_component_0 as a, useNuxtApp as b, useRouter as c, useRuntimeConfig as d, entry$1 as default, navigateTo as e, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRoute as u };
 //# sourceMappingURL=server.mjs.map

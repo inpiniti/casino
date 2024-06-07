@@ -5,9 +5,9 @@
     "title": "inpiniti open api"
   },
   "paths": {
-    "/api/investing/en/all": {
+    "/api/investing/indices": {
       "get": {
-        "summary": "미국의 모든 주식",
+        "summary": "모든 나라의 지수 정보",
         "responses": {
           "200": {
             "description": "Successful operation"
@@ -15,9 +15,18 @@
         }
       }
     },
-    "/api/investing/kr/all": {
+    "/api/investing/{countryCode}": {
       "get": {
-        "summary": "한국의 모든 주식",
+        "summary": "국가별 정보",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "required": true,
+            "description": "국가 코드 (예: 'us' 또는 'kr', 'ar', 'br', 'jm', 'mx', 've')",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation"
@@ -25,39 +34,25 @@
         }
       }
     },
-    "/api/investing/kr/kospi": {
+    "/api/investing/chart/{dayType}/{code}": {
       "get": {
-        "summary": "코스피 지수",
-        "responses": {
-          "200": {
-            "description": "Successful operation"
+        "summary": "chart 정보",
+        "parameters": [
+          {
+            "name": "dayType",
+            "in": "path",
+            "required": true,
+            "description": "날짜타입 (예: 'day', 'week', 'month', 'three', 'six', 'year', 'five', 'max')",
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "description": "종목코드 (예: '43508')",
+            "type": "string"
           }
-        }
-      }
-    },
-    "/api/investing/kr/kospi50": {
-      "get": {
-        "summary": "코스피 50",
-        "responses": {
-          "200": {
-            "description": "Successful operation"
-          }
-        }
-      }
-    },
-    "/api/investing/kr/kospi100": {
-      "get": {
-        "summary": "코스피 100",
-        "responses": {
-          "200": {
-            "description": "Successful operation"
-          }
-        }
-      }
-    },
-    "/api/investing/kr/kosdaq100": {
-      "get": {
-        "summary": "코스닥 100",
+        ],
         "responses": {
           "200": {
             "description": "Successful operation"
