@@ -4,7 +4,9 @@ import puppeteer from "puppeteer";
 export const investingFetch = async (countryId: number, pageSize = 5) => {
   console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
 
   await page.goto(
