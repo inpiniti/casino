@@ -98,6 +98,7 @@
     "jsonfile": "6.1.0",
     "lines-and-columns": "1.2.4",
     "lru-cache": "7.18.3",
+    "lucide-vue-next": "0.379.0",
     "mitt": "3.0.1",
     "ms": "2.1.2",
     "netmask": "2.0.2",

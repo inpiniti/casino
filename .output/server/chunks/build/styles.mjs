@@ -1,6 +1,6 @@
 const interopDefault = r => r.default || r || [];
 const styles = {
-  "node_modules/nuxt/dist/app/entry.js": () => import('./entry-styles.CIPyw-9o.mjs').then(interopDefault),
+  "node_modules/nuxt/dist/app/entry.js": () => import('./entry-styles.Bow8uwcH.mjs').then(interopDefault),
   "app.vue": () => import('./app-styles.B6yxF2mJ.mjs').then(interopDefault),
   "app.vue?vue&type=style&index=0&lang.css": () => import('./app-styles.B6yxF2mJ.mjs').then(interopDefault),
   "node_modules/@nuxt/ui-templates/dist/templates/error-404.vue": () => import('./error-404-styles.BuFEi3h_.mjs').then(interopDefault),
