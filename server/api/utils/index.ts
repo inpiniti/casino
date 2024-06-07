@@ -12,6 +12,7 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
   await page.goto(
     `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`
   );
+  await page.waitForNavigation({ waitUntil: "networkidle0" });
 
   const result = await page.evaluate(() => {
     return JSON.parse(document.body.innerText);
