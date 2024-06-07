@@ -9,10 +9,26 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
   });
   const page = await browser.newPage();
 
+  // Set user agent and enable JavaScript before navigating to the page
+  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
+  await page.setJavaScriptEnabled(true);
+
+  // Set headers before navigating to the page
+  await page.setExtraHTTPHeaders({
+    Origin: "https://kr.investing.com",
+    Referer: "https://kr.investing.com/",
+    "Content-Type": "application/json",
+    "Domain-Id": "kr",
+    Priority: "u=1, i",
+    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+  });
+
   await page.goto(
     `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`
   );
-  await page.waitForNavigation({ waitUntil: "networkidle0" });
+  //await page.waitForNavigation({ waitUntil: "networkidle0" });
+
+  page.on("console", (message) => console.log("Browser console:", message.text()));
 
   const result = await page.evaluate(() => {
     return JSON.parse(document.body.innerText);
