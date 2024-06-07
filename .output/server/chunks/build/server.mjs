@@ -4,6 +4,9 @@ import { b as baseURL } from '../routes/renderer.mjs';
 import { getActiveHead } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
 import { useRoute as useRoute$1, RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
+import { config, library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
 import 'node:http';
 import 'node:https';
@@ -648,7 +651,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./index-CjHxw5Ce.mjs').then((m) => m.default || m)
+    component: () => import('./index-asiPD2Q5.mjs').then((m) => m.default || m)
   },
   {
     name: "roulette",
@@ -656,7 +659,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./roulette-a1qYiOaQ.mjs').then((m) => m.default || m)
+    component: () => import('./roulette-BU-fgCv9.mjs').then((m) => m.default || m)
   },
   {
     name: "stock-code",
@@ -664,7 +667,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./_code_-b-N03YC7.mjs').then((m) => m.default || m)
+    component: () => import('./_code_-C1EmxDga.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -981,11 +984,17 @@ const revive_payload_server_eJ33V7gbc6 = /* @__PURE__ */ defineNuxtPlugin({
 const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:global-components"
 });
+config.autoAddCss = false;
+library.add(fas);
+const fontawesome_klhsrycjcK = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon, {});
+});
 const plugins = [
   unhead_KgADcZ0jPj,
   plugin,
   revive_payload_server_eJ33V7gbc6,
-  components_plugin_KR1HBZs4kY
+  components_plugin_KR1HBZs4kY,
+  fontawesome_klhsrycjcK
 ];
 function defaultEstimatedProgress(duration, elapsed) {
   const completionPercentage = elapsed / duration * 100;
@@ -1099,7 +1108,7 @@ const __nuxt_component_0 = defineComponent({
   }
 });
 const layouts = {
-  default: () => import('./default-C37UaaH5.mjs').then((m) => m.default || m)
+  default: () => import('./default-CWfXHyUE.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -1397,8 +1406,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-_uVXbBiv.mjs').then((r) => r.default || r));
-    const _Error = defineAsyncComponent(() => import('./error-500-Byhcwaev.mjs').then((r) => r.default || r));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-kAKVP6Hd.mjs').then((r) => r.default || r));
+    const _Error = defineAsyncComponent(() => import('./error-500-BJibsGzA.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
