@@ -17,6 +17,5 @@ onMounted(async () => {
 </script>
 
 <template>
-  https://petstore.swagger.io/v2/swagger.json
   <div id="swagger-ui"></div>
 </template>
