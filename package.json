@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@types/puppeteer": "^7.0.4",
     "@types/swagger-ui": "^3.52.4",
     "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.0",
@@ -20,6 +21,7 @@
     "lucide-vue-next": "^0.379.0",
     "node-fetch": "^3.3.2",
     "nuxt": "^3.11.2",
+    "puppeteer": "^22.10.0",
     "radix-vue": "^1.8.1",
     "shadcn-nuxt": "^0.10.4",
     "swagger-ui": "^5.17.14",

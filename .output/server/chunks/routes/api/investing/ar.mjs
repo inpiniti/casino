@@ -7,6 +7,7 @@ import 'path';
 import 'node:fs';
 import 'node:url';
 import 'cloudscraper';
+import 'puppeteer';
 
 let store = null;
 const ar = defineEventHandler(async (event) => {

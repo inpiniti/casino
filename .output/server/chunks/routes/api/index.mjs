@@ -1,30 +1,17 @@
 import cloudscraper from 'cloudscraper';
+import puppeteer from 'puppeteer';
 
 const investingFetch = async (countryId, pageSize = 5) => {
   console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
-  const result = await cloudscraper({
-    uri: `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default`,
-    qs: {
-      "fields-list": "id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType",
-      "country-id": countryId,
-      "page-size": pageSize
-    },
-    headers: {
-      Origin: "https://kr.investing.com",
-      Referer: "https://kr.investing.com/",
-      "Content-Type": "application/json",
-      "Domain-Id": "kr",
-      Priority: "u=1, i",
-      "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
-    },
-    json: true
-  }).then((data) => {
-    console.log(`[${getKoreaTime()}] success`);
-    return data;
-  }).catch((err) => {
-    console.log(`[${getKoreaTime()}] ${err.statusCode}`);
-    console.log(`[${getKoreaTime()}] ${err.statusMessage}`);
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(
+    `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`
+  );
+  const result = await page.evaluate(() => {
+    return JSON.parse(document.body.innerText);
   });
+  await browser.close();
   return result;
 };
 const investingChartFetch = async ({ code, interval, period }) => {

@@ -1,6 +1,26 @@
 import cloudscraper from "cloudscraper";
+import puppeteer from "puppeteer";
 
 export const investingFetch = async (countryId: number, pageSize = 5) => {
+  console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
+
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  await page.goto(
+    `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`
+  );
+
+  const result = await page.evaluate(() => {
+    return JSON.parse(document.body.innerText);
+  });
+
+  await browser.close();
+
+  return result;
+};
+
+/* export const investingFetch = async (countryId: number, pageSize = 5) => {
   console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
   const result = await cloudscraper({
     uri: `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default`,
@@ -29,7 +49,7 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
       console.log(`[${getKoreaTime()}] ${err.statusMessage}`);
     });
   return result;
-};
+}; */
 
 export const investingChartFetch = async ({ code, interval, period }: { code: string; interval: string; period: string }) => {
   console.log(`[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`);

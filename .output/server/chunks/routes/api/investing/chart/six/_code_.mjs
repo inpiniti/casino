@@ -7,6 +7,7 @@ import 'path';
 import 'node:fs';
 import 'node:url';
 import 'cloudscraper';
+import 'puppeteer';
 
 const _code_ = defineEventHandler(async (event) => {
   const code = getRouterParam(event, "code");
