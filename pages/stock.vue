@@ -113,7 +113,7 @@ const selectCountry = () => {
 };
 </script>
 <template>
-  <div class="grow-[0] h-full flex divide-x overflow-hidden">
+  <div class="grow-[0] h-full flex divide-x overflow-hidden bg-neutral-50">
     <div class="shrink-0 w-60 h-full overflow-y-scroll scrollbar-hide">
       <div>
         <input
@@ -151,7 +151,7 @@ const selectCountry = () => {
       </div>
     </div>
     <div
-      class="flex flex-col grow-[0] overflow-hidden h-full w-full bg-neutral-50"
+      class="flex flex-col grow-[0] overflow-hidden h-full w-full bg-neutral-100"
     >
       <div
         v-if="selectedCountry"
@@ -211,7 +211,7 @@ const selectCountry = () => {
           </div>
         </div>
       </div>
-      <div class="grow-[0] overflow-hidden h-full bg-neutral-100">
+      <div class="grow-[0] overflow-hidden h-full">
         <NuxtPage />
       </div>
     </div>

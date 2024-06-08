@@ -64,11 +64,11 @@ const getInvesting = () => {
     });
 };
 
-const sorting = ref("Name");
+const sorting = ref("volumeRate");
 const search = ref("");
 const viewRecentData = ref(false); // 최근 한시간 이내 데이터만
 // 좋은 성과 데이터만
-// 좋은 분석 데이터만
+const goodTechnical = ref(false); // 좋은 분석 데이터만
 
 const cStockList = computed(() => {
   if (!Array.isArray(stockList.value)) {
@@ -91,6 +91,14 @@ const cStockList = computed(() => {
     ) // If viewRecentData.value is false, include all stocks
     .filter((stock) =>
       stock.Name.toLowerCase().includes(search.value.toLowerCase())
+    )
+    .filter(
+      (stock) =>
+        !goodTechnical.value ||
+        (stock.TechnicalDay == "strong_buy" &&
+          stock.TechnicalHour == "strong_buy" && // 기술적 시간당 분석
+          stock.TechnicalMonth == "strong_buy" && // 기술적 월간 분석
+          stock.TechnicalWeek == "strong_buy") // 기술적 주간 분석
     )
     .sort((a, b) => {
       if (sorting.value === "Name") {
@@ -122,11 +130,11 @@ function timeAgo(timestamp: any) {
 </script>
 
 <template>
-  <div class="flex flex-col divide-y h-full">
-    <div class="shrink-0 flex divide-x border-r w-fit">
+  <div class="flex flex-col divide-y h-full bg-neutral-200 divide-neutral-300">
+    <div class="shrink-0 flex divide-x border-r w-fit divide-neutral-300">
       <div class="px-4 py-2">
         <input
-          class="bg-neutral-100 focus:outline-none"
+          class="bg-neutral-200 focus:outline-none"
           type="text"
           v-model="search"
           placeholder="search"
@@ -138,14 +146,20 @@ function timeAgo(timestamp: any) {
           @click="viewRecentData = !viewRecentData"
         />최근 데이터
       </div>
+      <div class="px-4 py-2 text-neutral-400 flex items-center gap-2 text-sm">
+        <Switch
+          id="airplane-mode"
+          @click="goodTechnical = !goodTechnical"
+        />분석
+      </div>
       <div class="text-neutral-400 flex items-center gap-2">
         <Select v-model="sorting">
           <SelectTrigger
-            class="bg-neutral-100 border-0 outline-none focus:outline-none"
+            class="bg-neutral-200 border-0 outline-none focus:outline-none"
           >
             <SelectValue placeholder="정렬" />
           </SelectTrigger>
-          <SelectContent class="bg-neutral-100">
+          <SelectContent class="bg-neutral-200">
             <SelectGroup>
               <SelectLabel>Sort</SelectLabel>
               <SelectItem value="volumeRate"> 거래량율 </SelectItem>
@@ -155,19 +169,22 @@ function timeAgo(timestamp: any) {
         </Select>
       </div>
     </div>
-    <div class="grow-[0] overflow-hidden flex divide-x h-full">
+    <div
+      class="grow-[0] overflow-hidden flex divide-x h-full divide-neutral-300"
+    >
       <div
-        class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide divide-y"
+        class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide divide-y divide-neutral-300"
       >
         <div
           class="px-4 py-2 text-xs flex flex-col gap-1"
           v-for="stock in cStockList"
           :key="stock.Name"
+          @click="$router.push(`/stock/${route.params.code}/${stock.Id}`)"
         >
           <div class="flex justify-between items-center gap-2">
             <div class="text-sm">
               {{ stock.Name }}
-              <Badge variant="outline">{{ stock.Symbol }}</Badge>
+              <Badge variant="outline">{{ stock.Id }}</Badge>
             </div>
             <div class="text-neutral-400">
               {{ timeAgo(Number(stock.Time)) }}
@@ -294,7 +311,7 @@ function timeAgo(timestamp: any) {
           </div>
           <div class="flex gap-2">
             <div
-              class="h-5 w-full bg-neutral-300 relative rounded overflow-hidden"
+              class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"
             >
               <div
                 class="h-5 bg-blue-500 absolute top-0 left-0 rounded"
@@ -307,7 +324,7 @@ function timeAgo(timestamp: any) {
             </div>
           </div>
           <div class="flex gap-2">
-            <div class="h-5 w-full bg-neutral-300 relative rounded">
+            <div class="h-5 w-full bg-neutral-400 relative rounded">
               <div
                 class="h-5 absolute top-0 left-0 rounded"
                 :class="stock.Chg > 0 ? 'bg-red-500' : 'bg-blue-500'"
@@ -320,123 +337,7 @@ function timeAgo(timestamp: any) {
           </div>
         </div>
       </div>
-
-      <Table class="border-b w-5" v-if="false">
-        <TableHeader>
-          <TableRow class="text-xs">
-            <TableHead>나라</TableHead>
-            <TableHead
-              @click="sorting = 'Name'"
-              class="cursor-pointer font-bold"
-            >
-              이름
-              <font-awesome-icon
-                :icon="['fas', sorting == 'Name' ? 'sort-down' : 'sort']"
-              />
-            </TableHead>
-            <TableHead
-              @click="sorting = 'volumeRate'"
-              class="cursor-pointer font-bold"
-            >
-              거래량 / 평균 거래량 (거래량률)
-              <font-awesome-icon
-                :icon="['fas', sorting == 'volumeRate' ? 'sort-down' : 'sort']"
-              />
-            </TableHead>
-            <TableHead @click="sorting = 'Chg'" class="cursor-pointer font-bold"
-              >변동치<font-awesome-icon
-                :icon="['fas', sorting == 'Chg' ? 'sort-down' : 'sort']"
-            /></TableHead>
-            <TableHead
-              @click="sorting = 'ChgPct'"
-              class="cursor-pointer font-bold"
-            >
-              변동률 (%)
-              <font-awesome-icon
-                :icon="['fas', sorting == 'ChgPct' ? 'sort-down' : 'sort']"
-            /></TableHead>
-            <TableHead class="font-bold"> 가격 (최저,마지막,최고) </TableHead>
-            <TableHead class="font-bold">
-              성과 (일일,주간,월간,연간)
-            </TableHead>
-            <TableHead class="font-bold">
-              분석 (시간당,일일,주간,월간)
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow v-for="stock in cStockList" :key="stock.Name">
-            <TableCell> {{ stock.CountryNameTranslated }}</TableCell>
-            <TableCell class="font-bold">
-              <div>
-                {{ stock.Name }}
-              </div>
-              <div>({{ timeAgo(Number(stock.Time)) }})</div>
-            </TableCell>
-            <TableCell>
-              <div class="text-xs text-neutral-400">{{ stock.Volume }}</div>
-              <div class="text-xs text-neutral-400">
-                / {{ stock.AvgVolume }}
-              </div>
-              <div>{{ stock.volumeRate }}%</div>
-            </TableCell>
-            <TableCell>{{ stock.Chg }}</TableCell>
-            <TableCell>
-              {{ stock.ChgPct }}
-            </TableCell>
-            <TableCell>
-              <div class="text-xs text-neutral-400">{{ stock.Low }} ~</div>
-              <div>{{ stock.Last }} ~</div>
-              <div class="text-xs text-neutral-400">{{ stock.High }}</div>
-            </TableCell>
-            <TableCell>
-              <div
-                :class="
-                  stock.PerformanceDay > 0 ? 'text-red-500' : 'text-blue-500'
-                "
-              >
-                {{ stock.PerformanceDay }} /
-              </div>
-              <div
-                :class="
-                  stock.PerformanceWeek > 0 ? 'text-red-500' : 'text-blue-500'
-                "
-              >
-                {{ stock.PerformanceWeek }} /
-              </div>
-              <div
-                :class="
-                  stock.PerformanceMonth > 0 ? 'text-red-500' : 'text-blue-500'
-                "
-              >
-                {{ stock.PerformanceMonth }} /
-              </div>
-              <div
-                :class="
-                  stock.PerformanceYear > 0 ? 'text-red-500' : 'text-blue-500'
-                "
-              >
-                {{ stock.PerformanceYear }}
-              </div>
-            </TableCell>
-            <TableCell>
-              <div>
-                <TechnicalTextColor :technicalText="stock.TechnicalHour" /> /
-              </div>
-              <div>
-                <TechnicalTextColor :technicalText="stock.TechnicalDay" /> /
-              </div>
-              <div>
-                <TechnicalTextColor :technicalText="stock.TechnicalMonth" /> /
-              </div>
-              <div>
-                <TechnicalTextColor :technicalText="stock.TechnicalWeek" />
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-      <div class="grow-[0] w-full">
+      <div class="grow-[0] overflow-hidden w-full">
         <NuxtPage />
       </div>
     </div>
