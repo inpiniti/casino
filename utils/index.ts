@@ -29,3 +29,8 @@ export function getColorClass(caseNumber: number) {
 
   return `bg-${colors[colorIndex]}-${colorIntensity} hover:bg-${colors[colorIndex]}-${hoverIntensity}`;
 }
+
+// 등차수열의 합
+export function arithmeticSequenceSum(n: number) {
+  return (n * (1 + n)) / 2;
+}

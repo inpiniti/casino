@@ -11,7 +11,7 @@ const onClick = () => {
 };
 
 const bgcolor = computed(() => {
-  const num = Math.floor(props.count / 18) - props.감도;
+  const num = Math.floor(props.count / 36) - props.감도;
   if (num <= 0) {
     return "bg-red-700 hover:bg-red-800 opacity-50";
   }
@@ -19,12 +19,18 @@ const bgcolor = computed(() => {
 });
 
 const 가이드 = computed(() => {
-  return Math.floor(props.count / 18) - props.감도;
+  return Math.floor(props.count / 36) - props.감도;
+});
+const 가이드코인 = computed(() => {
+  return arithmeticSequenceSum(가이드.value);
 });
 </script>
 <template>
   <div class="relative p-2 cursor-pointer" :class="bgcolor" @click="onClick">
     <div class="absolute text-xs text-white top-0 left-1">{{ 가이드 }}</div>
+    <div class="absolute text-xs text-white bottom-0 right-1">
+      {{ 가이드코인 }}
+    </div>
     <div
       class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center"
       :class="color == 'red' ? 'bg-red-600' : 'bg-black'"

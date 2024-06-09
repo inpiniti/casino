@@ -6,7 +6,7 @@ const props = defineProps<{
 }>();
 
 const bgcolor = computed(() => {
-  const num = Math.floor(props.count / 18) - props.감도;
+  const num = Math.floor(props.count / 36) - props.감도;
   if (num <= 0) {
     return "bg-green-700 hover:bg-green-800 opacity-50";
   }
@@ -36,7 +36,7 @@ const bg = () => {
 };
 
 const 가이드 = computed(() => {
-  return Math.floor(props.count / 18) - props.감도;
+  return Math.floor(props.count / 36) - props.감도;
 });
 </script>
 <template>
@@ -45,6 +45,9 @@ const 가이드 = computed(() => {
     :class="bgcolor"
   >
     <div class="absolute text-xs text-white top-0 left-1">{{ 가이드 }}</div>
+    <div class="absolute text-xs text-white bottom-0 right-1">
+      {{ arithmeticSequenceSum(가이드) }}
+    </div>
     {{ props.number }}
   </div>
 </template>

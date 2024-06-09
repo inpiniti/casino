@@ -316,15 +316,24 @@ const props = defineProps<{
             <div class="absolute text-xs text-white top-0 left-1">
               {{ 카운트배열2[0] }}
             </div>
+            <div class="absolute text-xs text-white bottom-0 right-1">
+              {{ arithmeticSequenceSum(카운트배열2[0]) }}
+            </div>
           </div>
           <div class="grow-[0] h-full relative">
             <div class="absolute text-xs text-white top-0 left-1">
               {{ 카운트배열2[1] }}
             </div>
+            <div class="absolute text-xs text-white bottom-0 right-1">
+              {{ arithmeticSequenceSum(카운트배열2[1]) }}
+            </div>
           </div>
           <div class="grow-[0] h-full relative">
             <div class="absolute text-xs text-white top-0 left-1">
               {{ 카운트배열2[2] }}
+            </div>
+            <div class="absolute text-xs text-white bottom-0 right-1">
+              {{ arithmeticSequenceSum(카운트배열2[2]) }}
             </div>
           </div>
         </div>
@@ -336,17 +345,26 @@ const props = defineProps<{
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[3] }}
         </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[3]) }}
+        </div>
         1~12
       </div>
       <div class="grow-[0] w-full p-2 flex justify-center text-white relative">
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[4] }}
         </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[4]) }}
+        </div>
         13~24
       </div>
       <div class="grow-[0] w-full p-2 flex justify-center text-white relative">
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[5] }}
+        </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[5]) }}
         </div>
         24~36
       </div>
@@ -362,11 +380,17 @@ const props = defineProps<{
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[6] }}
         </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[6]) }}
+        </div>
         1~18
       </div>
       <div class="grow-[0] w-full p-2 flex justify-center text-white relative">
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[7] }}
+        </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[7]) }}
         </div>
         짝수
       </div>
@@ -376,6 +400,9 @@ const props = defineProps<{
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[8] }}
         </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[8]) }}
+        </div>
         레드
       </div>
       <div
@@ -384,17 +411,26 @@ const props = defineProps<{
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[9] }}
         </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[9]) }}
+        </div>
         블랙
       </div>
       <div class="grow-[0] w-full p-2 flex justify-center text-white relative">
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[10] }}
         </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[10]) }}
+        </div>
         홀수
       </div>
       <div class="grow-[0] w-full p-2 flex justify-center text-white relative">
         <div class="absolute text-xs text-white top-0 left-1">
           {{ 카운트배열2[11] }}
+        </div>
+        <div class="absolute text-xs text-white bottom-0 right-1">
+          {{ arithmeticSequenceSum(카운트배열2[11]) }}
         </div>
         19~36
       </div>

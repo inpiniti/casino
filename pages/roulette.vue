@@ -6,7 +6,7 @@ const 카운트배열2 = ref<number[]>(Array(12).fill(0));
 const 감도 = ref(2);
 
 let 시뮬레이션ID: NodeJS.Timeout | null = null;
-let 시뮬레이션속도: number = 1; // 기본값은 1초
+let 시뮬레이션속도: number = 100; // 기본값은 1초
 
 const ballClickHandler = (number: number) => {
   나온횟수.value++;
@@ -63,12 +63,16 @@ const ballClickHandler = (number: number) => {
 
   // 짝수가 나왔을때 카운트배열2 [7] 은 -1 [10] 는 +1
   // 홀수가 나왔을때 카운트배열2 [10] 은 -1 [7] 는 +1
-  if (number % 2 === 0) {
-    카운트배열2.value[7]--;
-    카운트배열2.value[10]++;
-  } else {
-    카운트배열2.value[7]++;
-    카운트배열2.value[10]--;
+  // 37, 38 은 무시하게 해야 함
+
+  if (number != 37 && number != 38) {
+    if (number % 2 === 0) {
+      카운트배열2.value[7]--;
+      카운트배열2.value[10]++;
+    } else {
+      카운트배열2.value[7]++;
+      카운트배열2.value[10]--;
+    }
   }
 
   // 빨강은 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36
@@ -82,7 +86,11 @@ const ballClickHandler = (number: number) => {
   ) {
     카운트배열2.value[8]--;
     카운트배열2.value[9]++;
-  } else {
+  } else if (
+    [
+      2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35,
+    ].includes(number)
+  ) {
     카운트배열2.value[8]++;
     카운트배열2.value[9]--;
   }

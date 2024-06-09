@@ -15,15 +15,15 @@ const 주사위입력 = () => {
   for (let i = 0; i < 6; i++) {
     triples[i].value++;
     if (선택된주사위들.value.filter((val) => val === i + 1).length === 3) {
-      triples[i].value = 0;
-      anyTriple.value = 0;
+      triples[i].value -= 151;
+      anyTriple.value -= 31;
     }
   }
 
   for (let i = 0; i < 6; i++) {
     doubles[i].value++;
     if (선택된주사위들.value.filter((val) => val === i + 1).length === 2) {
-      doubles[i].value = 0;
+      doubles[i].value -= 9;
     }
   }
 
@@ -32,7 +32,19 @@ const 주사위입력 = () => {
   }
   const sum = 선택된주사위들.value.reduce((a, b) => a + b, 0);
   if (3 < sum && sum < 18) {
-    sumOfThreeDice[sum - 4].value = 0;
+    if (sum === 4 || sum === 17) {
+      sumOfThreeDice[sum - 4].value -= 61;
+    } else if (sum === 5 || sum === 16) {
+      sumOfThreeDice[sum - 4].value -= 21;
+    } else if (sum === 6 || sum === 15) {
+      sumOfThreeDice[sum - 4].value -= 18;
+    } else if (sum === 7 || sum === 14) {
+      sumOfThreeDice[sum - 4].value -= 13;
+    } else if (sum === 8 || sum === 13) {
+      sumOfThreeDice[sum - 4].value -= 9;
+    } else if (sum === 9 || sum === 10 || sum === 11 || sum === 12) {
+      sumOfThreeDice[sum - 4].value -= 7;
+    }
   }
 
   선택된주사위들.value = [0, 0, 0];
@@ -47,15 +59,15 @@ const 랜덤입력 = () => {
   for (let i = 0; i < 6; i++) {
     triples[i].value++;
     if (선택된주사위들.value.filter((val) => val === i + 1).length === 3) {
-      triples[i].value = 0;
-      anyTriple.value = 0;
+      triples[i].value -= 152;
+      anyTriple.value -= 32;
     }
   }
 
   for (let i = 0; i < 6; i++) {
     doubles[i].value++;
     if (선택된주사위들.value.filter((val) => val === i + 1).length === 2) {
-      doubles[i].value = 0;
+      doubles[i].value -= 10;
     }
   }
 
@@ -64,7 +76,19 @@ const 랜덤입력 = () => {
   }
   const sum = 선택된주사위들.value.reduce((a, b) => a + b, 0);
   if (3 < sum && sum < 18) {
-    sumOfThreeDice[sum - 4].value = 0;
+    if (sum === 4 || sum === 17) {
+      sumOfThreeDice[sum - 4].value -= 62;
+    } else if (sum === 5 || sum === 16) {
+      sumOfThreeDice[sum - 4].value -= 22;
+    } else if (sum === 6 || sum === 15) {
+      sumOfThreeDice[sum - 4].value -= 20;
+    } else if (sum === 7 || sum === 14) {
+      sumOfThreeDice[sum - 4].value -= 14;
+    } else if (sum === 8 || sum === 13) {
+      sumOfThreeDice[sum - 4].value -= 10;
+    } else if (sum === 9 || sum === 10 || sum === 11 || sum === 12) {
+      sumOfThreeDice[sum - 4].value -= 8;
+    }
   }
 
   선택된주사위들.value = [0, 0, 0];
