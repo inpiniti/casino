@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { nameList } from "./nameList";
+const appConfig = useAppConfig();
+const nameList: any = appConfig.nameList;
 
 interface Indices {
   [key: string]: any[];
@@ -12,15 +13,9 @@ const props = defineProps<{
 const search = ref<string>("");
 const cIndices = computed(() => {
   const filteredIndices: Indices = {};
-  if (
-    props.indices !== undefined &&
-    props.indices !== null &&
-    typeof props.indices === "object"
-  ) {
+  if (props.indices !== undefined && props.indices !== null && typeof props.indices === "object") {
     Object.keys(props.indices).forEach((country) => {
-      const matches = props.indices[country].filter((index) =>
-        country.toLowerCase().includes(search.value.toLowerCase())
-      );
+      const matches = props.indices[country].filter((index) => country.toLowerCase().includes(search.value.toLowerCase()));
       if (matches.length > 0) {
         filteredIndices[country] = matches;
       }
@@ -38,23 +33,14 @@ const nameTo = ({ name, indiceList }: { name: string; indiceList: any }) => {
 </script>
 <template>
   <div class="shrink-0 pt-2 px-2">
-    <input
-      class="px-4 py-2 w-full focus:outline-none border rounded"
-      type="text"
-      placeholder="search"
-      v-model="search"
-    />
+    <input class="px-4 py-2 w-full focus:outline-none border rounded" type="text" placeholder="search" v-model="search" />
   </div>
   <div class="grow-[0] h-full overflow-y-scroll scrollbar-hide">
     <div
       v-if="indices"
       v-for="[name, indiceList] in Object.entries(cIndices)"
       class="px-4 py-2 mx-2 my-1 rounded cursor-pointer text-xs flex gap-2 items-center"
-      :class="
-        selectedCountry.name === name
-          ? 'bg-black text-white hover:bg-neutral-800'
-          : 'hover:bg-neutral-100'
-      "
+      :class="selectedCountry.name === name ? 'bg-black text-white hover:bg-neutral-800' : 'hover:bg-neutral-100'"
       @click="
         nameTo({
           name,
@@ -62,12 +48,7 @@ const nameTo = ({ name, indiceList }: { name: string; indiceList: any }) => {
         })
       "
     >
-      <img
-        class="rounded-full border border-neutral-600"
-        :src="`https://s3-symbol-logo.tradingview.com/country/${nameList[
-          name
-        ].toUpperCase()}.svg`"
-      />
+      <img class="rounded-full border border-neutral-600" :src="`https://s3-symbol-logo.tradingview.com/country/${nameList[name].toUpperCase()}.svg`" />
       {{ name == "Hong" ? "Hong Kong" : name }}
       <!-- <div class="flex text-xs" v-for="indice in indiceList">
             <div class="w-72">{{ indice.index }}</div>

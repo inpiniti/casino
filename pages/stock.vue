@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { nameList } from "./nameList";
-
 const intervalId = ref();
 onMounted(() => {
   getIndices();
