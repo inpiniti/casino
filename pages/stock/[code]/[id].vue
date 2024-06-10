@@ -36,7 +36,7 @@ const transformedData = (rawData: any) => {
 };
 </script>
 <template>
-  <div class="h-full flex flex-col bg-white divide-y">
+  <div class="h-full flex flex-col bg-white">
     <div class="px-4 py-2 flex gap-2">
       <div>LG 전자</div>
       <div>100,700</div>
