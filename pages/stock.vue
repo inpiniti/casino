@@ -23,15 +23,9 @@ const search = ref<string>("");
 const indices = ref<Indices>({});
 const cIndices = computed(() => {
   const filteredIndices: Indices = {};
-  if (
-    indices.value !== undefined &&
-    indices.value !== null &&
-    typeof indices.value === "object"
-  ) {
+  if (indices.value !== undefined && indices.value !== null && typeof indices.value === "object") {
     Object.keys(indices.value).forEach((country) => {
-      const matches = indices.value[country].filter((index) =>
-        country.toLowerCase().includes(search.value.toLowerCase())
-      );
+      const matches = indices.value[country].filter((index) => country.toLowerCase().includes(search.value.toLowerCase()));
       if (matches.length > 0) {
         filteredIndices[country] = matches;
       }
@@ -113,56 +107,39 @@ const selectCountry = () => {
 };
 </script>
 <template>
-  <div class="grow-[0] h-full flex divide-x overflow-hidden bg-neutral-50">
-    <div class="shrink-0 w-60 h-full overflow-y-scroll scrollbar-hide">
-      <div>
-        <input
-          class="px-4 py-2 w-full focus:outline-none border-b"
-          type="text"
-          placeholder="search"
-          v-model="search"
-        />
+  <div class="grow-[0] h-full flex divide-x overflow-hidden">
+    <div class="flex flex-col shrink-0 w-60 h-full">
+      <div class="shrink-0 p-2 border-b">
+        <input class="px-4 py-2 w-full focus:outline-none border rounded" type="text" placeholder="search" v-model="search" />
       </div>
-      <div
-        v-if="indices"
-        v-for="[name, indiceList] in Object.entries(cIndices)"
-        class="px-4 py-2 border-b border-l-4 hover:bg-blue-50 hover:border-l-blue-500 cursor-pointer"
-        :class="{ 'bg-blue-50  border-l-blue-500': selectedCountry === name }"
-        @click="
-          nameTo({
-            name,
-            indiceList,
-          })
-        "
-      >
-        {{ name == "Hong" ? "Hong Kong" : name }}
-        <div class="flex text-xs" v-for="indice in indiceList">
-          <div class="w-72">{{ indice.index }}</div>
-          <div
-            :class="
-              indice.changePercent.startsWith('+')
-                ? 'text-red-500'
-                : 'text-blue-500'
-            "
-          >
-            {{ indice.changePercent }}
+      <div class="grow-[0] h-full overflow-y-scroll scrollbar-hide">
+        <div
+          v-if="indices"
+          v-for="[name, indiceList] in Object.entries(cIndices)"
+          class="px-4 py-2 mx-2 my-1 rounded cursor-pointer"
+          :class="selectedCountry.name === name ? 'bg-black text-white hover:bg-neutral-800' : 'hover:bg-neutral-100'"
+          @click="
+            nameTo({
+              name,
+              indiceList,
+            })
+          "
+        >
+          {{ name == "Hong" ? "Hong Kong" : name }}
+          <div class="flex text-xs" v-for="indice in indiceList">
+            <div class="w-72">{{ indice.index }}</div>
+            <div :class="indice.changePercent.startsWith('+') ? 'text-red-500' : 'text-blue-500'">
+              {{ indice.changePercent }}
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="flex flex-col grow-[0] overflow-hidden h-full w-full bg-neutral-100"
-    >
-      <div
-        v-if="selectedCountry"
-        class="shrink-0 flex flex-col divide-y border-b"
-      >
+    <div class="flex flex-col grow-[0] overflow-hidden h-full w-full">
+      <div v-if="selectedCountry" class="shrink-0 flex flex-col divide-y border-b">
         <div class="px-4 py-2 font-bold">{{ selectedCountry.name }}</div>
         <div class="flex divide-x">
-          <div
-            class="text-xs px-4 py-2 flex flex-col gap-2 items-center"
-            v-for="indice in selectedCountry.indiceList"
-          >
+          <div class="text-xs px-4 py-2 flex flex-col gap-2 items-center" v-for="indice in selectedCountry.indiceList">
             <div class="font-bold pr-2">
               {{ indice.index }}
             </div>
@@ -181,25 +158,13 @@ const selectCountry = () => {
               </div>
               <div>
                 <div class="text-neutral-400">변동</div>
-                <div
-                  :class="
-                    indice.change.startsWith('+')
-                      ? 'text-red-500'
-                      : 'text-blue-500'
-                  "
-                >
+                <div :class="indice.change.startsWith('+') ? 'text-red-500' : 'text-blue-500'">
                   {{ indice.change }}
                 </div>
               </div>
               <div>
                 <div class="text-neutral-400">변동%</div>
-                <div
-                  :class="
-                    indice.change.startsWith('+')
-                      ? 'text-red-500'
-                      : 'text-blue-500'
-                  "
-                >
+                <div :class="indice.change.startsWith('+') ? 'text-red-500' : 'text-blue-500'">
                   {{ indice.changePercent }}
                 </div>
               </div>
