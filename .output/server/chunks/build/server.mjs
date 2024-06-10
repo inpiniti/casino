@@ -651,7 +651,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./daisai-FdlT_Tm5.mjs').then((m) => m.default || m)
+    component: () => import('./daisai-DTFJiRx4.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -667,7 +667,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./roulette-BU-fgCv9.mjs').then((m) => m.default || m)
+    component: () => import('./roulette-BLcacKrm.mjs').then((m) => m.default || m)
   },
   {
     name: "stock",
@@ -675,7 +675,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./stock-3690W4Zd.mjs').then((m) => m.default || m),
+    component: () => import('./stock-DhgMnuHB.mjs').then((m) => m.default || m),
     children: [
       {
         name: "stock-code",
@@ -683,15 +683,15 @@ const _routes = [
         meta: {},
         alias: [],
         redirect: void 0 ,
-        component: () => import('./_code_-DYIVjtNm.mjs').then((m) => m.default || m),
+        component: () => import('./_code_-DDyltx0P.mjs').then((m) => m.default || m),
         children: [
           {
-            name: "stock-code-test",
-            path: "test",
+            name: "stock-code-id",
+            path: ":id()",
             meta: {},
             alias: [],
             redirect: void 0 ,
-            component: () => import('./test-B26ErRKb.mjs').then((m) => m.default || m)
+            component: () => import('./_id_-CKqpE8p2.mjs').then((m) => m.default || m)
           }
         ]
       }
@@ -1268,7 +1268,7 @@ const RouteProvider = defineComponent({
     };
   }
 });
-const __nuxt_component_20 = defineComponent({
+const __nuxt_component_15 = defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -1389,7 +1389,7 @@ const _sfc_main$2 = {};
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   const _component_NuxtLoadingIndicator = __nuxt_component_0;
   const _component_NuxtLayout = __nuxt_component_1;
-  const _component_NuxtPage = __nuxt_component_20;
+  const _component_NuxtPage = __nuxt_component_15;
   _push(`<!--[-->`);
   _push(ssrRenderComponent(_component_NuxtLoadingIndicator, { class: "opacity-100-important" }, null, _parent));
   _push(ssrRenderComponent(_component_NuxtLayout, null, {
@@ -1515,5 +1515,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { _export_sfc as _, __nuxt_component_20 as a, useNuxtApp as b, useRouter as c, useRuntimeConfig as d, entry$1 as default, navigateTo as e, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRoute as u };
+export { _export_sfc as _, __nuxt_component_15 as a, useNuxtApp as b, useRouter as c, useRuntimeConfig as d, entry$1 as default, navigateTo as e, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRoute as u };
 //# sourceMappingURL=server.mjs.map
