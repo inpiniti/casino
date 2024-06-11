@@ -670,7 +670,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./stock-0H6XcInP.mjs').then((m) => m.default || m),
+    component: () => import('./stock-CkZA6Ibm.mjs').then((m) => m.default || m),
     children: [
       {
         name: "stock-code",
