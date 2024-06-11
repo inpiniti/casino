@@ -53,7 +53,7 @@ const getInvesting = () => {
   fetch(`/api/investing/${route.params.code}`)
     .then((res) => res.json())
     .then((data) => {
-      if (data?.data != undefined) {
+      if (data != undefined) {
         stockList.value = data;
       } else {
         stockList.value = [];

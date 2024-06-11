@@ -29,7 +29,8 @@ const selectedCountry = useState<any>("selectedCountry");
 
 const nameTo = ({ name, indiceList }: { name: string; indiceList: any }) => {
   selectedCountry.value = { name, indiceList };
-  navigateTo(`/stock/${nameList[name]}`);
+  const router = useRouter();
+  router.push({ path: `/stock/${nameList[name]}` });
 };
 </script>
 <template>
