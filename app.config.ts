@@ -116,7 +116,7 @@ export default defineAppConfig({
     au: { name: "australia", kr: "호주" },
     cn: { name: "china", kr: "중국", countryId: 37, pageSize: 6000 },
     jp: { name: "japan", kr: "일본", countryId: 35, pageSize: 5000 },
-    us: { name: "america", kr: "미국", countryId: 5, pageSize: 12000 },
+    us: { name: "america", kr: "미국", countryId: 5, pageSize: 0 },
     at: { name: "austria", kr: "오스트리아" },
     cy: { name: "cyprus", kr: "키프로스" },
     tw: { name: "taiwan", kr: "대만" },

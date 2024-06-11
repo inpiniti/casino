@@ -2,8 +2,37 @@ import cloudscraper from "cloudscraper";
 import puppeteer from "puppeteer";
 import * as querystring from "querystring";
 
-export const investingFetch = async (countryId: number, pageSize = 5) => {
-  console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
+export const investingFetchAll = async (countryId: string) => {
+  console.log(`[${getKoreaTime()}] investingFetch(${countryId})`);
+
+  // total 확인
+  const total = (await investingFetch({ countryId: countryId })).total;
+  // pageSize 1000 으로 0page 부터 total 만큼 조회
+  // ex) total 이 2540 이면, 0, 1, 2, 3 페이지를 조회하여 합친다음 리턴
+  const promises = [];
+  const totalPages = Math.ceil(total / 1000);
+  console.log(`[${getKoreaTime()}] investingFetch total ${total}`);
+  console.log(`[${getKoreaTime()}] investingFetch totalPages ${totalPages}`);
+  for (let i = 0; i < totalPages; i++) {
+    promises.push(investingFetch({ countryId: countryId, pageSize: 1000, pageNum: i }));
+  }
+  return Promise.all(promises)
+    .then((results) => {
+      // results는 각 페이지의 결과를 담은 배열입니다.
+      // 이를 합치려면, Array.prototype.flat() 또는 Array.prototype.reduce()를 사용할 수 있습니다.
+      return results.reduce((acc, curr) => {
+        return acc.concat(curr.data);
+      }, []);
+    })
+    .catch((error) => {
+      // 에러 처리
+      console.log(`[${getKoreaTime()}] investing fetch error: ${error}`);
+      return [];
+    });
+};
+
+export const investingFetch = async ({ countryId, pageSize = 1, pageNum = 0 }: { countryId: string; pageSize?: number; pageNum?: number }) => {
+  console.log(`[${getKoreaTime()}] investingFetchTotal(${countryId}, ${pageSize}, ${pageNum})`);
 
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -26,12 +55,12 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
 
   console.log(`[${getKoreaTime()}] investing fetch start`);
 
+  const url = `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page=${pageNum}&page-size=${pageSize}`;
+
+  console.log("url", url);
+
   try {
-    await page.goto(
-      `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`,
-      { timeout: 120000 }
-    );
-    //await page.waitForNavigation({ waitUntil: "networkidle0" });
+    await page.goto(url);
 
     const result = await page.evaluate(() => {
       return JSON.parse(document.body.innerText);
@@ -47,37 +76,6 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
     return [];
   }
 };
-
-/* export const investingFetch = async (countryId: number, pageSize = 5) => {
-  console.log(`[${getKoreaTime()}] investingFetch(${countryId}, ${pageSize})`);
-  const result = await cloudscraper({
-    uri: `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default`,
-    qs: {
-      "fields-list":
-        "id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType",
-      "country-id": countryId,
-      "page-size": pageSize,
-    },
-    headers: {
-      Origin: "https://kr.investing.com",
-      Referer: "https://kr.investing.com/",
-      "Content-Type": "application/json",
-      "Domain-Id": "kr",
-      Priority: "u=1, i",
-      "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-    },
-    json: true,
-  })
-    .then((data: any) => {
-      console.log(`[${getKoreaTime()}] success`);
-      return data;
-    })
-    .catch((err: any) => {
-      console.log(`[${getKoreaTime()}] ${err.statusCode}`);
-      console.log(`[${getKoreaTime()}] ${err.statusMessage}`);
-    });
-  return result;
-}; */
 
 export const investingChartFetch = async ({ code, interval, period }: { code: string; interval: string; period: string }) => {
   console.log(`[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`);
