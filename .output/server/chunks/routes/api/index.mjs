@@ -17,14 +17,22 @@ const investingFetch = async (countryId, pageSize = 5) => {
     Priority: "u=1, i",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
   });
-  await page.goto(
-    `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`
-  );
-  const result = await page.evaluate(() => {
-    return JSON.parse(document.body.innerText);
-  });
-  await browser.close();
-  return result;
+  console.log(`[${getKoreaTime()}] investing fetch start`);
+  try {
+    await page.goto(
+      `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`,
+      { timeout: 12e4 }
+    );
+    const result = await page.evaluate(() => {
+      return JSON.parse(document.body.innerText);
+    });
+    await browser.close();
+    console.log(`[${getKoreaTime()}] investing fetch end`);
+    return result;
+  } catch (error) {
+    console.log(`[${getKoreaTime()}] investing fetch error: ${error}`);
+    return [];
+  }
 };
 const investingChartFetch = async ({ code, interval, period }) => {
   console.log(`[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`);
