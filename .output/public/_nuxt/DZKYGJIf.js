@@ -1,0 +1,1 @@
+import{_ as s,v as t,R as c,t as o}from"./CLaJQLD1.js";const r={},n={class:"w-screen h-screen flex flex-col"};function a(e,l){return o(),t("div",n,[c(e.$slots,"default")])}const f=s(r,[["render",a]]);export{f as default};
