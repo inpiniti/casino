@@ -108,7 +108,7 @@ export const investingChartFetch = async ({ code, interval, period }: { code: st
   return result;
 };
 
-function getKoreaTime() {
+export function getKoreaTime() {
   const date = new Date();
   date.setHours(date.getHours() + 9); // Convert to Korea time
 
