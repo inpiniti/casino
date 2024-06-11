@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const appConfig = useAppConfig();
 const nameList: any = appConfig.nameList;
+const codeList: any = appConfig.codeList;
 
 interface Indices {
   [key: string]: any[];
@@ -40,7 +41,7 @@ const nameTo = ({ name, indiceList }: { name: string; indiceList: any }) => {
       v-if="indices"
       v-for="[name, indiceList] in Object.entries(cIndices)"
       class="px-4 py-2 mx-2 my-1 rounded cursor-pointer text-xs flex gap-2 items-center"
-      :class="selectedCountry.name === name ? 'bg-black text-white hover:bg-neutral-800' : 'hover:bg-neutral-100'"
+      :class="[selectedCountry.name === name ? 'bg-black text-white hover:bg-neutral-800' : 'hover:bg-neutral-100', codeList[nameList[name]].countryId == undefined ? 'text-neutral-300' : '']"
       @click="
         nameTo({
           name,
