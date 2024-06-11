@@ -66,5 +66,5 @@ function getKoreaTime() {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-export { investingChartFetch, investingFetch };
+export { getKoreaTime, investingChartFetch, investingFetch };
 //# sourceMappingURL=index.mjs.map

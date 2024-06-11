@@ -17,7 +17,7 @@
     },
     "/api/investing/{countryCode}": {
       "get": {
-        "summary": "국가별 정보",
+        "summary": "국가별 주식 정보",
         "parameters": [
           {
             "name": "countryCode",
@@ -50,6 +50,25 @@
             "in": "path",
             "required": true,
             "description": "종목코드 (예: '43508')",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/api/tradingview/{countryCode}": {
+      "get": {
+        "summary": "국가별 주식 정보",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "required": true,
+            "description": "국가 코드 (예: 'us' 또는 'kr', 'ar', 'br', 'jm', 'mx', 've')",
             "type": "string"
           }
         ],

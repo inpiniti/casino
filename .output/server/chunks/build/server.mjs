@@ -1,5 +1,5 @@
 import { hasInjectionContext, inject, version, unref, defineComponent, h, computed, ref, provide, shallowReactive, watch, Suspense, nextTick, Transition, mergeProps, useSSRContext, createApp, effectScope, reactive, getCurrentInstance, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, toRef, shallowRef, isReadonly, isRef, isShallow, isReactive, toRaw, withCtx, defineAsyncComponent } from 'vue';
-import { $ as $fetch, w as withQuery, n as hasProtocol, p as parseURL, o as isScriptProtocol, q as joinURL, r as defu, t as sanitizeStatusCode, v as createHooks, k as createError$1, x as isSamePath, y as toRouteMatcher, z as createRouter$1 } from '../runtime.mjs';
+import { $ as $fetch, w as withQuery, o as hasProtocol, p as parseURL, q as isScriptProtocol, r as joinURL, t as defu, v as sanitizeStatusCode, x as createHooks, l as createError$1, y as isSamePath, z as toRouteMatcher, A as createRouter$1 } from '../runtime.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { getActiveHead } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
@@ -317,6 +317,9 @@ function useRuntimeConfig(_event) {
 }
 function defineGetter(obj, key, val) {
   Object.defineProperty(obj, key, { get: () => val });
+}
+function defineAppConfig(config2) {
+  return config2;
 }
 const LayoutMetaSymbol = Symbol("layout-meta");
 const PageRouteSymbol = Symbol("route");
@@ -638,20 +641,12 @@ async function getRouteRules(url) {
 }
 const _routes = [
   {
-    name: "api",
-    path: "/api",
-    meta: {},
-    alias: [],
-    redirect: void 0 ,
-    component: () => import('./api-C2MnULAW.mjs').then((m) => m.default || m)
-  },
-  {
     name: "daisai",
     path: "/daisai",
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./daisai-DTFJiRx4.mjs').then((m) => m.default || m)
+    component: () => import('./daisai-BtiukHX0.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -667,7 +662,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./roulette-BLcacKrm.mjs').then((m) => m.default || m)
+    component: () => import('./roulette-hKPUL3c-.mjs').then((m) => m.default || m)
   },
   {
     name: "stock",
@@ -675,7 +670,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./stock-DhgMnuHB.mjs').then((m) => m.default || m),
+    component: () => import('./stock-oOTJg5zg.mjs').then((m) => m.default || m),
     children: [
       {
         name: "stock-code",
@@ -683,7 +678,7 @@ const _routes = [
         meta: {},
         alias: [],
         redirect: void 0 ,
-        component: () => import('./_code_-DDyltx0P.mjs').then((m) => m.default || m),
+        component: () => import('./_code_-BOlqdBdN.mjs').then((m) => m.default || m),
         children: [
           {
             name: "stock-code-id",
@@ -691,11 +686,19 @@ const _routes = [
             meta: {},
             alias: [],
             redirect: void 0 ,
-            component: () => import('./_id_-CKqpE8p2.mjs').then((m) => m.default || m)
+            component: () => import('./_id_-BQiVsgq_.mjs').then((m) => m.default || m)
           }
         ]
       }
     ]
+  },
+  {
+    name: "swagger",
+    path: "/swagger",
+    meta: {},
+    alias: [],
+    redirect: void 0 ,
+    component: () => import('./swagger-DFMC80kz.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -795,6 +798,11 @@ const validate = /* @__PURE__ */ defineNuxtRouteMiddleware(async (to) => {
     return result;
   }
 });
+const analytics_45global = /* @__PURE__ */ defineNuxtRouteMiddleware((to, from) => {
+  if (to.path == "/") {
+    return navigateTo("/stock/kr");
+  }
+});
 const manifest_45route_45rule = /* @__PURE__ */ defineNuxtRouteMiddleware(async (to) => {
   {
     return;
@@ -802,6 +810,7 @@ const manifest_45route_45rule = /* @__PURE__ */ defineNuxtRouteMiddleware(async 
 });
 const globalMiddleware = [
   validate,
+  analytics_45global,
   manifest_45route_45rule
 ];
 const namedMiddleware = {};
@@ -1136,7 +1145,7 @@ const __nuxt_component_0 = defineComponent({
   }
 });
 const layouts = {
-  default: () => import('./default-CT7ZrDVv.mjs').then((m) => m.default || m)
+  default: () => import('./default-B0R84UWq.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -1268,7 +1277,7 @@ const RouteProvider = defineComponent({
     };
   }
 });
-const __nuxt_component_15 = defineComponent({
+const __nuxt_component_8 = defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -1389,7 +1398,7 @@ const _sfc_main$2 = {};
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   const _component_NuxtLoadingIndicator = __nuxt_component_0;
   const _component_NuxtLayout = __nuxt_component_1;
-  const _component_NuxtPage = __nuxt_component_15;
+  const _component_NuxtPage = __nuxt_component_8;
   _push(`<!--[-->`);
   _push(ssrRenderComponent(_component_NuxtLoadingIndicator, { class: "opacity-100-important" }, null, _parent));
   _push(ssrRenderComponent(_component_NuxtLayout, null, {
@@ -1434,7 +1443,7 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-B0NoCZ4e.mjs').then((r) => r.default || r));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-CNOVLyJh.mjs').then((r) => r.default || r));
     const _Error = defineAsyncComponent(() => import('./error-500-BJibsGzA.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
@@ -1515,5 +1524,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { _export_sfc as _, __nuxt_component_15 as a, useNuxtApp as b, useRouter as c, useRuntimeConfig as d, entry$1 as default, navigateTo as e, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRoute as u };
+export { _export_sfc as _, useRuntimeConfig as a, navigateTo as b, useNuxtApp as c, defineAppConfig as d, entry$1 as default, __nuxt_component_8 as e, useRoute as f, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRouter as u };
 //# sourceMappingURL=server.mjs.map
