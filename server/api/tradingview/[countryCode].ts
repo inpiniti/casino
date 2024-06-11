@@ -272,7 +272,7 @@ async function updateStore(countryCode: string) {
 
     console.log(`[${getKoreaTime()}] tradingview fetch start`);
 
-    const response = await fetch(`https://scanner.tradingview.com/${codeList[countryCode]}/scan`, {
+    const response = await fetch(`https://scanner.tradingview.com/${codeList[countryCode].name}/scan`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -280,7 +280,7 @@ async function updateStore(countryCode: string) {
       body: JSON.stringify({
         columns: columns,
         ignore_unknown_fields: false,
-        options: { lang: codeList[countryCode] },
+        options: { lang: codeList[countryCode].name },
         range: [0, 2692],
         sort: { sortBy: "market_cap_basic", sortOrder: "desc" },
         symbols: {},

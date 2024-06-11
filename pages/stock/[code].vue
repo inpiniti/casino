@@ -54,7 +54,7 @@ const getInvesting = () => {
     .then((res) => res.json())
     .then((data) => {
       if (data?.data != undefined) {
-        stockList.value = data.data;
+        stockList.value = data;
       } else {
         stockList.value = [];
       }

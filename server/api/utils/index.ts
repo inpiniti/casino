@@ -24,18 +24,28 @@ export const investingFetch = async (countryId: number, pageSize = 5) => {
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
   });
 
-  await page.goto(
-    `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`
-  );
-  //await page.waitForNavigation({ waitUntil: "networkidle0" });
+  console.log(`[${getKoreaTime()}] investing fetch start`);
 
-  const result = await page.evaluate(() => {
-    return JSON.parse(document.body.innerText);
-  });
+  try {
+    await page.goto(
+      `https://api.investing.com/api/financialdata/assets/equitiesByCountry/default?fields-list=id,name,symbol,isCFD,high,low,last,lastPairDecimal,change,changePercent,volume,time,isOpen,url,flag,countryNameTranslated,exchangeId,performanceDay,performanceWeek,performanceMonth,performanceYtd,performanceYear,performance3Year,technicalHour,technicalDay,technicalWeek,technicalMonth,avgVolume,fundamentalMarketCap,fundamentalRevenue,fundamentalRatio,fundamentalBeta,pairType&country-id=${countryId}&page-size=${pageSize}`,
+      { timeout: 120000 }
+    );
+    //await page.waitForNavigation({ waitUntil: "networkidle0" });
 
-  await browser.close();
+    const result = await page.evaluate(() => {
+      return JSON.parse(document.body.innerText);
+    });
 
-  return result;
+    await browser.close();
+
+    console.log(`[${getKoreaTime()}] investing fetch end`);
+
+    return result;
+  } catch (error) {
+    console.log(`[${getKoreaTime()}] investing fetch error: ${error}`);
+    return [];
+  }
 };
 
 /* export const investingFetch = async (countryId: number, pageSize = 5) => {
