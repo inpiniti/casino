@@ -37,16 +37,11 @@ const selectCountry = () => {
 </script>
 <template>
   <div class="grow-[0] h-full flex divide-x overflow-hidden">
-    <div class="flex flex-col shrink-0 w-36 h-full">
+    <div class="flex flex-col shrink-0 w-36 h-full divide-y">
       <StockMenu :indices="indices" />
     </div>
-    <div class="flex flex-col grow-[0] overflow-hidden h-full w-full">
-      <div v-if="selectedCountry" class="shrink-0 flex divide-x border-b">
-        <StockBar :selectedCountry="selectedCountry" />
-      </div>
-      <div class="grow-[0] overflow-hidden h-full">
-        <NuxtPage />
-      </div>
+    <div class="grow-[0] overflow-hidden h-full w-full">
+      <NuxtPage />
     </div>
   </div>
 </template>

@@ -6,13 +6,23 @@ const props = defineProps<{
 <template>
   <span
     :class="{
-      'text-red-500': technicalText === 'strong_buy',
-      'text-yellow-500': technicalText === 'buy',
-      'text-gray-500': technicalText === 'neutral',
-      'text-blue-500': technicalText === 'sell',
-      'text-green-500': technicalText === 'strong_sell',
+      'text-neutral-700':
+        technicalText === 'strong_buy' || technicalText === 'buy',
+      'text-neutral-500': technicalText === 'neutral',
+      'text-neutral-300':
+        technicalText === 'sell' || technicalText === 'strong_sell',
     }"
   >
-    {{ technicalText }}
+    {{
+      technicalText == "strong_sell"
+        ? "적극 매도"
+        : technicalText == "sell"
+        ? "매도"
+        : technicalText == "neutral"
+        ? "중립"
+        : technicalText == "buy"
+        ? "매수"
+        : "적극 매수"
+    }}
   </span>
 </template>

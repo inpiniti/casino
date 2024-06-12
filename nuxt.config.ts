@@ -2,7 +2,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@nuxt/test-utils/module"],
-  css: ["@/assets/css/swagger-ui.css", "@fortawesome/fontawesome-svg-core/styles.css"],
+  css: [
+    "@/assets/css/swagger-ui.css",
+    "@fortawesome/fontawesome-svg-core/styles.css",
+  ],
   shadcn: {
     /**
      * Prefix for all the imported component
@@ -13,5 +16,9 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
     componentDir: "./components/ui",
+  },
+  devServer: {
+    host: "0.0.0.0",
+    port: 3000,
   },
 });

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const route = useRoute();
 
+const selectedCountry = useState<any>("selectedCountry");
+
 type Stock = {
   AvgVolume: number; // 평균 거래량
   Chg: number; // 변동치
@@ -85,8 +87,15 @@ const cStockList = computed(() => {
       ...stock,
       volumeRate: Math.round((stock.Volume / stock.AvgVolume) * 100 * 10) / 10,
     }))
-    .filter((stock) => !condition.value.viewRecentData || (condition.value.viewRecentData && Number(stock.Time) * 1000 >= oneHourAgo)) // If viewRecentData.value is false, include all stocks
-    .filter((stock) => stock.Name.toLowerCase().includes(condition.value.search.toLowerCase()))
+    .filter(
+      (stock) =>
+        !condition.value.viewRecentData ||
+        (condition.value.viewRecentData &&
+          Number(stock.Time) * 1000 >= oneHourAgo)
+    ) // If viewRecentData.value is false, include all stocks
+    .filter((stock) =>
+      stock.Name.toLowerCase().includes(condition.value.search.toLowerCase())
+    )
     .filter(
       (stock) =>
         !condition.value.goodTechnical ||
@@ -111,144 +120,204 @@ const cStockList = computed(() => {
 });
 
 function timeAgo(timestamp: any) {
-  const secondsAgo = Math.floor((new Date().getTime() - timestamp * 1000) / 1000);
+  const secondsAgo = Math.floor(
+    (new Date().getTime() - timestamp * 1000) / 1000
+  );
   const hours = Math.floor(secondsAgo / 3600);
   const minutes = Math.floor((secondsAgo % 3600) / 60);
   const seconds = secondsAgo % 60;
 
-  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} 전`;
+  return `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} 전`;
 }
 </script>
 
 <template>
-  <div class="flex flex-col divide-y h-full divide-neutral-300">
-    <div class="shrink-0 flex divide-x border-r w-fit divide-neutral-300">
-      <StockStcokCondition v-model="condition" />
-    </div>
-    <div class="grow-[0] overflow-hidden flex divide-x h-full divide-neutral-300">
-      <div class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide">
-        <Card class="px-4 py-2 mx-2 my-1 text-xs flex flex-col gap-1" v-for="stock in cStockList" :key="stock.Name" @click="$router.push(`/stock/${route.params.code}/${stock.Id}`)">
-          <div class="flex justify-between items-center gap-2">
-            <div class="text-sm">
-              {{ stock.Name }}
-              <Badge variant="outline">{{ stock.Id }}</Badge>
+  <div class="flex divide-x">
+    <div class="flex flex-col shrink-0 divide-y h-screen w-96">
+      <div
+        v-if="selectedCountry"
+        class="shrink-0 flex h-14 w-full overflow-hidden px-2 items-center gap-3"
+      >
+        <StockBar :selectedCountry="selectedCountry" />
+      </div>
+      <div class="shrink-0 w-full">
+        <StockStcokCondition v-model="condition" />
+      </div>
+      <div class="grow-[0] overflow-hidden flex h-full">
+        <div
+          class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide py-1"
+        >
+          <Card
+            class="p-2 mx-2 my-1 text-xs flex flex-col gap-1 w-[368px]"
+            v-for="stock in cStockList"
+            :key="stock.Name"
+            @click="$router.push(`/stock/${route.params.code}/${stock.Id}`)"
+          >
+            <div class="flex justify-between gap-2">
+              <div class="text-sm max-w-64">
+                {{ stock.Name }}
+                <Badge variant="outline">{{ stock.Id }}</Badge>
+              </div>
+              <div class="text-neutral-400">
+                {{ timeAgo(Number(stock.Time)) }}
+              </div>
             </div>
-            <div class="text-neutral-400">
-              {{ timeAgo(Number(stock.Time)) }}
+            <div class="text-sm flex items-center gap-3">
+              <div class="text-xl font-bold flex items-center gap-1">
+                <span class="text-xs font-normal text-neutral-400">종가</span>
+                {{ stock.Last }}
+              </div>
+              <div class="font-bold text-blue-400 flex items-center gap-1">
+                <span class="text-xs font-normal text-neutral-400">저가</span>
+                {{ stock.Low }}
+              </div>
+              <div class="font-bold text-red-400 flex items-center gap-1">
+                <span class="text-xs font-normal text-neutral-400">고가</span>
+                {{ stock.High }}
+              </div>
             </div>
-          </div>
-          <div class="text-sm flex items-center gap-3">
-            <div class="text-xl font-bold flex items-center gap-1">
-              <span class="text-xs font-normal text-neutral-400">종가</span>
-              {{ stock.Last }}
-            </div>
-            <div class="font-bold text-blue-400 flex items-center gap-1">
-              <span class="text-xs font-normal text-neutral-400">저가</span>
-              {{ stock.Low }}
-            </div>
-            <div class="font-bold text-red-400 flex items-center gap-1">
-              <span class="text-xs font-normal text-neutral-400">고가</span>
-              {{ stock.High }}
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <div class="flex gap-1">
-              <span class="text-neutral-400">매출</span>
-              {{ stock.FundamentalRevenue }}
-            </div>
-            <div class="flex gap-1">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger as-child>
-                    <span class="text-neutral-400 cursor-pointer"> 주가수익비율(PER) </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>낮을수록 저평가</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+            <div class="flex gap-2">
+              <div class="flex gap-1">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger as-child>
+                      <span class="text-neutral-400 cursor-pointer">
+                        주가수익비율(PER)
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>낮을수록 저평가</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
-              {{ stock.FundamentalRatio }}
-            </div>
-            <div class="flex gap-1">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <span class="text-neutral-400 cursor-pointer">베타</span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>베타계수가 1에 가까울 수록 시장과 동일한 선상</p>
-                    <p>0으로 갈수록 시장과 관계없이 주가 수익률을 내고 있다는 뜻</p>
-                    <p>1보다 큰 값들은 시장보다 수익률이 민감하게 반응</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              {{ stock.FundamentalBeta }}
-            </div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="text-neutral-500">성과</div>
-            <div class="flex items-center gap-1 flex-1">
-              <div class="text-neutral-400">일일</div>
-              <div class="font-bold" :class="stock.PerformanceDay > 0 ? 'text-red-500' : 'text-blue-500'">
-                {{ stock.PerformanceDay }}
+                {{ stock.FundamentalRatio }}
+              </div>
+              <div class="flex gap-1">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <span class="text-neutral-400 cursor-pointer">베타</span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>베타계수가 1에 가까울 수록 시장과 동일한 선상</p>
+                      <p>
+                        0으로 갈수록 시장과 관계없이 주가 수익률을 내고 있다는
+                        뜻
+                      </p>
+                      <p>1보다 큰 값들은 시장보다 수익률이 민감하게 반응</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                {{ stock.FundamentalBeta }}
               </div>
             </div>
-            <div class="flex items-center gap-1 flex-1">
-              <div class="text-neutral-400">주간</div>
-              <div class="font-bold" :class="stock.PerformanceWeek > 0 ? 'text-red-500' : 'text-blue-500'">
-                {{ stock.PerformanceWeek }}
+            <div class="flex items-center gap-2">
+              <div class="text-neutral-500">성과</div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">일일</div>
+                <div
+                  :class="
+                    stock.PerformanceDay > 0
+                      ? 'text-neutral-700'
+                      : 'text-neutral-300'
+                  "
+                >
+                  {{ stock.PerformanceDay }}
+                </div>
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">주간</div>
+                <div
+                  :class="
+                    stock.PerformanceWeek > 0
+                      ? 'text-neutral-700'
+                      : 'text-neutral-300'
+                  "
+                >
+                  {{ stock.PerformanceWeek }}
+                </div>
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">월간</div>
+                <div
+                  :class="
+                    stock.PerformanceMonth > 0
+                      ? 'text-neutral-700'
+                      : 'text-neutral-300'
+                  "
+                >
+                  {{ stock.PerformanceMonth }}
+                </div>
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">연간</div>
+                <div
+                  :class="
+                    stock.PerformanceYear > 0
+                      ? 'text-neutral-700'
+                      : 'text-neutral-300'
+                  "
+                >
+                  {{ stock.PerformanceYear }}
+                </div>
               </div>
             </div>
-            <div class="flex items-center gap-1 flex-1">
-              <div class="text-neutral-400">월간</div>
-              <div class="font-bold" :class="stock.PerformanceMonth > 0 ? 'text-red-500' : 'text-blue-500'">
-                {{ stock.PerformanceMonth }}
+            <div class="flex items-center gap-2">
+              <div class="text-neutral-500">분석</div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">시간당</div>
+                <TechnicalTextColor :technicalText="stock.TechnicalHour" />
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">일일</div>
+                <TechnicalTextColor :technicalText="stock.TechnicalDay" />
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">주간</div>
+                <TechnicalTextColor :technicalText="stock.TechnicalMonth" />
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="text-neutral-400">월간</div>
+                <TechnicalTextColor :technicalText="stock.TechnicalWeek" />
               </div>
             </div>
-            <div class="flex items-center gap-1 flex-1">
-              <div class="text-neutral-400">연간</div>
-              <div class="font-bold" :class="stock.PerformanceYear > 0 ? 'text-red-500' : 'text-blue-500'">
-                {{ stock.PerformanceYear }}
+            <div class="flex gap-2">
+              <div
+                class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"
+              >
+                <div
+                  class="h-5 bg-neutral-600 absolute top-0 left-0 rounded"
+                  :style="{ width: `${stock.volumeRate / 10}%` }"
+                ></div>
+                <div class="h-5 text-white absolute flex items-center px-2">
+                  거래량 {{ stock.volumeRate }}% ({{ stock.Volume }} /
+                  {{ stock.AvgVolume }})
+                </div>
               </div>
             </div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="text-neutral-500">분석</div>
-            <div class="flex items-center gap-1">
-              <div class="text-neutral-400">시간당</div>
-              <TechnicalTextColor :technicalText="stock.TechnicalHour" />
+            <div class="flex gap-2">
+              <div
+                class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"
+              >
+                <div
+                  class="h-5 bg-neutral-600 absolute top-0 left-0 rounded"
+                  :style="{ width: `${stock.ChgPct}%` }"
+                ></div>
+                <div class="h-5 text-white absolute flex items-center px-2">
+                  변동률 {{ stock.ChgPct }}% ({{ stock.Chg }})
+                </div>
+              </div>
             </div>
-            <div class="flex items-center gap-1">
-              <div class="text-neutral-400">일일</div>
-              <TechnicalTextColor :technicalText="stock.TechnicalDay" />
-            </div>
-            <div class="flex items-center gap-1">
-              <div class="text-neutral-400">주간</div>
-              <TechnicalTextColor :technicalText="stock.TechnicalMonth" />
-            </div>
-            <div class="flex items-center gap-1">
-              <div class="text-neutral-400">월간</div>
-              <TechnicalTextColor :technicalText="stock.TechnicalWeek" />
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <div class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden">
-              <div class="h-5 bg-blue-500 absolute top-0 left-0 rounded" :style="{ width: `${stock.volumeRate / 10}%` }"></div>
-              <div class="h-5 text-white absolute flex items-center px-2">거래량 {{ stock.volumeRate }}% ({{ stock.Volume }} / {{ stock.AvgVolume }})</div>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <div class="h-5 w-full bg-neutral-400 relative rounded">
-              <div class="h-5 absolute top-0 left-0 rounded" :class="stock.Chg > 0 ? 'bg-red-500' : 'bg-blue-500'" :style="{ width: `${stock.ChgPct * 3}%` }"></div>
-              <div class="h-5 text-white absolute flex items-center px-2">변동률 {{ stock.ChgPct }}% ({{ stock.Chg }})</div>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
       </div>
-      <div class="grow-[0] overflow-hidden w-full">
-        <NuxtPage />
-      </div>
+    </div>
+
+    <div class="grow-[0] overflow-hidden w-full">
+      <NuxtPage />
     </div>
   </div>
 </template>

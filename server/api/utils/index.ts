@@ -14,7 +14,9 @@ export const investingFetchAll = async (countryId: string) => {
   console.log(`[${getKoreaTime()}] investingFetch total ${total}`);
   console.log(`[${getKoreaTime()}] investingFetch totalPages ${totalPages}`);
   for (let i = 0; i < totalPages; i++) {
-    promises.push(investingFetch({ countryId: countryId, pageSize: 1000, pageNum: i }));
+    promises.push(
+      investingFetch({ countryId: countryId, pageSize: 1000, pageNum: i })
+    );
   }
   return Promise.all(promises)
     .then((results) => {
@@ -31,8 +33,18 @@ export const investingFetchAll = async (countryId: string) => {
     });
 };
 
-export const investingFetch = async ({ countryId, pageSize = 1, pageNum = 0 }: { countryId: string; pageSize?: number; pageNum?: number }) => {
-  console.log(`[${getKoreaTime()}] investingFetchTotal(${countryId}, ${pageSize}, ${pageNum})`);
+export const investingFetch = async ({
+  countryId,
+  pageSize = 1,
+  pageNum = 0,
+}: {
+  countryId: string;
+  pageSize?: number;
+  pageNum?: number;
+}) => {
+  console.log(
+    `[${getKoreaTime()}] investingFetchTotal(${countryId}, ${pageSize}, ${pageNum})`
+  );
 
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -40,7 +52,9 @@ export const investingFetch = async ({ countryId, pageSize = 1, pageNum = 0 }: {
   const page = await browser.newPage();
 
   // Set user agent and enable JavaScript before navigating to the page
-  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
+  await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"
+  );
   await page.setJavaScriptEnabled(true);
 
   // Set headers before navigating to the page
@@ -77,8 +91,18 @@ export const investingFetch = async ({ countryId, pageSize = 1, pageNum = 0 }: {
   }
 };
 
-export const investingChartFetch = async ({ code, interval, period }: { code: string; interval: string; period: string }) => {
-  console.log(`[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`);
+export const investingChartFetch = async ({
+  code,
+  interval,
+  period,
+}: {
+  code: string;
+  interval: string;
+  period: string;
+}) => {
+  console.log(
+    `[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`
+  );
 
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -86,7 +110,9 @@ export const investingChartFetch = async ({ code, interval, period }: { code: st
   const page = await browser.newPage();
 
   // Set user agent and enable JavaScript before navigating to the page
-  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
+  await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"
+  );
   await page.setJavaScriptEnabled(true);
 
   // Set headers before navigating to the page
@@ -105,7 +131,9 @@ export const investingChartFetch = async ({ code, interval, period }: { code: st
     pointscount: "160",
   });
 
-  await page.goto(`https://api.investing.com/api/financialdata/${code}/historical/chart/?${queryParams}`);
+  await page.goto(
+    `https://api.investing.com/api/financialdata/${code}/historical/chart/?${queryParams}`
+  );
 
   const result = await page.evaluate(() => {
     return JSON.parse(document.body.innerText);
