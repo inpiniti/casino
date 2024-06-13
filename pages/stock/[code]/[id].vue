@@ -36,11 +36,37 @@ const transformedData = (rawData: any) => {
 };
 </script>
 <template>
-  <div class="h-full flex flex-col bg-white">
-    <div class="px-4 py-2 flex gap-2">
+  <div class="h-full flex flex-col bg-white divide-y">
+    <div class="h-14 flex items-center px-4 gap-4">
+      <div>
+        <div class="text-xs text-neutral-400">종목명</div>
+        <div>LG 전자</div>
+      </div>
+      <div>
+        <div class="text-xs text-neutral-400">현재가</div>
+        <div>100,700</div>
+      </div>
+      <div>
+        <div class="text-xs text-neutral-400">현재가</div>
+        <div>+0.00%</div>
+      </div>
+      <div>
+        <div class="text-xs text-neutral-400">변화</div>
+        <div>+2.27%</div>
+      </div>
+    </div>
+    <div class="px-4 py-2 flex gap-2 h-14">
       <div>LG 전자</div>
       <div>100,700</div>
-      <div>0.00%</div>
+      <div>+0.00%</div>
+      <div>17000</div>
+      <div>상대적 거래량 1.15</div>
+      <div>시가총액</div>
+      <div>P/E</div>
+      <div>EPS 희석 순마진</div>
+      <div>EPS 희석 성장</div>
+      <div>섹터</div>
+      <div>애널리스트 평점</div>
     </div>
     <div>
       <div class="flex divide-x w-fit border-r">
