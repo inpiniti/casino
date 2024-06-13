@@ -34,39 +34,140 @@ const transformedData = (rawData: any) => {
     };
   });
 };
+
+const indicator = ref([
+  {
+    name: "오버뷰",
+    data: [
+      { label: "종목명", value: "LG 전자" },
+      { label: "현재가", value: "100,700" },
+      { label: "현재가", value: "+0.00%" },
+      { label: "변화 %", value: "+2.27%" },
+      { label: "거래량", value: "1,731 M" },
+      { label: "상대적 거래량", value: "1.15" },
+      { label: "시가총액", value: "507.46 T KRW" },
+      { label: "P/E", value: "21.76" },
+      { label: "EPS 희석 순마진", value: "2899.18 KRW" },
+      { label: "EPS 희석 성장 TTM YoY", value: "-56.24%" },
+      { label: "배당 수익% 순마진", value: "2.34%" },
+      { label: "섹터", value: "전자 기술" },
+      { label: "애널리스트 평점", value: "스트롱 바이" },
+    ],
+  },
+  {
+    name: "성과",
+    data: [
+      { label: "포퍼먼스 % 1주", value: "0.00%" },
+      { label: "포퍼먼스 % 1달", value: "-2.47%" },
+      { label: "포퍼먼스 % 3달", value: "-0.16%" },
+      { label: "포퍼먼스 % 6달", value: "+5.34%" },
+      { label: "퍼포먼스 YTD", value: "+1.28%" },
+      { label: "퍼포먼스 % 1Y", value: "+2.94%" },
+      { label: "퍼포먼스 % 5Y", value: "+77.75%" },
+      { label: "퍼포먼스 % 10Y", value: "+185.00%" },
+      { label: "퍼포먼스 % ALL", value: "+1395.26%" },
+      { label: "변동성 1주", value: "2.17%" },
+      { label: "변동성 1달", value: "2.08%" },
+    ],
+  },
+  {
+    name: "시간외",
+    data: [
+      { label: "프리-마켓 클로즈", value: "-" },
+      { label: "프리-마켓 체인지 %", value: "-" },
+      { label: "프리-마켓 갭 %", value: "-" },
+      { label: "프리-마켓 볼륨", value: "-" },
+      { label: "갭 %", value: "+2.48%" },
+      { label: "거래량", value: "+185.00%" },
+      { label: "볼륨 변화 %", value: "+75.43%" },
+      { label: "포스트-마켓 클로즈", value: "-" },
+      { label: "포스트-마켓 체인지 %", value: "-" },
+      { label: "포스트-마켓 볼륨", value: "-" },
+    ],
+  },
+  {
+    name: "평가",
+    data: [
+      { label: "시가총액 실적 % 1Y", value: "6.86%" },
+      { label: "PEG 순마진", value: "21.76" },
+      { label: "P/S", value: "-" },
+      { label: "P/B", value: "1.57" },
+      { label: "P/CF", value: "1.18" },
+      { label: "P/FCF", value: "-" },
+      { label: "프라이스 / 캐쉬", value: "6.92" },
+      { label: "기업가치", value: "435.173 T" },
+      { label: "EV / 수익 순마진", value: "1.63" },
+      { label: "EV / 에비타 순마진", value: "34.75" },
+      { label: "EV / EBITDA 순마진", value: "8.44" },
+    ],
+  },
+  {
+    name: "배당",
+    data: [
+      { label: "주당 배당금 FY", value: "1444.00 KRW" },
+      { label: "주당 배당금 FQ", value: "361.00 KRW" },
+      { label: "배당 수익 % 순마진", value: "1.89%" },
+      { label: "배당 수익률 %", value: "1.89%" },
+      { label: "배당 비율 % 순마진", value: "49.81%" },
+      { label: "DPS 성장 연간 YoY", value: "0.00%" },
+      { label: "연속 배당 지불", value: "8" },
+      { label: "연속 배당 성장", value: "0" },
+    ],
+  },
+  {
+    name: "수익성",
+    data: [
+      { label: "총마진", value: "31.63%" },
+      { label: "영업마진", value: "4.69%" },
+      { label: "세전 마진", value: "5.99%" },
+      { label: "넷 마진", value: "7.37%" },
+      { label: "FCF 마진", value: "-3.02%" },
+      { label: "ROA", value: "4.26%" },
+      { label: "ROE", value: "5.53%" },
+      { label: "투하자본수익률", value: "5.46%" },
+      { label: "R&D 비율", value: "11.08%" },
+      { label: "판관비율", value: "15.86%" },
+    ],
+  },
+  {
+    name: "손익 계산",
+    data: [
+      { label: "수입", value: "267.106" },
+      { label: "매출 성장률", value: "-7.32%" },
+      { label: "총수익", value: "84.484" },
+      { label: "영업 수입", value: "12.523" },
+      { label: "순이익", value: "19.693" },
+      { label: "세전영업이익", value: "51.554" },
+    ],
+  },
+  {
+    name: "대차 대조표",
+    data: [
+      { label: "수입", value: "267.106" },
+      { label: "매출 성장률", value: "-7.32%" },
+      { label: "총수익", value: "84.484" },
+      { label: "영업 수입", value: "12.523" },
+      { label: "순이익", value: "19.693" },
+      { label: "세전영업이익", value: "51.554" },
+    ],
+  },
+]);
 </script>
 <template>
   <div class="h-full flex flex-col bg-white divide-y">
-    <div class="h-14 flex items-center px-4 gap-4">
-      <div>
-        <div class="text-xs text-neutral-400">종목명</div>
-        <div>LG 전자</div>
+    <div class="h-14 flex items-center" v-for="itmes in indicator">
+      <div class="w-32 h-full px-4 flex items-center border-r">
+        {{ itmes.name }}
       </div>
-      <div>
-        <div class="text-xs text-neutral-400">현재가</div>
-        <div>100,700</div>
+      <div
+        v-for="item in itmes.data"
+        class="h-full px-3 flex items-center hover:bg-neutral-100 cursor-pointer"
+      >
+        <div>
+          <div class="text-xs text-neutral-400">{{ item.label }}</div>
+          <div>{{ item.value }}</div>
+        </div>
       </div>
-      <div>
-        <div class="text-xs text-neutral-400">현재가</div>
-        <div>+0.00%</div>
-      </div>
-      <div>
-        <div class="text-xs text-neutral-400">변화</div>
-        <div>+2.27%</div>
-      </div>
-    </div>
-    <div class="px-4 py-2 flex gap-2 h-14">
-      <div>LG 전자</div>
-      <div>100,700</div>
-      <div>+0.00%</div>
-      <div>17000</div>
-      <div>상대적 거래량 1.15</div>
-      <div>시가총액</div>
-      <div>P/E</div>
-      <div>EPS 희석 순마진</div>
-      <div>EPS 희석 성장</div>
-      <div>섹터</div>
-      <div>애널리스트 평점</div>
     </div>
     <div>
       <div class="flex divide-x w-fit border-r">
