@@ -1,10 +1,11 @@
 import { useSSRContext, defineComponent, computed, ref, mergeProps, unref, withCtx, openBlock, createBlock, createCommentVNode, Fragment, renderList, renderSlot, createTextVNode, toDisplayString, createVNode, createApp } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrRenderSlot, ssrInterpolate, ssrRenderAttr } from 'vue/server-renderer';
+import { Separator } from 'radix-vue';
+import { c as cn, _ as _sfc_main$a } from './Card-C-jw3V7W.mjs';
 import { CurveType, Line, Axis, GroupedBar, StackedBar, omit } from '@unovis/ts';
 import { VisXYContainer, VisLine, VisAxis, VisBulletLegend, VisTooltip, VisCrosshair, VisGroupedBar, VisStackedBar } from '@unovis/vue';
 import { useMounted } from '@vueuse/core';
-import { c as cn, _ as _sfc_main$9 } from './Card-C-jw3V7W.mjs';
-import { f as useRoute } from './server.mjs';
+import { d as useRoute } from './server.mjs';
 import 'clsx';
 import 'tailwind-merge';
 import '../runtime.mjs';
@@ -25,7 +26,7 @@ import '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/vue-fontawesome';
 import '@fortawesome/free-solid-svg-icons';
 
-const _sfc_main$8 = /* @__PURE__ */ defineComponent({
+const _sfc_main$9 = /* @__PURE__ */ defineComponent({
   __name: "CardHeader",
   __ssrInlineRender: true,
   props: {
@@ -42,13 +43,13 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/card/CardHeader.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
-const _sfc_main$7 = /* @__PURE__ */ defineComponent({
+const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   __name: "CardTitle",
   __ssrInlineRender: true,
   props: {
@@ -65,13 +66,13 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$7 = _sfc_main$7.setup;
-_sfc_main$7.setup = (props, ctx) => {
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/card/CardTitle.vue");
-  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
-const _sfc_main$6 = /* @__PURE__ */ defineComponent({
+const _sfc_main$7 = /* @__PURE__ */ defineComponent({
   __name: "CardContent",
   __ssrInlineRender: true,
   props: {
@@ -88,10 +89,39 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     };
   }
 });
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/card/CardContent.vue");
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+};
+const _sfc_main$6 = /* @__PURE__ */ defineComponent({
+  __name: "Separator",
+  __ssrInlineRender: true,
+  props: {
+    orientation: {},
+    decorative: { type: Boolean },
+    asChild: { type: Boolean },
+    as: {},
+    class: {}
+  },
+  setup(__props) {
+    const props = __props;
+    const delegatedProps = computed(() => {
+      const { class: _, ...delegated } = props;
+      return delegated;
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(ssrRenderComponent(unref(Separator), mergeProps(delegatedProps.value, {
+        class: unref(cn)("shrink-0 bg-border", props.orientation === "vertical" ? "w-px h-full" : "h-px w-full", props.class)
+      }, _attrs), null, _parent));
+    };
+  }
+});
 const _sfc_setup$6 = _sfc_main$6.setup;
 _sfc_main$6.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/card/CardContent.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/separator/Separator.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
 const _sfc_main$5 = /* @__PURE__ */ defineComponent({
@@ -103,14 +133,14 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(unref(_sfc_main$9), mergeProps({ class: "text-sm" }, _attrs), {
+      _push(ssrRenderComponent(unref(_sfc_main$a), mergeProps({ class: "text-sm" }, _attrs), {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             if (_ctx.title) {
-              _push2(ssrRenderComponent(unref(_sfc_main$8), { class: "p-3 border-b" }, {
+              _push2(ssrRenderComponent(unref(_sfc_main$9), { class: "p-3 border-b" }, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
-                    _push3(ssrRenderComponent(unref(_sfc_main$7), null, {
+                    _push3(ssrRenderComponent(unref(_sfc_main$8), null, {
                       default: withCtx((_3, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
                           _push4(`${ssrInterpolate(_ctx.title)}`);
@@ -124,7 +154,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                     }, _parent3, _scopeId2));
                   } else {
                     return [
-                      createVNode(unref(_sfc_main$7), null, {
+                      createVNode(unref(_sfc_main$8), null, {
                         default: withCtx(() => [
                           createTextVNode(toDisplayString(_ctx.title), 1)
                         ]),
@@ -138,7 +168,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
             } else {
               _push2(`<!---->`);
             }
-            _push2(ssrRenderComponent(unref(_sfc_main$6), { class: "p-3 min-w-[180px] flex flex-col gap-1" }, {
+            _push2(ssrRenderComponent(unref(_sfc_main$7), { class: "p-3 min-w-[180px] flex flex-col gap-1" }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
                   _push3(`<!--[-->`);
@@ -180,12 +210,12 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
             }, _parent2, _scopeId));
           } else {
             return [
-              _ctx.title ? (openBlock(), createBlock(unref(_sfc_main$8), {
+              _ctx.title ? (openBlock(), createBlock(unref(_sfc_main$9), {
                 key: 0,
                 class: "p-3 border-b"
               }, {
                 default: withCtx(() => [
-                  createVNode(unref(_sfc_main$7), null, {
+                  createVNode(unref(_sfc_main$8), null, {
                     default: withCtx(() => [
                       createTextVNode(toDisplayString(_ctx.title), 1)
                     ]),
@@ -194,7 +224,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                 ]),
                 _: 1
               })) : createCommentVNode("", true),
-              createVNode(unref(_sfc_main$6), { class: "p-3 min-w-[180px] flex flex-col gap-1" }, {
+              createVNode(unref(_sfc_main$7), { class: "p-3 min-w-[180px] flex flex-col gap-1" }, {
                 default: withCtx(() => [
                   (openBlock(true), createBlock(Fragment, null, renderList(_ctx.data, (item, key) => {
                     return openBlock(), createBlock("div", {
@@ -717,10 +747,139 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   setup(__props) {
     useRoute();
     const data = ref([]);
+    const indicator = ref([
+      {
+        name: "\uC624\uBC84\uBDF0",
+        discrption: "\uC885\uBAA9\uC758 \uC804\uBC18\uC744 \uB098\uD0C0\uB0B4\uB294 \uAC1C\uC694 \uC815\uBCF4\uC785\uB2C8\uB2E4.",
+        data: [
+          { label: "\uC885\uBAA9\uBA85", value: "LG \uC804\uC790" },
+          { label: "\uD604\uC7AC\uAC00", value: "100,700" },
+          { label: "\uD604\uC7AC\uAC00", value: "+0.00%" },
+          { label: "\uBCC0\uD654 %", value: "+2.27%" },
+          { label: "\uAC70\uB798\uB7C9", value: "1,731 M" },
+          { label: "\uC0C1\uB300\uC801 \uAC70\uB798\uB7C9", value: "1.15" },
+          { label: "\uC2DC\uAC00\uCD1D\uC561", value: "507.46 T KRW" },
+          { label: "P/E", value: "21.76" },
+          { label: "EPS \uD76C\uC11D \uC21C\uB9C8\uC9C4", value: "2899.18 KRW" },
+          { label: "EPS \uD76C\uC11D \uC131\uC7A5 TTM YoY", value: "-56.24%" },
+          { label: "\uBC30\uB2F9 \uC218\uC775% \uC21C\uB9C8\uC9C4", value: "2.34%" },
+          { label: "\uC139\uD130", value: "\uC804\uC790 \uAE30\uC220" },
+          { label: "\uC560\uB110\uB9AC\uC2A4\uD2B8 \uD3C9\uC810", value: "\uC2A4\uD2B8\uB871 \uBC14\uC774" }
+        ]
+      },
+      {
+        name: "\uC131\uACFC",
+        data: [
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 1\uC8FC", value: "0.00%" },
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 1\uB2EC", value: "-2.47%" },
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 3\uB2EC", value: "-0.16%" },
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 6\uB2EC", value: "+5.34%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 YTD", value: "+1.28%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 1Y", value: "+2.94%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 5Y", value: "+77.75%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 10Y", value: "+185.00%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % ALL", value: "+1395.26%" },
+          { label: "\uBCC0\uB3D9\uC131 1\uC8FC", value: "2.17%" },
+          { label: "\uBCC0\uB3D9\uC131 1\uB2EC", value: "2.08%" }
+        ]
+      },
+      {
+        name: "\uC2DC\uAC04\uC678",
+        data: [
+          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uD074\uB85C\uC988", value: "-" },
+          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uCCB4\uC778\uC9C0 %", value: "-" },
+          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uAC2D %", value: "-" },
+          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uBCFC\uB968", value: "-" },
+          { label: "\uAC2D %", value: "+2.48%" },
+          { label: "\uAC70\uB798\uB7C9", value: "+185.00%" },
+          { label: "\uBCFC\uB968 \uBCC0\uD654 %", value: "+75.43%" },
+          { label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uD074\uB85C\uC988", value: "-" },
+          { label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uCCB4\uC778\uC9C0 %", value: "-" },
+          { label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uBCFC\uB968", value: "-" }
+        ]
+      },
+      {
+        name: "\uD3C9\uAC00",
+        data: [
+          { label: "\uC2DC\uAC00\uCD1D\uC561 \uC2E4\uC801 % 1Y", value: "6.86%" },
+          { label: "PEG \uC21C\uB9C8\uC9C4", value: "21.76" },
+          { label: "P/S", value: "-" },
+          { label: "P/B", value: "1.57" },
+          { label: "P/CF", value: "1.18" },
+          { label: "P/FCF", value: "-" },
+          { label: "\uD504\uB77C\uC774\uC2A4 / \uCE90\uC26C", value: "6.92" },
+          { label: "\uAE30\uC5C5\uAC00\uCE58", value: "435.173 T" },
+          { label: "EV / \uC218\uC775 \uC21C\uB9C8\uC9C4", value: "1.63" },
+          { label: "EV / \uC5D0\uBE44\uD0C0 \uC21C\uB9C8\uC9C4", value: "34.75" },
+          { label: "EV / EBITDA \uC21C\uB9C8\uC9C4", value: "8.44" }
+        ]
+      },
+      {
+        name: "\uBC30\uB2F9",
+        data: [
+          { label: "\uC8FC\uB2F9 \uBC30\uB2F9\uAE08 FY", value: "1444.00 KRW" },
+          { label: "\uC8FC\uB2F9 \uBC30\uB2F9\uAE08 FQ", value: "361.00 KRW" },
+          { label: "\uBC30\uB2F9 \uC218\uC775 % \uC21C\uB9C8\uC9C4", value: "1.89%" },
+          { label: "\uBC30\uB2F9 \uC218\uC775\uB960 %", value: "1.89%" },
+          { label: "\uBC30\uB2F9 \uBE44\uC728 % \uC21C\uB9C8\uC9C4", value: "49.81%" },
+          { label: "DPS \uC131\uC7A5 \uC5F0\uAC04 YoY", value: "0.00%" },
+          { label: "\uC5F0\uC18D \uBC30\uB2F9 \uC9C0\uBD88", value: "8" },
+          { label: "\uC5F0\uC18D \uBC30\uB2F9 \uC131\uC7A5", value: "0" }
+        ]
+      },
+      {
+        name: "\uC218\uC775\uC131",
+        data: [
+          { label: "\uCD1D\uB9C8\uC9C4", value: "31.63%" },
+          { label: "\uC601\uC5C5\uB9C8\uC9C4", value: "4.69%" },
+          { label: "\uC138\uC804 \uB9C8\uC9C4", value: "5.99%" },
+          { label: "\uB137 \uB9C8\uC9C4", value: "7.37%" },
+          { label: "FCF \uB9C8\uC9C4", value: "-3.02%" },
+          { label: "ROA", value: "4.26%" },
+          { label: "ROE", value: "5.53%" },
+          { label: "\uD22C\uD558\uC790\uBCF8\uC218\uC775\uB960", value: "5.46%" },
+          { label: "R&D \uBE44\uC728", value: "11.08%" },
+          { label: "\uD310\uAD00\uBE44\uC728", value: "15.86%" }
+        ]
+      },
+      {
+        name: "\uC190\uC775 \uACC4\uC0B0",
+        data: [
+          { label: "\uC218\uC785", value: "267.106" },
+          { label: "\uB9E4\uCD9C \uC131\uC7A5\uB960", value: "-7.32%" },
+          { label: "\uCD1D\uC218\uC775", value: "84.484" },
+          { label: "\uC601\uC5C5 \uC218\uC785", value: "12.523" },
+          { label: "\uC21C\uC774\uC775", value: "19.693" },
+          { label: "\uC138\uC804\uC601\uC5C5\uC774\uC775", value: "51.554" }
+        ]
+      },
+      {
+        name: "\uB300\uCC28 \uB300\uC870\uD45C",
+        data: [
+          { label: "\uC218\uC785", value: "267.106" },
+          { label: "\uB9E4\uCD9C \uC131\uC7A5\uB960", value: "-7.32%" },
+          { label: "\uCD1D\uC218\uC775", value: "84.484" },
+          { label: "\uC601\uC5C5 \uC218\uC785", value: "12.523" },
+          { label: "\uC21C\uC774\uC775", value: "19.693" },
+          { label: "\uC138\uC804\uC601\uC5C5\uC774\uC775", value: "51.554" }
+        ]
+      }
+    ]);
     return (_ctx, _push, _parent, _attrs) => {
+      const _component_Separator = _sfc_main$6;
       const _component_LineChart = _sfc_main$2;
       const _component_BarChart = _sfc_main$1;
-      _push(`<div${ssrRenderAttrs(mergeProps({ class: "h-full flex flex-col bg-white" }, _attrs))}><div class="px-4 py-2 flex gap-2"><div>LG \uC804\uC790</div><div>100,700</div><div>0.00%</div></div><div><div class="flex divide-x w-fit border-r"><div class="px-4 py-1">\uAC04\uACA9</div><div class="px-2 py-1 bg-blue-50">5</div><div class="px-2 py-1">15</div><div class="px-2 py-1">30</div><div class="px-2 py-1">1H</div><div class="px-2 py-1">5H</div><div class="px-2 py-1">1D</div><div class="px-2 py-1">1W</div><div class="px-2 py-1">1M</div></div></div><div class="relative h-44 overflow-hidden py-2 bg-white">`);
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "h-full flex flex-col bg-white divide-y" }, _attrs))}><!--[-->`);
+      ssrRenderList(indicator.value, (itmes) => {
+        _push(`<div class="flex flex-col px-4"><div class="w-32 h-full px-4 flex font-bold text-lg">${ssrInterpolate(itmes.name)}</div><div class="text-sm text-neutral-400">${ssrInterpolate(itmes.discrption)}</div>`);
+        _push(ssrRenderComponent(_component_Separator, null, null, _parent));
+        _push(`<div class="flex items-center"><!--[-->`);
+        ssrRenderList(itmes.data, (item) => {
+          _push(`<div class="h-full px-2 flex items-center hover:bg-neutral-100 cursor-pointer"><div><div class="text-xs text-neutral-400">${ssrInterpolate(item.label)}</div><div>${ssrInterpolate(item.value)}</div></div></div>`);
+        });
+        _push(`<!--]--></div></div>`);
+      });
+      _push(`<!--]--><div><div class="flex divide-x w-fit border-r"><div class="px-4 py-1">\uAC04\uACA9</div><div class="px-2 py-1 bg-blue-50">5</div><div class="px-2 py-1">15</div><div class="px-2 py-1">30</div><div class="px-2 py-1">1H</div><div class="px-2 py-1">5H</div><div class="px-2 py-1">1D</div><div class="px-2 py-1">1W</div><div class="px-2 py-1">1M</div></div></div><div class="relative h-44 overflow-hidden py-2 bg-white">`);
       _push(ssrRenderComponent(_component_LineChart, {
         class: "bg-white h-full w-full z-10",
         data: data.value,
@@ -757,4 +916,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=_id_-BQiVsgq_.mjs.map
+//# sourceMappingURL=_id_-B6LQZT5X.mjs.map

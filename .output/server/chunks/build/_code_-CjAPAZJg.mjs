@@ -1,13 +1,11 @@
+import { u as useState, a as useAppConfig } from './state-DRTXuqfW.mjs';
 import { useSSRContext, defineComponent, ref, onUnmounted, computed, mergeProps, unref, isRef, withCtx, createTextVNode, toDisplayString, createVNode, renderSlot, watch } from 'vue';
-import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderClass, ssrRenderStyle, ssrRenderSlot, ssrRenderAttr } from 'vue/server-renderer';
+import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderClass, ssrRenderStyle, ssrRenderAttr, ssrRenderSlot } from 'vue/server-renderer';
 import { useForwardPropsEmits, SwitchRoot, SwitchThumb, SelectRoot, SelectValue, useForwardProps, SelectTrigger, SelectIcon, SelectPortal, SelectContent, SelectViewport, SelectGroup, SelectItem, SelectItemIndicator, SelectItemText, SelectLabel, SelectScrollUpButton, SelectScrollDownButton, TooltipRoot, TooltipPortal, TooltipContent, TooltipTrigger, TooltipProvider } from 'radix-vue';
-import { c as cn, _ as _sfc_main$i } from './Card-C-jw3V7W.mjs';
+import { c as cn, _ as _sfc_main$j } from './Card-C-jw3V7W.mjs';
 import { ChevronDown, Check, ChevronUp } from 'lucide-vue-next';
 import { cva } from 'class-variance-authority';
-import { f as useRoute, e as __nuxt_component_8 } from './server.mjs';
-import { u as useState } from './state-DVSaO_PC.mjs';
-import 'clsx';
-import 'tailwind-merge';
+import { d as useRoute, c as __nuxt_component_9 } from './server.mjs';
 import '../runtime.mjs';
 import 'node:http';
 import 'node:https';
@@ -15,6 +13,8 @@ import 'fs';
 import 'path';
 import 'node:fs';
 import 'node:url';
+import 'clsx';
+import 'tailwind-merge';
 import '../routes/renderer.mjs';
 import 'vue-bundle-renderer/runtime';
 import 'devalue';
@@ -26,6 +26,32 @@ import '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/vue-fontawesome';
 import '@fortawesome/free-solid-svg-icons';
 
+const _sfc_main$i = /* @__PURE__ */ defineComponent({
+  __name: "stockBar",
+  __ssrInlineRender: true,
+  props: {
+    selectedCountry: {}
+  },
+  setup(__props) {
+    const appConfig = useAppConfig();
+    const nameList = appConfig.nameList;
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<!--[--><div class="font-bold flex gap-2 items-center"><img class="h-fit border border-neutral-400"${ssrRenderAttr("src", `https://s3-symbol-logo.tradingview.com/country/${unref(nameList)[_ctx.selectedCountry.name].toUpperCase()}.svg`)}> ${ssrInterpolate(_ctx.selectedCountry.name)}</div><div class="flex gap-5 items-center"><!--[-->`);
+      ssrRenderList(_ctx.selectedCountry.indiceList, (indice) => {
+        _push(`<div class="text-xs flex flex-col"><div class="text-neutral-400">${ssrInterpolate(indice.index.replace(_ctx.selectedCountry.name, ""))}</div><div class="flex gap-1"><div class="${ssrRenderClass(
+          indice.change.startsWith("+") ? "text-red-500" : "text-blue-500"
+        )}">${ssrInterpolate(indice.changePercent)}</div></div></div>`);
+      });
+      _push(`<!--]--></div><!--]-->`);
+    };
+  }
+});
+const _sfc_setup$i = _sfc_main$i.setup;
+_sfc_main$i.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/stock/stockBar.vue");
+  return _sfc_setup$i ? _sfc_setup$i(props, ctx) : void 0;
+};
 const _sfc_main$h = /* @__PURE__ */ defineComponent({
   __name: "Switch",
   __ssrInlineRender: true,
@@ -605,19 +631,19 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       const _component_SelectGroup = _sfc_main$c;
       const _component_SelectLabel = _sfc_main$a;
       const _component_SelectItem = _sfc_main$b;
-      _push(`<!--[--><div class="px-4 py-2"><input class="focus:outline-none" type="text"${ssrRenderAttr("value", unref(condition).search)} placeholder="search"></div><div class="px-4 py-2 text-neutral-400 flex items-center gap-2 text-sm">`);
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "px-2 py-1.5 flex flex-col gap-1.5" }, _attrs))}><div class="text-neutral-400 flex items-center gap-2 text-sm"><input class="focus:outline-none border rounded px-2 py-1" type="text"${ssrRenderAttr("value", unref(condition).search)} placeholder="search">`);
       _push(ssrRenderComponent(_component_Switch, {
         id: "airplane-mode",
         onClick: ($event) => unref(condition).viewRecentData = !unref(condition).viewRecentData,
         onChange: changeCondition
       }, null, _parent));
-      _push(`\uCD5C\uADFC \uB370\uC774\uD130 </div><div class="px-4 py-2 text-neutral-400 flex items-center gap-2 text-sm">`);
+      _push(`\uCD5C\uADFC `);
       _push(ssrRenderComponent(_component_Switch, {
         id: "airplane-mode",
         onClick: ($event) => unref(condition).goodTechnical = !unref(condition).goodTechnical,
         onChange: changeCondition
       }, null, _parent));
-      _push(`\uBD84\uC11D</div><div class="text-neutral-400 flex items-center gap-2">`);
+      _push(`\uBD84\uC11D </div><div class="text-neutral-400 flex items-center gap-2">`);
       _push(ssrRenderComponent(_component_Select, {
         modelValue: unref(condition).sorting,
         "onUpdate:modelValue": ($event) => unref(condition).sorting = $event,
@@ -625,7 +651,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(ssrRenderComponent(_component_SelectTrigger, { class: "border-0 outline-none focus:outline-none" }, {
+            _push2(ssrRenderComponent(_component_SelectTrigger, { class: "outline-none focus:outline-none w-fit" }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
                   _push3(ssrRenderComponent(_component_SelectValue, { placeholder: "\uC815\uB82C" }, null, _parent3, _scopeId2));
@@ -736,7 +762,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
             }, _parent2, _scopeId));
           } else {
             return [
-              createVNode(_component_SelectTrigger, { class: "border-0 outline-none focus:outline-none" }, {
+              createVNode(_component_SelectTrigger, { class: "outline-none focus:outline-none w-fit" }, {
                 default: withCtx(() => [
                   createVNode(_component_SelectValue, { placeholder: "\uC815\uB82C" })
                 ]),
@@ -775,7 +801,321 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
         }),
         _: 1
       }, _parent));
-      _push(`</div><!--]-->`);
+      _push(ssrRenderComponent(_component_Select, {
+        modelValue: unref(condition).sorting,
+        "onUpdate:modelValue": ($event) => unref(condition).sorting = $event,
+        onChange: changeCondition
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_component_SelectTrigger, { class: "outline-none focus:outline-none w-fit" }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(ssrRenderComponent(_component_SelectValue, { placeholder: "\uC815\uB82C" }, null, _parent3, _scopeId2));
+                } else {
+                  return [
+                    createVNode(_component_SelectValue, { placeholder: "\uC815\uB82C" })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_component_SelectContent, { class: "" }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(ssrRenderComponent(_component_SelectGroup, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_component_SelectLabel, null, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Sort`);
+                            } else {
+                              return [
+                                createTextVNode("Sort")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(_component_SelectItem, { value: "volumeRate" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(` \uAC70\uB798\uB7C9\uC728 `);
+                            } else {
+                              return [
+                                createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(_component_SelectItem, { value: "ChgPct" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(` \uBCC0\uB3D9\uB960 `);
+                            } else {
+                              return [
+                                createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_component_SelectLabel, null, {
+                            default: withCtx(() => [
+                              createTextVNode("Sort")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(_component_SelectItem, { value: "volumeRate" }, {
+                            default: withCtx(() => [
+                              createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(_component_SelectItem, { value: "ChgPct" }, {
+                            default: withCtx(() => [
+                              createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                } else {
+                  return [
+                    createVNode(_component_SelectGroup, null, {
+                      default: withCtx(() => [
+                        createVNode(_component_SelectLabel, null, {
+                          default: withCtx(() => [
+                            createTextVNode("Sort")
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_SelectItem, { value: "volumeRate" }, {
+                          default: withCtx(() => [
+                            createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_SelectItem, { value: "ChgPct" }, {
+                          default: withCtx(() => [
+                            createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_component_SelectTrigger, { class: "outline-none focus:outline-none w-fit" }, {
+                default: withCtx(() => [
+                  createVNode(_component_SelectValue, { placeholder: "\uC815\uB82C" })
+                ]),
+                _: 1
+              }),
+              createVNode(_component_SelectContent, { class: "" }, {
+                default: withCtx(() => [
+                  createVNode(_component_SelectGroup, null, {
+                    default: withCtx(() => [
+                      createVNode(_component_SelectLabel, null, {
+                        default: withCtx(() => [
+                          createTextVNode("Sort")
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(_component_SelectItem, { value: "volumeRate" }, {
+                        default: withCtx(() => [
+                          createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(_component_SelectItem, { value: "ChgPct" }, {
+                        default: withCtx(() => [
+                          createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(ssrRenderComponent(_component_Select, {
+        modelValue: unref(condition).sorting,
+        "onUpdate:modelValue": ($event) => unref(condition).sorting = $event,
+        onChange: changeCondition
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_component_SelectTrigger, { class: "outline-none focus:outline-none w-fit" }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(ssrRenderComponent(_component_SelectValue, { placeholder: "\uC815\uB82C" }, null, _parent3, _scopeId2));
+                } else {
+                  return [
+                    createVNode(_component_SelectValue, { placeholder: "\uC815\uB82C" })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(_component_SelectContent, { class: "" }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(ssrRenderComponent(_component_SelectGroup, null, {
+                    default: withCtx((_3, _push4, _parent4, _scopeId3) => {
+                      if (_push4) {
+                        _push4(ssrRenderComponent(_component_SelectLabel, null, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(`Sort`);
+                            } else {
+                              return [
+                                createTextVNode("Sort")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(_component_SelectItem, { value: "volumeRate" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(` \uAC70\uB798\uB7C9\uC728 `);
+                            } else {
+                              return [
+                                createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                        _push4(ssrRenderComponent(_component_SelectItem, { value: "ChgPct" }, {
+                          default: withCtx((_4, _push5, _parent5, _scopeId4) => {
+                            if (_push5) {
+                              _push5(` \uBCC0\uB3D9\uB960 `);
+                            } else {
+                              return [
+                                createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                              ];
+                            }
+                          }),
+                          _: 1
+                        }, _parent4, _scopeId3));
+                      } else {
+                        return [
+                          createVNode(_component_SelectLabel, null, {
+                            default: withCtx(() => [
+                              createTextVNode("Sort")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(_component_SelectItem, { value: "volumeRate" }, {
+                            default: withCtx(() => [
+                              createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(_component_SelectItem, { value: "ChgPct" }, {
+                            default: withCtx(() => [
+                              createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                            ]),
+                            _: 1
+                          })
+                        ];
+                      }
+                    }),
+                    _: 1
+                  }, _parent3, _scopeId2));
+                } else {
+                  return [
+                    createVNode(_component_SelectGroup, null, {
+                      default: withCtx(() => [
+                        createVNode(_component_SelectLabel, null, {
+                          default: withCtx(() => [
+                            createTextVNode("Sort")
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_SelectItem, { value: "volumeRate" }, {
+                          default: withCtx(() => [
+                            createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                          ]),
+                          _: 1
+                        }),
+                        createVNode(_component_SelectItem, { value: "ChgPct" }, {
+                          default: withCtx(() => [
+                            createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_component_SelectTrigger, { class: "outline-none focus:outline-none w-fit" }, {
+                default: withCtx(() => [
+                  createVNode(_component_SelectValue, { placeholder: "\uC815\uB82C" })
+                ]),
+                _: 1
+              }),
+              createVNode(_component_SelectContent, { class: "" }, {
+                default: withCtx(() => [
+                  createVNode(_component_SelectGroup, null, {
+                    default: withCtx(() => [
+                      createVNode(_component_SelectLabel, null, {
+                        default: withCtx(() => [
+                          createTextVNode("Sort")
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(_component_SelectItem, { value: "volumeRate" }, {
+                        default: withCtx(() => [
+                          createTextVNode(" \uAC70\uB798\uB7C9\uC728 ")
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(_component_SelectItem, { value: "ChgPct" }, {
+                        default: withCtx(() => [
+                          createTextVNode(" \uBCC0\uB3D9\uB960 ")
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  })
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div></div>`);
     };
   }
 });
@@ -1013,13 +1353,11 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<span${ssrRenderAttrs(mergeProps({
         class: {
-          "text-red-500": _ctx.technicalText === "strong_buy",
-          "text-yellow-500": _ctx.technicalText === "buy",
-          "text-gray-500": _ctx.technicalText === "neutral",
-          "text-blue-500": _ctx.technicalText === "sell",
-          "text-green-500": _ctx.technicalText === "strong_sell"
+          "text-neutral-700": _ctx.technicalText === "strong_buy" || _ctx.technicalText === "buy",
+          "text-neutral-500": _ctx.technicalText === "neutral",
+          "text-neutral-300": _ctx.technicalText === "sell" || _ctx.technicalText === "strong_sell"
         }
-      }, _attrs))}>${ssrInterpolate(_ctx.technicalText)}</span>`);
+      }, _attrs))}>${ssrInterpolate(_ctx.technicalText == "strong_sell" ? "\uC801\uADF9 \uB9E4\uB3C4" : _ctx.technicalText == "sell" ? "\uB9E4\uB3C4" : _ctx.technicalText == "neutral" ? "\uC911\uB9BD" : _ctx.technicalText == "buy" ? "\uB9E4\uC218" : "\uC801\uADF9 \uB9E4\uC218")}</span>`);
     };
   }
 });
@@ -1034,6 +1372,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
     const route = useRoute();
+    const selectedCountry = useState("selectedCountry");
     const stockList = useState("stockList", () => []);
     const intervalId = ref();
     onUnmounted(() => {
@@ -1056,7 +1395,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return stockList.value.map((stock) => ({
         ...stock,
         volumeRate: Math.round(stock.Volume / stock.AvgVolume * 100 * 10) / 10
-      })).filter((stock) => !condition.value.viewRecentData || condition.value.viewRecentData && Number(stock.Time) * 1e3 >= oneHourAgo).filter((stock) => stock.Name.toLowerCase().includes(condition.value.search.toLowerCase())).filter(
+      })).filter(
+        (stock) => !condition.value.viewRecentData || condition.value.viewRecentData && Number(stock.Time) * 1e3 >= oneHourAgo
+      ).filter(
+        (stock) => stock.Name.toLowerCase().includes(condition.value.search.toLowerCase())
+      ).filter(
         (stock) => !condition.value.goodTechnical || stock.TechnicalDay == "strong_buy" && stock.TechnicalHour == "strong_buy" && // 기술적 시간당 분석
         stock.TechnicalMonth == "strong_buy" && // 기술적 월간 분석
         stock.TechnicalWeek == "strong_buy"
@@ -1075,37 +1418,48 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }).slice(0, 100);
     });
     function timeAgo(timestamp) {
-      const secondsAgo = Math.floor(((/* @__PURE__ */ new Date()).getTime() - timestamp * 1e3) / 1e3);
+      const secondsAgo = Math.floor(
+        ((/* @__PURE__ */ new Date()).getTime() - timestamp * 1e3) / 1e3
+      );
       const hours = Math.floor(secondsAgo / 3600);
       const minutes = Math.floor(secondsAgo % 3600 / 60);
       const seconds = secondsAgo % 60;
       return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} \uC804`;
     }
     return (_ctx, _push, _parent, _attrs) => {
+      const _component_StockBar = _sfc_main$i;
       const _component_StockStcokCondition = _sfc_main$7;
-      const _component_Card = _sfc_main$i;
+      const _component_Card = _sfc_main$j;
       const _component_Badge = _sfc_main$6;
       const _component_TooltipProvider = _sfc_main$2;
       const _component_Tooltip = _sfc_main$5;
       const _component_TooltipTrigger = _sfc_main$3;
       const _component_TooltipContent = _sfc_main$4;
       const _component_TechnicalTextColor = _sfc_main$1;
-      const _component_NuxtPage = __nuxt_component_8;
-      _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex flex-col divide-y h-full divide-neutral-300" }, _attrs))}><div class="shrink-0 flex divide-x border-r w-fit divide-neutral-300">`);
+      const _component_NuxtPage = __nuxt_component_9;
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex divide-x" }, _attrs))}><div class="flex flex-col shrink-0 divide-y h-screen w-96">`);
+      if (unref(selectedCountry)) {
+        _push(`<div class="shrink-0 flex h-14 w-full overflow-hidden px-2 items-center gap-3">`);
+        _push(ssrRenderComponent(_component_StockBar, { selectedCountry: unref(selectedCountry) }, null, _parent));
+        _push(`</div>`);
+      } else {
+        _push(`<!---->`);
+      }
+      _push(`<div class="shrink-0 w-full">`);
       _push(ssrRenderComponent(_component_StockStcokCondition, {
         modelValue: unref(condition),
         "onUpdate:modelValue": ($event) => isRef(condition) ? condition.value = $event : null
       }, null, _parent));
-      _push(`</div><div class="grow-[0] overflow-hidden flex divide-x h-full divide-neutral-300"><div class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide"><!--[-->`);
+      _push(`</div><div class="grow-[0] overflow-hidden flex h-full"><div class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide py-1"><!--[-->`);
       ssrRenderList(unref(cStockList), (stock) => {
         _push(ssrRenderComponent(_component_Card, {
-          class: "px-4 py-2 mx-2 my-1 text-xs flex flex-col gap-1",
+          class: "p-2 mx-2 my-1 text-xs flex flex-col gap-1 w-[368px]",
           key: stock.Name,
           onClick: ($event) => _ctx.$router.push(`/stock/${unref(route).params.code}/${stock.Id}`)
         }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
-              _push2(`<div class="flex justify-between items-center gap-2"${_scopeId}><div class="text-sm"${_scopeId}>${ssrInterpolate(stock.Name)} `);
+              _push2(`<div class="flex justify-between gap-2"${_scopeId}><div class="text-sm max-w-64"${_scopeId}>${ssrInterpolate(stock.Name)} `);
               _push2(ssrRenderComponent(_component_Badge, { variant: "outline" }, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
@@ -1118,7 +1472,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 }),
                 _: 2
               }, _parent2, _scopeId));
-              _push2(`</div><div class="text-neutral-400"${_scopeId}>${ssrInterpolate(timeAgo(Number(stock.Time)))}</div></div><div class="text-sm flex items-center gap-3"${_scopeId}><div class="text-xl font-bold flex items-center gap-1"${_scopeId}><span class="text-xs font-normal text-neutral-400"${_scopeId}>\uC885\uAC00</span> ${ssrInterpolate(stock.Last)}</div><div class="font-bold text-blue-400 flex items-center gap-1"${_scopeId}><span class="text-xs font-normal text-neutral-400"${_scopeId}>\uC800\uAC00</span> ${ssrInterpolate(stock.Low)}</div><div class="font-bold text-red-400 flex items-center gap-1"${_scopeId}><span class="text-xs font-normal text-neutral-400"${_scopeId}>\uACE0\uAC00</span> ${ssrInterpolate(stock.High)}</div></div><div class="flex gap-2"${_scopeId}><div class="flex gap-1"${_scopeId}><span class="text-neutral-400"${_scopeId}>\uB9E4\uCD9C</span> ${ssrInterpolate(stock.FundamentalRevenue)}</div><div class="flex gap-1"${_scopeId}>`);
+              _push2(`</div><div class="text-neutral-400"${_scopeId}>${ssrInterpolate(timeAgo(Number(stock.Time)))}</div></div><div class="text-sm flex items-center gap-3"${_scopeId}><div class="text-xl font-bold flex items-center gap-1"${_scopeId}><span class="text-xs font-normal text-neutral-400"${_scopeId}>\uC885\uAC00</span> ${ssrInterpolate(stock.Last)}</div><div class="font-bold text-blue-400 flex items-center gap-1"${_scopeId}><span class="text-xs font-normal text-neutral-400"${_scopeId}>\uC800\uAC00</span> ${ssrInterpolate(stock.Low)}</div><div class="font-bold text-red-400 flex items-center gap-1"${_scopeId}><span class="text-xs font-normal text-neutral-400"${_scopeId}>\uACE0\uAC00</span> ${ssrInterpolate(stock.High)}</div></div><div class="flex gap-2"${_scopeId}><div class="flex gap-1"${_scopeId}>`);
               _push2(ssrRenderComponent(_component_TooltipProvider, null, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
@@ -1214,11 +1568,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                           _push4(ssrRenderComponent(_component_TooltipContent, null, {
                             default: withCtx((_4, _push5, _parent5, _scopeId4) => {
                               if (_push5) {
-                                _push5(`<p${_scopeId4}>\uBCA0\uD0C0\uACC4\uC218\uAC00 1\uC5D0 \uAC00\uAE4C\uC6B8 \uC218\uB85D \uC2DC\uC7A5\uACFC \uB3D9\uC77C\uD55C \uC120\uC0C1</p><p${_scopeId4}>0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B</p><p${_scopeId4}>1\uBCF4\uB2E4 \uD070 \uAC12\uB4E4\uC740 \uC2DC\uC7A5\uBCF4\uB2E4 \uC218\uC775\uB960\uC774 \uBBFC\uAC10\uD558\uAC8C \uBC18\uC751</p>`);
+                                _push5(`<p${_scopeId4}>\uBCA0\uD0C0\uACC4\uC218\uAC00 1\uC5D0 \uAC00\uAE4C\uC6B8 \uC218\uB85D \uC2DC\uC7A5\uACFC \uB3D9\uC77C\uD55C \uC120\uC0C1</p><p${_scopeId4}> 0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B </p><p${_scopeId4}>1\uBCF4\uB2E4 \uD070 \uAC12\uB4E4\uC740 \uC2DC\uC7A5\uBCF4\uB2E4 \uC218\uC775\uB960\uC774 \uBBFC\uAC10\uD558\uAC8C \uBC18\uC751</p>`);
                               } else {
                                 return [
                                   createVNode("p", null, "\uBCA0\uD0C0\uACC4\uC218\uAC00 1\uC5D0 \uAC00\uAE4C\uC6B8 \uC218\uB85D \uC2DC\uC7A5\uACFC \uB3D9\uC77C\uD55C \uC120\uC0C1"),
-                                  createVNode("p", null, "0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B"),
+                                  createVNode("p", null, " 0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B "),
                                   createVNode("p", null, "1\uBCF4\uB2E4 \uD070 \uAC12\uB4E4\uC740 \uC2DC\uC7A5\uBCF4\uB2E4 \uC218\uC775\uB960\uC774 \uBBFC\uAC10\uD558\uAC8C \uBC18\uC751")
                                 ];
                               }
@@ -1236,7 +1590,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                             createVNode(_component_TooltipContent, null, {
                               default: withCtx(() => [
                                 createVNode("p", null, "\uBCA0\uD0C0\uACC4\uC218\uAC00 1\uC5D0 \uAC00\uAE4C\uC6B8 \uC218\uB85D \uC2DC\uC7A5\uACFC \uB3D9\uC77C\uD55C \uC120\uC0C1"),
-                                createVNode("p", null, "0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B"),
+                                createVNode("p", null, " 0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B "),
                                 createVNode("p", null, "1\uBCF4\uB2E4 \uD070 \uAC12\uB4E4\uC740 \uC2DC\uC7A5\uBCF4\uB2E4 \uC218\uC775\uB960\uC774 \uBBFC\uAC10\uD558\uAC8C \uBC18\uC751")
                               ]),
                               _: 1
@@ -1259,7 +1613,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                           createVNode(_component_TooltipContent, null, {
                             default: withCtx(() => [
                               createVNode("p", null, "\uBCA0\uD0C0\uACC4\uC218\uAC00 1\uC5D0 \uAC00\uAE4C\uC6B8 \uC218\uB85D \uC2DC\uC7A5\uACFC \uB3D9\uC77C\uD55C \uC120\uC0C1"),
-                              createVNode("p", null, "0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B"),
+                              createVNode("p", null, " 0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B "),
                               createVNode("p", null, "1\uBCF4\uB2E4 \uD070 \uAC12\uB4E4\uC740 \uC2DC\uC7A5\uBCF4\uB2E4 \uC218\uC775\uB960\uC774 \uBBFC\uAC10\uD558\uAC8C \uBC18\uC751")
                             ]),
                             _: 1
@@ -1272,7 +1626,15 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 }),
                 _: 2
               }, _parent2, _scopeId));
-              _push2(` ${ssrInterpolate(stock.FundamentalBeta)}</div></div><div class="flex items-center gap-3"${_scopeId}><div class="text-neutral-500"${_scopeId}>\uC131\uACFC</div><div class="flex items-center gap-1 flex-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC77C\uC77C</div><div class="${ssrRenderClass([stock.PerformanceDay > 0 ? "text-red-500" : "text-blue-500", "font-bold"])}"${_scopeId}>${ssrInterpolate(stock.PerformanceDay)}</div></div><div class="flex items-center gap-1 flex-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC8FC\uAC04</div><div class="${ssrRenderClass([stock.PerformanceWeek > 0 ? "text-red-500" : "text-blue-500", "font-bold"])}"${_scopeId}>${ssrInterpolate(stock.PerformanceWeek)}</div></div><div class="flex items-center gap-1 flex-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC6D4\uAC04</div><div class="${ssrRenderClass([stock.PerformanceMonth > 0 ? "text-red-500" : "text-blue-500", "font-bold"])}"${_scopeId}>${ssrInterpolate(stock.PerformanceMonth)}</div></div><div class="flex items-center gap-1 flex-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC5F0\uAC04</div><div class="${ssrRenderClass([stock.PerformanceYear > 0 ? "text-red-500" : "text-blue-500", "font-bold"])}"${_scopeId}>${ssrInterpolate(stock.PerformanceYear)}</div></div></div><div class="flex items-center gap-3"${_scopeId}><div class="text-neutral-500"${_scopeId}>\uBD84\uC11D</div><div class="flex items-center gap-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC2DC\uAC04\uB2F9</div>`);
+              _push2(` ${ssrInterpolate(stock.FundamentalBeta)}</div></div><div class="flex items-center gap-2"${_scopeId}><div class="text-neutral-500"${_scopeId}>\uC131\uACFC</div><div class="flex items-center gap-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC77C\uC77C</div><div class="${ssrRenderClass(
+                stock.PerformanceDay > 0 ? "text-neutral-700" : "text-neutral-300"
+              )}"${_scopeId}>${ssrInterpolate(stock.PerformanceDay)}</div></div><div class="flex items-center gap-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC8FC\uAC04</div><div class="${ssrRenderClass(
+                stock.PerformanceWeek > 0 ? "text-neutral-700" : "text-neutral-300"
+              )}"${_scopeId}>${ssrInterpolate(stock.PerformanceWeek)}</div></div><div class="flex items-center gap-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC6D4\uAC04</div><div class="${ssrRenderClass(
+                stock.PerformanceMonth > 0 ? "text-neutral-700" : "text-neutral-300"
+              )}"${_scopeId}>${ssrInterpolate(stock.PerformanceMonth)}</div></div><div class="flex items-center gap-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC5F0\uAC04</div><div class="${ssrRenderClass(
+                stock.PerformanceYear > 0 ? "text-neutral-700" : "text-neutral-300"
+              )}"${_scopeId}>${ssrInterpolate(stock.PerformanceYear)}</div></div></div><div class="flex items-center gap-2"${_scopeId}><div class="text-neutral-500"${_scopeId}>\uBD84\uC11D</div><div class="flex items-center gap-1"${_scopeId}><div class="text-neutral-400"${_scopeId}>\uC2DC\uAC04\uB2F9</div>`);
               _push2(ssrRenderComponent(_component_TechnicalTextColor, {
                 technicalText: stock.TechnicalHour
               }, null, _parent2, _scopeId));
@@ -1288,11 +1650,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               _push2(ssrRenderComponent(_component_TechnicalTextColor, {
                 technicalText: stock.TechnicalWeek
               }, null, _parent2, _scopeId));
-              _push2(`</div></div><div class="flex gap-2"${_scopeId}><div class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"${_scopeId}><div class="h-5 bg-blue-500 absolute top-0 left-0 rounded" style="${ssrRenderStyle({ width: `${stock.volumeRate / 10}%` })}"${_scopeId}></div><div class="h-5 text-white absolute flex items-center px-2"${_scopeId}>\uAC70\uB798\uB7C9 ${ssrInterpolate(stock.volumeRate)}% (${ssrInterpolate(stock.Volume)} / ${ssrInterpolate(stock.AvgVolume)})</div></div></div><div class="flex gap-2"${_scopeId}><div class="h-5 w-full bg-neutral-400 relative rounded"${_scopeId}><div class="${ssrRenderClass([stock.Chg > 0 ? "bg-red-500" : "bg-blue-500", "h-5 absolute top-0 left-0 rounded"])}" style="${ssrRenderStyle({ width: `${stock.ChgPct * 3}%` })}"${_scopeId}></div><div class="h-5 text-white absolute flex items-center px-2"${_scopeId}>\uBCC0\uB3D9\uB960 ${ssrInterpolate(stock.ChgPct)}% (${ssrInterpolate(stock.Chg)})</div></div></div>`);
+              _push2(`</div></div><div class="flex gap-2"${_scopeId}><div class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"${_scopeId}><div class="h-5 bg-neutral-600 absolute top-0 left-0 rounded" style="${ssrRenderStyle({ width: `${stock.volumeRate / 10}%` })}"${_scopeId}></div><div class="h-5 text-white absolute flex items-center px-2"${_scopeId}> \uAC70\uB798\uB7C9 ${ssrInterpolate(stock.volumeRate)}% (${ssrInterpolate(stock.Volume)} / ${ssrInterpolate(stock.AvgVolume)}) </div></div></div><div class="flex gap-2"${_scopeId}><div class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"${_scopeId}><div class="h-5 bg-neutral-600 absolute top-0 left-0 rounded" style="${ssrRenderStyle({ width: `${stock.ChgPct}%` })}"${_scopeId}></div><div class="h-5 text-white absolute flex items-center px-2"${_scopeId}> \uBCC0\uB3D9\uB960 ${ssrInterpolate(stock.ChgPct)}% (${ssrInterpolate(stock.Chg)}) </div></div></div>`);
             } else {
               return [
-                createVNode("div", { class: "flex justify-between items-center gap-2" }, [
-                  createVNode("div", { class: "text-sm" }, [
+                createVNode("div", { class: "flex justify-between gap-2" }, [
+                  createVNode("div", { class: "text-sm max-w-64" }, [
                     createTextVNode(toDisplayString(stock.Name) + " ", 1),
                     createVNode(_component_Badge, { variant: "outline" }, {
                       default: withCtx(() => [
@@ -1318,10 +1680,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                   ])
                 ]),
                 createVNode("div", { class: "flex gap-2" }, [
-                  createVNode("div", { class: "flex gap-1" }, [
-                    createVNode("span", { class: "text-neutral-400" }, "\uB9E4\uCD9C"),
-                    createTextVNode(" " + toDisplayString(stock.FundamentalRevenue), 1)
-                  ]),
                   createVNode("div", { class: "flex gap-1" }, [
                     createVNode(_component_TooltipProvider, null, {
                       default: withCtx(() => [
@@ -1361,7 +1719,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                             createVNode(_component_TooltipContent, null, {
                               default: withCtx(() => [
                                 createVNode("p", null, "\uBCA0\uD0C0\uACC4\uC218\uAC00 1\uC5D0 \uAC00\uAE4C\uC6B8 \uC218\uB85D \uC2DC\uC7A5\uACFC \uB3D9\uC77C\uD55C \uC120\uC0C1"),
-                                createVNode("p", null, "0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B"),
+                                createVNode("p", null, " 0\uC73C\uB85C \uAC08\uC218\uB85D \uC2DC\uC7A5\uACFC \uAD00\uACC4\uC5C6\uC774 \uC8FC\uAC00 \uC218\uC775\uB960\uC744 \uB0B4\uACE0 \uC788\uB2E4\uB294 \uB73B "),
                                 createVNode("p", null, "1\uBCF4\uB2E4 \uD070 \uAC12\uB4E4\uC740 \uC2DC\uC7A5\uBCF4\uB2E4 \uC218\uC775\uB960\uC774 \uBBFC\uAC10\uD558\uAC8C \uBC18\uC751")
                               ]),
                               _: 1
@@ -1375,34 +1733,34 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                     createTextVNode(" " + toDisplayString(stock.FundamentalBeta), 1)
                   ])
                 ]),
-                createVNode("div", { class: "flex items-center gap-3" }, [
+                createVNode("div", { class: "flex items-center gap-2" }, [
                   createVNode("div", { class: "text-neutral-500" }, "\uC131\uACFC"),
-                  createVNode("div", { class: "flex items-center gap-1 flex-1" }, [
+                  createVNode("div", { class: "flex items-center gap-1" }, [
                     createVNode("div", { class: "text-neutral-400" }, "\uC77C\uC77C"),
                     createVNode("div", {
-                      class: ["font-bold", stock.PerformanceDay > 0 ? "text-red-500" : "text-blue-500"]
+                      class: stock.PerformanceDay > 0 ? "text-neutral-700" : "text-neutral-300"
                     }, toDisplayString(stock.PerformanceDay), 3)
                   ]),
-                  createVNode("div", { class: "flex items-center gap-1 flex-1" }, [
+                  createVNode("div", { class: "flex items-center gap-1" }, [
                     createVNode("div", { class: "text-neutral-400" }, "\uC8FC\uAC04"),
                     createVNode("div", {
-                      class: ["font-bold", stock.PerformanceWeek > 0 ? "text-red-500" : "text-blue-500"]
+                      class: stock.PerformanceWeek > 0 ? "text-neutral-700" : "text-neutral-300"
                     }, toDisplayString(stock.PerformanceWeek), 3)
                   ]),
-                  createVNode("div", { class: "flex items-center gap-1 flex-1" }, [
+                  createVNode("div", { class: "flex items-center gap-1" }, [
                     createVNode("div", { class: "text-neutral-400" }, "\uC6D4\uAC04"),
                     createVNode("div", {
-                      class: ["font-bold", stock.PerformanceMonth > 0 ? "text-red-500" : "text-blue-500"]
+                      class: stock.PerformanceMonth > 0 ? "text-neutral-700" : "text-neutral-300"
                     }, toDisplayString(stock.PerformanceMonth), 3)
                   ]),
-                  createVNode("div", { class: "flex items-center gap-1 flex-1" }, [
+                  createVNode("div", { class: "flex items-center gap-1" }, [
                     createVNode("div", { class: "text-neutral-400" }, "\uC5F0\uAC04"),
                     createVNode("div", {
-                      class: ["font-bold", stock.PerformanceYear > 0 ? "text-red-500" : "text-blue-500"]
+                      class: stock.PerformanceYear > 0 ? "text-neutral-700" : "text-neutral-300"
                     }, toDisplayString(stock.PerformanceYear), 3)
                   ])
                 ]),
-                createVNode("div", { class: "flex items-center gap-3" }, [
+                createVNode("div", { class: "flex items-center gap-2" }, [
                   createVNode("div", { class: "text-neutral-500" }, "\uBD84\uC11D"),
                   createVNode("div", { class: "flex items-center gap-1" }, [
                     createVNode("div", { class: "text-neutral-400" }, "\uC2DC\uAC04\uB2F9"),
@@ -1432,19 +1790,19 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 createVNode("div", { class: "flex gap-2" }, [
                   createVNode("div", { class: "h-5 w-full bg-neutral-400 relative rounded overflow-hidden" }, [
                     createVNode("div", {
-                      class: "h-5 bg-blue-500 absolute top-0 left-0 rounded",
+                      class: "h-5 bg-neutral-600 absolute top-0 left-0 rounded",
                       style: { width: `${stock.volumeRate / 10}%` }
                     }, null, 4),
-                    createVNode("div", { class: "h-5 text-white absolute flex items-center px-2" }, "\uAC70\uB798\uB7C9 " + toDisplayString(stock.volumeRate) + "% (" + toDisplayString(stock.Volume) + " / " + toDisplayString(stock.AvgVolume) + ")", 1)
+                    createVNode("div", { class: "h-5 text-white absolute flex items-center px-2" }, " \uAC70\uB798\uB7C9 " + toDisplayString(stock.volumeRate) + "% (" + toDisplayString(stock.Volume) + " / " + toDisplayString(stock.AvgVolume) + ") ", 1)
                   ])
                 ]),
                 createVNode("div", { class: "flex gap-2" }, [
-                  createVNode("div", { class: "h-5 w-full bg-neutral-400 relative rounded" }, [
+                  createVNode("div", { class: "h-5 w-full bg-neutral-400 relative rounded overflow-hidden" }, [
                     createVNode("div", {
-                      class: ["h-5 absolute top-0 left-0 rounded", stock.Chg > 0 ? "bg-red-500" : "bg-blue-500"],
-                      style: { width: `${stock.ChgPct * 3}%` }
-                    }, null, 6),
-                    createVNode("div", { class: "h-5 text-white absolute flex items-center px-2" }, "\uBCC0\uB3D9\uB960 " + toDisplayString(stock.ChgPct) + "% (" + toDisplayString(stock.Chg) + ")", 1)
+                      class: "h-5 bg-neutral-600 absolute top-0 left-0 rounded",
+                      style: { width: `${stock.ChgPct}%` }
+                    }, null, 4),
+                    createVNode("div", { class: "h-5 text-white absolute flex items-center px-2" }, " \uBCC0\uB3D9\uB960 " + toDisplayString(stock.ChgPct) + "% (" + toDisplayString(stock.Chg) + ") ", 1)
                   ])
                 ])
               ];
@@ -1453,9 +1811,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           _: 2
         }, _parent));
       });
-      _push(`<!--]--></div><div class="grow-[0] overflow-hidden w-full">`);
+      _push(`<!--]--></div></div></div><div class="grow-[0] overflow-hidden w-full">`);
       _push(ssrRenderComponent(_component_NuxtPage, null, null, _parent));
-      _push(`</div></div></div>`);
+      _push(`</div></div>`);
     };
   }
 });
@@ -1467,4 +1825,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=_code_-BOlqdBdN.mjs.map
+//# sourceMappingURL=_code_-CjAPAZJg.mjs.map

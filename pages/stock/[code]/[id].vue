@@ -38,6 +38,7 @@ const transformedData = (rawData: any) => {
 const indicator = ref([
   {
     name: "오버뷰",
+    discrption: "종목의 전반을 나타내는 개요 정보입니다.",
     data: [
       { label: "종목명", value: "LG 전자" },
       { label: "현재가", value: "100,700" },
@@ -155,17 +156,20 @@ const indicator = ref([
 </script>
 <template>
   <div class="h-full flex flex-col bg-white divide-y">
-    <div class="h-14 flex items-center" v-for="itmes in indicator">
-      <div class="w-32 h-full px-4 flex items-center border-r">
+    <div class="flex flex-col px-4" v-for="itmes in indicator">
+      <div class="w-32 h-full px-4 flex font-bold text-lg">
         {{ itmes.name }}
       </div>
-      <div
-        v-for="item in itmes.data"
-        class="h-full px-3 flex items-center hover:bg-neutral-100 cursor-pointer"
-      >
-        <div>
-          <div class="text-xs text-neutral-400">{{ item.label }}</div>
-          <div>{{ item.value }}</div>
+      <div class="text-sm text-neutral-400">
+        {{ itmes.discrption }}
+      </div>
+      <Separator />
+      <div class="flex items-center">
+        <div v-for="item in itmes.data" class="h-full px-2 flex items-center hover:bg-neutral-100 cursor-pointer">
+          <div>
+            <div class="text-xs text-neutral-400">{{ item.label }}</div>
+            <div>{{ item.value }}</div>
+          </div>
         </div>
       </div>
     </div>

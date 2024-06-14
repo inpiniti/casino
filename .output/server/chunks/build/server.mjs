@@ -670,7 +670,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./stock-CkZA6Ibm.mjs').then((m) => m.default || m),
+    component: () => import('./stock-7vbhlGPG.mjs').then((m) => m.default || m),
     children: [
       {
         name: "stock-code",
@@ -678,7 +678,7 @@ const _routes = [
         meta: {},
         alias: [],
         redirect: void 0 ,
-        component: () => import('./_code_-BOlqdBdN.mjs').then((m) => m.default || m),
+        component: () => import('./_code_-CjAPAZJg.mjs').then((m) => m.default || m),
         children: [
           {
             name: "stock-code-id",
@@ -686,7 +686,7 @@ const _routes = [
             meta: {},
             alias: [],
             redirect: void 0 ,
-            component: () => import('./_id_-BQiVsgq_.mjs').then((m) => m.default || m)
+            component: () => import('./_id_-B6LQZT5X.mjs').then((m) => m.default || m)
           }
         ]
       }
@@ -1277,7 +1277,7 @@ const RouteProvider = defineComponent({
     };
   }
 });
-const __nuxt_component_8 = defineComponent({
+const __nuxt_component_9 = defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -1398,7 +1398,7 @@ const _sfc_main$2 = {};
 function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
   const _component_NuxtLoadingIndicator = __nuxt_component_0;
   const _component_NuxtLayout = __nuxt_component_1;
-  const _component_NuxtPage = __nuxt_component_8;
+  const _component_NuxtPage = __nuxt_component_9;
   _push(`<!--[-->`);
   _push(ssrRenderComponent(_component_NuxtLoadingIndicator, { class: "opacity-100-important" }, null, _parent));
   _push(ssrRenderComponent(_component_NuxtLayout, null, {
@@ -1524,5 +1524,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { _export_sfc as _, useRuntimeConfig as a, navigateTo as b, useNuxtApp as c, defineAppConfig as d, entry$1 as default, __nuxt_component_8 as e, useRoute as f, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRouter as u };
+export { _export_sfc as _, useRuntimeConfig as a, navigateTo as b, __nuxt_component_9 as c, useRoute as d, entry$1 as default, defineAppConfig as e, useNuxtApp as f, injectHead as i, nuxtLinkDefaults as n, resolveUnrefHeadInput as r, useRouter as u };
 //# sourceMappingURL=server.mjs.map
