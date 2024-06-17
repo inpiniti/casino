@@ -38,7 +38,7 @@ const transformedData = (rawData: any) => {
 const indicator = ref([
   {
     name: "오버뷰",
-    discrption: "종목의 전반을 나타내는 개요 정보입니다.",
+    discrption: "종목의 전반을 나타내는 개요 정보",
     data: [
       { label: "종목명", value: "LG 전자" },
       { label: "현재가", value: "100,700" },
@@ -57,6 +57,7 @@ const indicator = ref([
   },
   {
     name: "성과",
+    discrption: "주가의 상승 또는 하락을 나타냄",
     data: [
       { label: "포퍼먼스 % 1주", value: "0.00%" },
       { label: "포퍼먼스 % 1달", value: "-2.47%" },
@@ -73,6 +74,7 @@ const indicator = ref([
   },
   {
     name: "시간외",
+    discrption: "폐장된 후에 발생하는 주식 거래",
     data: [
       { label: "프리-마켓 클로즈", value: "-" },
       { label: "프리-마켓 체인지 %", value: "-" },
@@ -88,6 +90,7 @@ const indicator = ref([
   },
   {
     name: "평가",
+    discrption: "주식의 현재 가치를 나타냄",
     data: [
       { label: "시가총액 실적 % 1Y", value: "6.86%" },
       { label: "PEG 순마진", value: "21.76" },
@@ -104,6 +107,7 @@ const indicator = ref([
   },
   {
     name: "배당",
+    discrption: "주주들에게 지급하는 이익의 일부",
     data: [
       { label: "주당 배당금 FY", value: "1444.00 KRW" },
       { label: "주당 배당금 FQ", value: "361.00 KRW" },
@@ -117,6 +121,7 @@ const indicator = ref([
   },
   {
     name: "수익성",
+    discrption: "회사 수익과 관련된 지표",
     data: [
       { label: "총마진", value: "31.63%" },
       { label: "영업마진", value: "4.69%" },
@@ -132,6 +137,7 @@ const indicator = ref([
   },
   {
     name: "손익 계산",
+    discrption: "회사의 수익과 비용을 요약",
     data: [
       { label: "수입", value: "267.106" },
       { label: "매출 성장률", value: "-7.32%" },
@@ -143,6 +149,7 @@ const indicator = ref([
   },
   {
     name: "대차 대조표",
+    discrption: "회사의 자산, 부채, 자본을 요약",
     data: [
       { label: "수입", value: "267.106" },
       { label: "매출 성장률", value: "-7.32%" },
@@ -156,16 +163,17 @@ const indicator = ref([
 </script>
 <template>
   <div class="h-full flex flex-col bg-white divide-y">
-    <div class="flex flex-col px-4" v-for="itmes in indicator">
-      <div class="w-32 h-full px-4 flex font-bold text-lg">
-        {{ itmes.name }}
+    <div class="flex" v-for="itmes in indicator">
+      <div class="flex flex-col px-2 py-1 w-32">
+        <div class="w-32 h-full flex font-bold text-lg">
+          {{ itmes.name }}
+        </div>
+        <div class="text-xs text-neutral-400">
+          {{ itmes.discrption }}
+        </div>
       </div>
-      <div class="text-sm text-neutral-400">
-        {{ itmes.discrption }}
-      </div>
-      <Separator />
       <div class="flex items-center">
-        <div v-for="item in itmes.data" class="h-full px-2 flex items-center hover:bg-neutral-100 cursor-pointer">
+        <div v-for="item in itmes.data" class="h-full px-2 py-1 flex items-center hover:bg-neutral-100 cursor-pointer">
           <div>
             <div class="text-xs text-neutral-400">{{ item.label }}</div>
             <div>{{ item.value }}</div>
