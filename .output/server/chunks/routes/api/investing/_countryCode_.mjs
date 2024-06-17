@@ -1,5 +1,5 @@
 import { d as defineEventHandler, g as getRouterParam, u as useAppConfig } from '../../../runtime.mjs';
-import { investingFetchAll } from '../index.mjs';
+import { getKoreaTime, investingFetchAll } from '../index.mjs';
 import 'node:http';
 import 'node:https';
 import 'fs';
@@ -14,14 +14,19 @@ const codeList = appConfig.codeList;
 let store = {};
 let isUpdating = false;
 const _countryCode_ = defineEventHandler(async (event) => {
-  var _a;
   const countryCode = getRouterParam(event, "countryCode");
+  return await getCurrentStoer(String(countryCode));
+});
+const getCurrentStoer = async (countryCode) => {
+  var _a;
   const currentStore = (_a = store == null ? void 0 : store[String(countryCode)]) != null ? _a : [];
   if (!isUpdating) {
+    console.log(`[${getKoreaTime()}] investing`);
     updateStore(String(countryCode));
+    console.log(`[${getKoreaTime()}] investing return`);
   }
   return currentStore;
-});
+};
 async function updateStore(countryCode) {
   isUpdating = true;
   try {
@@ -31,5 +36,5 @@ async function updateStore(countryCode) {
   }
 }
 
-export { _countryCode_ as default };
+export { _countryCode_ as default, getCurrentStoer };
 //# sourceMappingURL=_countryCode_.mjs.map

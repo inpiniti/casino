@@ -11,14 +11,24 @@ import 'querystring';
 
 const appConfig = useAppConfig();
 const codeList = appConfig.codeList;
+let store = {};
+let isUpdating = false;
 const _countryCode_ = defineEventHandler(async (event) => {
   const countryCode = getRouterParam(event, "countryCode");
-  console.log(`[${getKoreaTime()}] tradingview`);
-  const result = updateStore(String(countryCode));
-  console.log(`[${getKoreaTime()}] tradingview return`);
-  return result;
+  return await getCurrentStoer(String(countryCode));
 });
+const getCurrentStoer = async (countryCode) => {
+  var _a;
+  const currentStore = (_a = store == null ? void 0 : store[String(countryCode)]) != null ? _a : [];
+  if (!isUpdating) {
+    console.log(`[${getKoreaTime()}] tradingview`);
+    store[String(countryCode)] = await updateStore(String(countryCode));
+    console.log(`[${getKoreaTime()}] tradingview return`);
+  }
+  return currentStore;
+};
 async function updateStore(countryCode) {
+  isUpdating = true;
   try {
     const \uC624\uBC84\uBDF0 = [
       "name",
@@ -612,8 +622,9 @@ async function updateStore(countryCode) {
     console.error(error);
     return error;
   } finally {
+    isUpdating = false;
   }
 }
 
-export { _countryCode_ as default };
+export { _countryCode_ as default, getCurrentStoer };
 //# sourceMappingURL=_countryCode_.mjs.map

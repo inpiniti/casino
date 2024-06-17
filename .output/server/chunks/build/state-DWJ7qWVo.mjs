@@ -193,7 +193,7 @@ const cfg0 = defineAppConfig({
 });
 const inlineConfig = {
   "nuxt": {
-    "buildId": "5b61b187-ba80-479b-810f-49171b465682"
+    "buildId": "14644281-c3fa-41f8-a38b-32800cb93bfd"
   }
 };
 const __appConfig = /* @__PURE__ */ defuFn(cfg0, inlineConfig);
@@ -232,4 +232,4 @@ function useState(...args) {
 }
 
 export { useAppConfig as a, useState as u };
-//# sourceMappingURL=state-DRTXuqfW.mjs.map
+//# sourceMappingURL=state-DWJ7qWVo.mjs.map

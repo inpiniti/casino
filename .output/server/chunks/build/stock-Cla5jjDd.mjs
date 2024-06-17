@@ -1,4 +1,4 @@
-import { u as useState, a as useAppConfig } from './state-DRTXuqfW.mjs';
+import { u as useState, a as useAppConfig } from './state-DWJ7qWVo.mjs';
 import { useSSRContext, defineComponent, ref, mergeProps, unref, computed } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderAttr, ssrRenderList, ssrRenderClass, ssrInterpolate } from 'vue/server-renderer';
 import { c as __nuxt_component_9 } from './server.mjs';
@@ -97,4 +97,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=stock-7vbhlGPG.mjs.map
+//# sourceMappingURL=stock-Cla5jjDd.mjs.map
