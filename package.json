@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@supabase/supabase-js": "^2.43.5",
     "@types/puppeteer": "^7.0.4",
     "@types/swagger-ui": "^3.52.4",
     "@unovis/ts": "^1.4.1",

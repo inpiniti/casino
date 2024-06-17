@@ -52,7 +52,7 @@ onUnmounted(() => {
 });
 
 const getInvesting = () => {
-  fetch(`/api/investing/${route.params.code}`)
+  fetch(`/api/stock/${route.params.code}`)
     .then((res) => res.json())
     .then((data) => {
       if (data != undefined) {
@@ -131,6 +131,12 @@ function timeAgo(timestamp: any) {
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} 전`;
 }
+
+const onClickCard = (id: string) => {
+  const stock = useStock();
+  stock.value = stockList.value.find((stock) => stock.Id === id);
+  navigateTo(`/stock/${route.params.code}/${id}`);
+};
 </script>
 
 <template>
@@ -153,7 +159,7 @@ function timeAgo(timestamp: any) {
             class="p-2 mx-2 my-1 text-xs flex flex-col gap-1 w-[368px]"
             v-for="stock in cStockList"
             :key="stock.Name"
-            @click="$router.push(`/stock/${route.params.code}/${stock.Id}`)"
+            @click="onClickCard(stock.Id)"
           >
             <div class="flex justify-between gap-2">
               <div class="text-sm max-w-64">
