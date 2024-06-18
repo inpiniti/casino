@@ -72,7 +72,18 @@ RUN apt-get update && apt-get install -y \
     libxkbcommon-x11-0 \
     libxrandr2 \
     libxshmfence1 \
-    libxxf86vm1
+    libxxf86vm1 \
+    libgbm1 \
+    libxshmfence1 \
+    libxkbcommon-x11-0 \
+    libxinerama1 \
+    libharfbuzz0b \
+    libepoxy0 \
+    libgtk-3-0 \
+    libfribidi0 \
+    libegl1 \
+    libgles2 \
+    libxrandr2
 
 # Automatically fix detected vulnerabilities
 # RUN npm audit fix
