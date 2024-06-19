@@ -11,10 +11,12 @@ COPY package*.json ./
 RUN npm install
 
 # Install necessary libraries
-RUN apt-get update && apt-get install -y \
-    wget \
-    gconf-service \
+RUN apt-get install -y \
+    ca-certificates \
+    fonts-liberation \
+    libappindicator3-1 \
     libasound2 \
+    libatk-bridge2.0-0 \
     libatk1.0-0 \
     libc6 \
     libcairo2 \
@@ -22,12 +24,12 @@ RUN apt-get update && apt-get install -y \
     libdbus-1-3 \
     libexpat1 \
     libfontconfig1 \
+    libgbm1 \
     libgcc1 \
-    libgconf-2-4 \
-    libgdk-pixbuf2.0-0 \
     libglib2.0-0 \
     libgtk-3-0 \
     libnspr4 \
+    libnss3 \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
     libstdc++6 \
@@ -44,46 +46,9 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     libxss1 \
     libxtst6 \
-    ca-certificates \
-    fonts-liberation \
-    libappindicator1 \
-    libnss3 \
     lsb-release \
-    xdg-utils \
-    libgbm-dev \
-    libxshmfence-dev \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    libegl1 \
-    libgles2 \
-    libatk-bridge2.0-0 \
-    libepoxy0 \
-    libfribidi0 \
-    libgtk-3-0 \
-    libharfbuzz0b \
-    libpango-1.0-0 \
-    libpangocairo-1.0-0 \
-    libxinerama1 \
-    libxkbcommon-x11-0 \
-    libxrandr2 \
-    libxshmfence1 \
-    libxxf86vm1 \
-    libgbm1 \
-    libxshmfence1 \
-    libxkbcommon-x11-0 \
-    libxinerama1 \
-    libharfbuzz0b \
-    libepoxy0 \
-    libgtk-3-0 \
-    libfribidi0 \
-    libegl1 \
-    libgles2 \
-    libxrandr2
+    wget \
+    xdg-utils
 
 # Automatically fix detected vulnerabilities
 # RUN npm audit fix
