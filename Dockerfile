@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Install necessary libraries
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
     libappindicator3-1 \
