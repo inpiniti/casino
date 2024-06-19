@@ -1,4 +1,3 @@
-import { toRef, isRef } from 'vue';
 import { B as klona, C as defuFn } from '../runtime.mjs';
 import { f as useNuxtApp, e as defineAppConfig } from './server.mjs';
 
@@ -193,7 +192,7 @@ const cfg0 = defineAppConfig({
 });
 const inlineConfig = {
   "nuxt": {
-    "buildId": "14644281-c3fa-41f8-a38b-32800cb93bfd"
+    "buildId": "25e3a28d-2dbb-43a3-92ed-0b363f270ca1"
   }
 };
 const __appConfig = /* @__PURE__ */ defuFn(cfg0, inlineConfig);
@@ -204,32 +203,6 @@ function useAppConfig() {
   }
   return nuxtApp._appConfig;
 }
-const useStateKeyPrefix = "$s";
-function useState(...args) {
-  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
-  if (typeof args[0] !== "string") {
-    args.unshift(autoKey);
-  }
-  const [_key, init] = args;
-  if (!_key || typeof _key !== "string") {
-    throw new TypeError("[nuxt] [useState] key must be a string: " + _key);
-  }
-  if (init !== void 0 && typeof init !== "function") {
-    throw new Error("[nuxt] [useState] init must be a function: " + init);
-  }
-  const key = useStateKeyPrefix + _key;
-  const nuxtApp = useNuxtApp();
-  const state = toRef(nuxtApp.payload.state, key);
-  if (state.value === void 0 && init) {
-    const initialValue = init();
-    if (isRef(initialValue)) {
-      nuxtApp.payload.state[key] = initialValue;
-      return initialValue;
-    }
-    state.value = initialValue;
-  }
-  return state;
-}
 
-export { useAppConfig as a, useState as u };
-//# sourceMappingURL=state-DWJ7qWVo.mjs.map
+export { useAppConfig as u };
+//# sourceMappingURL=config-CTnTbXnn.mjs.map

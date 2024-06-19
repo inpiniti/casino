@@ -4,9 +4,11 @@ import { CurveType, Line, Axis, GroupedBar, StackedBar, omit } from '@unovis/ts'
 import { VisXYContainer, VisLine, VisAxis, VisBulletLegend, VisTooltip, VisCrosshair, VisGroupedBar, VisStackedBar } from '@unovis/vue';
 import { useMounted } from '@vueuse/core';
 import { c as cn, _ as _sfc_main$9 } from './Card-C-jw3V7W.mjs';
+import { u as useStock } from './useStock-BbedVhZF.mjs';
 import { d as useRoute } from './server.mjs';
 import 'clsx';
 import 'tailwind-merge';
+import './state-Cl88GJ8H.mjs';
 import '../runtime.mjs';
 import 'node:http';
 import 'node:https';
@@ -715,6 +717,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "[id]",
   __ssrInlineRender: true,
   setup(__props) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V;
+    const stock = useStock().value;
     useRoute();
     const data = ref([]);
     const indicator = ref([
@@ -722,111 +726,231 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         name: "\uC624\uBC84\uBDF0",
         discrption: "\uC885\uBAA9\uC758 \uC804\uBC18\uC744 \uB098\uD0C0\uB0B4\uB294 \uAC1C\uC694 \uC815\uBCF4",
         data: [
-          { label: "\uC885\uBAA9\uBA85", value: "LG \uC804\uC790" },
-          { label: "\uD604\uC7AC\uAC00", value: "100,700" },
-          { label: "\uD604\uC7AC\uAC00", value: "+0.00%" },
-          { label: "\uBCC0\uD654 %", value: "+2.27%" },
-          { label: "\uAC70\uB798\uB7C9", value: "1,731 M" },
-          { label: "\uC0C1\uB300\uC801 \uAC70\uB798\uB7C9", value: "1.15" },
-          { label: "\uC2DC\uAC00\uCD1D\uC561", value: "507.46 T KRW" },
-          { label: "P/E", value: "21.76" },
-          { label: "EPS \uD76C\uC11D \uC21C\uB9C8\uC9C4", value: "2899.18 KRW" },
-          { label: "EPS \uD76C\uC11D \uC131\uC7A5 TTM YoY", value: "-56.24%" },
-          { label: "\uBC30\uB2F9 \uC218\uC775% \uC21C\uB9C8\uC9C4", value: "2.34%" },
-          { label: "\uC139\uD130", value: "\uC804\uC790 \uAE30\uC220" },
-          { label: "\uC560\uB110\uB9AC\uC2A4\uD2B8 \uD3C9\uC810", value: "\uC2A4\uD2B8\uB871 \uBC14\uC774" }
+          { label: "\uC885\uBAA9\uBA85", value: stock == null ? void 0 : stock.Name },
+          {
+            label: "\uD604\uC7AC\uAC00",
+            value: (stock == null ? void 0 : stock.Last.toLocaleString()) + " " + (stock == null ? void 0 : stock.currency)
+          },
+          // 예시: "100,700 KRW"
+          { label: "\uBCC0\uD654 %", value: ((_a = stock == null ? void 0 : stock.ChgPct) == null ? void 0 : _a.toFixed(2)) + "%" },
+          // 예시: "+2.27%"
+          { label: "\uAC70\uB798\uB7C9", value: stock == null ? void 0 : stock.Volume.toLocaleString() },
+          // 예시: "1,731 M"
+          {
+            label: "\uC0C1\uB300\uC801 \uAC70\uB798\uB7C9",
+            value: (_b = Number(stock == null ? void 0 : stock.relative_volume_10d_calc) / 100) == null ? void 0 : _b.toFixed(2)
+          },
+          // 예시: "1.15"
+          {
+            label: "\uC2DC\uAC00\uCD1D\uC561",
+            value: ((_c = (stock == null ? void 0 : stock.market_cap_basic) / 1e6) == null ? void 0 : _c.toFixed(2)) + " T KRW"
+          },
+          // 예시: "507.46 T KRW"
+          { label: "P/E", value: (_d = stock == null ? void 0 : stock.price_earnings_ttm) == null ? void 0 : _d.toFixed(2) },
+          // 예시: "21.76"
+          {
+            label: "EPS \uD76C\uC11D \uC21C\uB9C8\uC9C4",
+            value: ((_e = stock == null ? void 0 : stock.earnings_per_share_diluted_ttm) == null ? void 0 : _e.toFixed(2)) + " KRW"
+          },
+          // 예시: "2899.18 KRW"
+          {
+            label: "EPS \uD76C\uC11D \uC131\uC7A5 TTM YoY",
+            value: ((_f = stock == null ? void 0 : stock.earnings_per_share_diluted_yoy_growth_ttm) == null ? void 0 : _f.toFixed(2)) + "%"
+          },
+          // 예시: "-56.24%"
+          {
+            label: "\uBC30\uB2F9 \uC218\uC775% \uC21C\uB9C8\uC9C4",
+            value: ((_g = stock == null ? void 0 : stock.dividends_yield) == null ? void 0 : _g.toFixed(2)) + "%"
+          },
+          // 예시: "2.34%"
+          { label: "\uC139\uD130", value: stock == null ? void 0 : stock.sector },
+          // 예시: "전자 기술"
+          {
+            label: "\uC560\uB110\uB9AC\uC2A4\uD2B8 \uD3C9\uC810",
+            value: (stock == null ? void 0 : stock.recommendation_mark) > 3 ? "\uC2A4\uD2B8\uB871 \uBC14\uC774" : "\uD640\uB4DC"
+          }
+          // 조건부 예시
         ]
       },
       {
         name: "\uC131\uACFC",
         discrption: "\uC8FC\uAC00\uC758 \uC0C1\uC2B9 \uB610\uB294 \uD558\uB77D\uC744 \uB098\uD0C0\uB0C4",
         data: [
-          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 1\uC8FC", value: "0.00%" },
-          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 1\uB2EC", value: "-2.47%" },
-          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 3\uB2EC", value: "-0.16%" },
-          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 6\uB2EC", value: "+5.34%" },
-          { label: "\uD37C\uD3EC\uBA3C\uC2A4 YTD", value: "+1.28%" },
-          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 1Y", value: "+2.94%" },
-          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 5Y", value: "+77.75%" },
-          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 10Y", value: "+185.00%" },
-          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % ALL", value: "+1395.26%" },
-          { label: "\uBCC0\uB3D9\uC131 1\uC8FC", value: "2.17%" },
-          { label: "\uBCC0\uB3D9\uC131 1\uB2EC", value: "2.08%" }
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 1\uC8FC", value: ((_h = stock == null ? void 0 : stock["Perf.W"]) == null ? void 0 : _h.toFixed(2)) + "%" },
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 1\uB2EC", value: ((_i = stock == null ? void 0 : stock["Perf.1M"]) == null ? void 0 : _i.toFixed(2)) + "%" },
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 3\uB2EC", value: ((_j = stock == null ? void 0 : stock["Perf.3M"]) == null ? void 0 : _j.toFixed(2)) + "%" },
+          { label: "\uD3EC\uD37C\uBA3C\uC2A4 % 6\uB2EC", value: ((_k = stock == null ? void 0 : stock["Perf.6M"]) == null ? void 0 : _k.toFixed(2)) + "%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 YTD", value: ((_l = stock == null ? void 0 : stock["Perf.YTD"]) == null ? void 0 : _l.toFixed(2)) + "%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 1Y", value: ((_m = stock == null ? void 0 : stock["Perf.Y"]) == null ? void 0 : _m.toFixed(2)) + "%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 5Y", value: ((_n = stock == null ? void 0 : stock["Perf.5Y"]) == null ? void 0 : _n.toFixed(2)) + "%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % 10Y", value: ((_o = stock == null ? void 0 : stock["Perf.10Y"]) == null ? void 0 : _o.toFixed(2)) + "%" },
+          { label: "\uD37C\uD3EC\uBA3C\uC2A4 % ALL", value: ((_p = stock == null ? void 0 : stock["Perf.All"]) == null ? void 0 : _p.toFixed(2)) + "%" },
+          { label: "\uBCC0\uB3D9\uC131 1\uC8FC", value: ((_q = stock == null ? void 0 : stock["Volatility.W"]) == null ? void 0 : _q.toFixed(2)) + "%" },
+          { label: "\uBCC0\uB3D9\uC131 1\uB2EC", value: ((_r = stock == null ? void 0 : stock["Volatility.M"]) == null ? void 0 : _r.toFixed(2)) + "%" }
         ]
       },
       {
         name: "\uC2DC\uAC04\uC678",
         discrption: "\uD3D0\uC7A5\uB41C \uD6C4\uC5D0 \uBC1C\uC0DD\uD558\uB294 \uC8FC\uC2DD \uAC70\uB798",
         data: [
-          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uD074\uB85C\uC988", value: "-" },
-          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uCCB4\uC778\uC9C0 %", value: "-" },
-          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uAC2D %", value: "-" },
-          { label: "\uD504\uB9AC-\uB9C8\uCF13 \uBCFC\uB968", value: "-" },
-          { label: "\uAC2D %", value: "+2.48%" },
-          { label: "\uAC70\uB798\uB7C9", value: "+185.00%" },
-          { label: "\uBCFC\uB968 \uBCC0\uD654 %", value: "+75.43%" },
-          { label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uD074\uB85C\uC988", value: "-" },
-          { label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uCCB4\uC778\uC9C0 %", value: "-" },
-          { label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uBCFC\uB968", value: "-" }
+          {
+            label: "\uD504\uB9AC-\uB9C8\uCF13 \uD074\uB85C\uC988",
+            value: (stock == null ? void 0 : stock.premarket_close) !== null ? (_s = stock == null ? void 0 : stock.premarket_close) == null ? void 0 : _s.toFixed(2) : "-"
+          },
+          {
+            label: "\uD504\uB9AC-\uB9C8\uCF13 \uCCB4\uC778\uC9C0 %",
+            value: (stock == null ? void 0 : stock.premarket_change) !== null ? ((_t = (stock == null ? void 0 : stock.premarket_change) * 100) == null ? void 0 : _t.toFixed(2)) + "%" : "-"
+          },
+          {
+            label: "\uD504\uB9AC-\uB9C8\uCF13 \uAC2D %",
+            value: (stock == null ? void 0 : stock.premarket_gap) !== null ? ((_u = (stock == null ? void 0 : stock.premarket_gap) * 100) == null ? void 0 : _u.toFixed(2)) + "%" : "-"
+          },
+          {
+            label: "\uD504\uB9AC-\uB9C8\uCF13 \uBCFC\uB968",
+            value: (stock == null ? void 0 : stock.premarket_volume) !== null ? (_v = stock == null ? void 0 : stock.premarket_volume) == null ? void 0 : _v.toString() : "-"
+          },
+          { label: "\uAC2D %", value: ((_w = stock == null ? void 0 : stock.gap) == null ? void 0 : _w.toFixed(2)) + "%" },
+          { label: "\uAC70\uB798\uB7C9", value: "+" + ((_x = stock == null ? void 0 : stock.volume_change) == null ? void 0 : _x.toFixed(2)) + "%" },
+          {
+            label: "\uBCFC\uB968 \uBCC0\uD654 %",
+            value: "+" + ((_y = ((stock == null ? void 0 : stock.volume) / (stock == null ? void 0 : stock.AvgVolume) - 1) * 100) == null ? void 0 : _y.toFixed(2)) + "%"
+          },
+          {
+            label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uD074\uB85C\uC988",
+            value: (stock == null ? void 0 : stock.postmarket_close) !== null ? (_z = stock == null ? void 0 : stock.postmarket_close) == null ? void 0 : _z.toFixed(2) : "-"
+          },
+          {
+            label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uCCB4\uC778\uC9C0 %",
+            value: (stock == null ? void 0 : stock.postmarket_change) !== null ? ((_A = (stock == null ? void 0 : stock.postmarket_change) * 100) == null ? void 0 : _A.toFixed(2)) + "%" : "-"
+          },
+          {
+            label: "\uD3EC\uC2A4\uD2B8-\uB9C8\uCF13 \uBCFC\uB968",
+            value: (stock == null ? void 0 : stock.postmarket_volume) !== null ? (_B = stock == null ? void 0 : stock.postmarket_volume) == null ? void 0 : _B.toString() : "-"
+          }
         ]
       },
       {
         name: "\uD3C9\uAC00",
         discrption: "\uC8FC\uC2DD\uC758 \uD604\uC7AC \uAC00\uCE58\uB97C \uB098\uD0C0\uB0C4",
         data: [
-          { label: "\uC2DC\uAC00\uCD1D\uC561 \uC2E4\uC801 % 1Y", value: "6.86%" },
-          { label: "PEG \uC21C\uB9C8\uC9C4", value: "21.76" },
-          { label: "P/S", value: "-" },
-          { label: "P/B", value: "1.57" },
-          { label: "P/CF", value: "1.18" },
-          { label: "P/FCF", value: "-" },
-          { label: "\uD504\uB77C\uC774\uC2A4 / \uCE90\uC26C", value: "6.92" },
-          { label: "\uAE30\uC5C5\uAC00\uCE58", value: "435.173 T" },
-          { label: "EV / \uC218\uC775 \uC21C\uB9C8\uC9C4", value: "1.63" },
-          { label: "EV / \uC5D0\uBE44\uD0C0 \uC21C\uB9C8\uC9C4", value: "34.75" },
-          { label: "EV / EBITDA \uC21C\uB9C8\uC9C4", value: "8.44" }
+          {
+            label: "\uC2DC\uAC00\uCD1D\uC561 \uC2E4\uC801 % 1Y",
+            value: `${stock == null ? void 0 : stock["Perf.1Y.MarketCap"]}%`
+          },
+          {
+            label: "PEG \uC21C\uB9C8\uC9C4",
+            value: (stock == null ? void 0 : stock.price_earnings_growth_ttm) ? stock == null ? void 0 : stock.price_earnings_growth_ttm : "-"
+          },
+          {
+            label: "P/S",
+            value: (stock == null ? void 0 : stock.price_sales_current) ? (_C = stock == null ? void 0 : stock.price_sales_current) == null ? void 0 : _C.toString() : "-"
+          },
+          { label: "P/B", value: (_D = stock == null ? void 0 : stock.price_book_fq) == null ? void 0 : _D.toString() },
+          {
+            label: "P/CF",
+            value: (_E = stock == null ? void 0 : stock.price_to_cash_f_operating_activities_ttm) == null ? void 0 : _E.toString()
+          },
+          {
+            label: "P/FCF",
+            value: (stock == null ? void 0 : stock.price_free_cash_flow_ttm) ? (_F = stock == null ? void 0 : stock.price_free_cash_flow_ttm) == null ? void 0 : _F.toString() : "-"
+          },
+          {
+            label: "\uD504\uB77C\uC774\uC2A4 / \uCE90\uC26C",
+            value: (_G = stock == null ? void 0 : stock.price_to_cash_ratio) == null ? void 0 : _G.toString()
+          },
+          { label: "\uAE30\uC5C5\uAC00\uCE58", value: `${stock == null ? void 0 : stock.enterprise_value_current} T` },
+          {
+            label: "EV / \uC218\uC775 \uC21C\uB9C8\uC9C4",
+            value: (_H = stock == null ? void 0 : stock.enterprise_value_to_revenue_ttm) == null ? void 0 : _H.toString()
+          },
+          {
+            label: "EV / \uC5D0\uBE44\uD0C0 \uC21C\uB9C8\uC9C4",
+            value: (_I = stock == null ? void 0 : stock.enterprise_value_to_ebit_ttm) == null ? void 0 : _I.toString()
+          },
+          {
+            label: "EV / EBITDA \uC21C\uB9C8\uC9C4",
+            value: (_J = stock == null ? void 0 : stock.enterprise_value_ebitda_ttm) == null ? void 0 : _J.toString()
+          }
         ]
       },
       {
         name: "\uBC30\uB2F9",
         discrption: "\uC8FC\uC8FC\uB4E4\uC5D0\uAC8C \uC9C0\uAE09\uD558\uB294 \uC774\uC775\uC758 \uC77C\uBD80",
         data: [
-          { label: "\uC8FC\uB2F9 \uBC30\uB2F9\uAE08 FY", value: "1444.00 KRW" },
-          { label: "\uC8FC\uB2F9 \uBC30\uB2F9\uAE08 FQ", value: "361.00 KRW" },
-          { label: "\uBC30\uB2F9 \uC218\uC775 % \uC21C\uB9C8\uC9C4", value: "1.89%" },
-          { label: "\uBC30\uB2F9 \uC218\uC775\uB960 %", value: "1.89%" },
-          { label: "\uBC30\uB2F9 \uBE44\uC728 % \uC21C\uB9C8\uC9C4", value: "49.81%" },
-          { label: "DPS \uC131\uC7A5 \uC5F0\uAC04 YoY", value: "0.00%" },
-          { label: "\uC5F0\uC18D \uBC30\uB2F9 \uC9C0\uBD88", value: "8" },
-          { label: "\uC5F0\uC18D \uBC30\uB2F9 \uC131\uC7A5", value: "0" }
+          {
+            label: "\uC8FC\uB2F9 \uBC30\uB2F9\uAE08 FY",
+            value: `${(_K = stock == null ? void 0 : stock.dps_common_stock_prim_issue_fy) == null ? void 0 : _K.toFixed(2)} KRW`
+          },
+          {
+            label: "\uC8FC\uB2F9 \uBC30\uB2F9\uAE08 FQ",
+            value: (stock == null ? void 0 : stock.dps_common_stock_prim_issue_fq) ? `${(_L = stock == null ? void 0 : stock.dps_common_stock_prim_issue_fq) == null ? void 0 : _L.toFixed(2)} KRW` : "-"
+          },
+          {
+            label: "\uBC30\uB2F9 \uC218\uC775 % \uC21C\uB9C8\uC9C4",
+            value: `${(_M = stock == null ? void 0 : stock.dividends_yield) == null ? void 0 : _M.toFixed(2)}%`
+          },
+          {
+            label: "\uBC30\uB2F9 \uC218\uC775\uB960 %",
+            value: `${(_N = stock == null ? void 0 : stock.dividends_yield_current) == null ? void 0 : _N.toFixed(2)}%`
+          },
+          {
+            label: "\uBC30\uB2F9 \uBE44\uC728 % \uC21C\uB9C8\uC9C4",
+            value: `${(_O = stock == null ? void 0 : stock.dividend_payout_ratio_ttm) == null ? void 0 : _O.toFixed(2)}%`
+          },
+          {
+            label: "DPS \uC131\uC7A5 \uC5F0\uAC04 YoY",
+            value: `${(_P = stock == null ? void 0 : stock.dps_common_stock_prim_issue_yoy_growth_fy) == null ? void 0 : _P.toFixed(
+              2
+            )}%`
+          },
+          {
+            label: "\uC5F0\uC18D \uBC30\uB2F9 \uC9C0\uBD88",
+            value: (_Q = stock == null ? void 0 : stock.continuous_dividend_payout) == null ? void 0 : _Q.toString()
+          },
+          {
+            label: "\uC5F0\uC18D \uBC30\uB2F9 \uC131\uC7A5",
+            value: (_R = stock == null ? void 0 : stock.continuous_dividend_growth) == null ? void 0 : _R.toString()
+          }
         ]
       },
       {
         name: "\uC218\uC775\uC131",
         discrption: "\uD68C\uC0AC \uC218\uC775\uACFC \uAD00\uB828\uB41C \uC9C0\uD45C",
         data: [
-          { label: "\uCD1D\uB9C8\uC9C4", value: "31.63%" },
-          { label: "\uC601\uC5C5\uB9C8\uC9C4", value: "4.69%" },
-          { label: "\uC138\uC804 \uB9C8\uC9C4", value: "5.99%" },
-          { label: "\uB137 \uB9C8\uC9C4", value: "7.37%" },
-          { label: "FCF \uB9C8\uC9C4", value: "-3.02%" },
-          { label: "ROA", value: "4.26%" },
-          { label: "ROE", value: "5.53%" },
-          { label: "\uD22C\uD558\uC790\uBCF8\uC218\uC775\uB960", value: "5.46%" },
-          { label: "R&D \uBE44\uC728", value: "11.08%" },
-          { label: "\uD310\uAD00\uBE44\uC728", value: "15.86%" }
+          { label: "\uCD1D\uB9C8\uC9C4", value: `${stock.gross_margin_ttm.toFixed(2)}%` },
+          { label: "\uC601\uC5C5\uB9C8\uC9C4", value: `${stock.operating_margin_ttm.toFixed(2)}%` },
+          { label: "\uC138\uC804 \uB9C8\uC9C4", value: `${stock.pre_tax_margin_ttm.toFixed(2)}%` },
+          { label: "\uB137 \uB9C8\uC9C4", value: `${stock.net_margin_ttm.toFixed(2)}%` },
+          {
+            label: "FCF \uB9C8\uC9C4",
+            value: `${stock.free_cash_flow_margin_ttm.toFixed(2)}%`
+          },
+          { label: "ROA", value: `${stock.return_on_assets_fq.toFixed(2)}%` },
+          { label: "ROE", value: `${stock.return_on_equity_fq.toFixed(2)}%` },
+          {
+            label: "\uD22C\uD558\uC790\uBCF8\uC218\uC775\uB960",
+            value: `${stock.return_on_invested_capital_fq.toFixed(2)}%`
+          },
+          {
+            label: "R&D \uBE44\uC728",
+            value: `${stock.research_and_dev_ratio_ttm.toFixed(2)}%`
+          },
+          {
+            label: "\uD310\uAD00\uBE44\uC728",
+            value: `${stock.sell_gen_admin_exp_other_ratio_ttm.toFixed(2)}%`
+          }
         ]
       },
       {
         name: "\uC190\uC775 \uACC4\uC0B0",
         discrption: "\uD68C\uC0AC\uC758 \uC218\uC775\uACFC \uBE44\uC6A9\uC744 \uC694\uC57D",
         data: [
-          { label: "\uC218\uC785", value: "267.106" },
-          { label: "\uB9E4\uCD9C \uC131\uC7A5\uB960", value: "-7.32%" },
-          { label: "\uCD1D\uC218\uC775", value: "84.484" },
-          { label: "\uC601\uC5C5 \uC218\uC785", value: "12.523" },
-          { label: "\uC21C\uC774\uC775", value: "19.693" },
-          { label: "\uC138\uC804\uC601\uC5C5\uC774\uC775", value: "51.554" }
+          { label: "\uC218\uC785", value: stock == null ? void 0 : stock.FundamentalRevenue },
+          { label: "\uB9E4\uCD9C \uC131\uC7A5\uB960", value: `${stock == null ? void 0 : stock.PerformanceYear}%` },
+          { label: "\uCD1D\uC218\uC775", value: (_S = stock == null ? void 0 : stock.gross_margin_ttm) == null ? void 0 : _S.toString() },
+          { label: "\uC601\uC5C5 \uC218\uC785", value: (_T = stock == null ? void 0 : stock.operating_margin_ttm) == null ? void 0 : _T.toString() },
+          { label: "\uC21C\uC774\uC775", value: (_U = stock == null ? void 0 : stock.net_margin_ttm) == null ? void 0 : _U.toString() },
+          { label: "\uC138\uC804\uC601\uC5C5\uC774\uC775", value: (_V = stock == null ? void 0 : stock.pre_tax_margin_ttm) == null ? void 0 : _V.toString() }
         ]
       },
       {
@@ -890,4 +1014,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=_id_-DWs-kbUA.mjs.map
+//# sourceMappingURL=_id_-6lawXTxt.mjs.map

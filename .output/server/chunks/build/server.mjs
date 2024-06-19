@@ -670,7 +670,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./stock-Cla5jjDd.mjs').then((m) => m.default || m),
+    component: () => import('./stock-DI-ts7cv.mjs').then((m) => m.default || m),
     children: [
       {
         name: "stock-code",
@@ -678,7 +678,7 @@ const _routes = [
         meta: {},
         alias: [],
         redirect: void 0 ,
-        component: () => import('./_code_-C0kgMdV1.mjs').then((m) => m.default || m),
+        component: () => import('./_code_-DFOyj-Dm.mjs').then((m) => m.default || m),
         children: [
           {
             name: "stock-code-id",
@@ -686,7 +686,7 @@ const _routes = [
             meta: {},
             alias: [],
             redirect: void 0 ,
-            component: () => import('./_id_-DWs-kbUA.mjs').then((m) => m.default || m)
+            component: () => import('./_id_-6lawXTxt.mjs').then((m) => m.default || m)
           }
         ]
       }

@@ -1,11 +1,13 @@
-import { u as useState, a as useAppConfig } from './state-DWJ7qWVo.mjs';
+import { u as useAppConfig } from './config-CTnTbXnn.mjs';
 import { useSSRContext, defineComponent, ref, onUnmounted, computed, mergeProps, unref, isRef, withCtx, createTextVNode, toDisplayString, createVNode, renderSlot, watch } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderClass, ssrRenderStyle, ssrRenderAttr, ssrRenderSlot } from 'vue/server-renderer';
 import { useForwardPropsEmits, SwitchRoot, SwitchThumb, SelectRoot, SelectValue, useForwardProps, SelectTrigger, SelectIcon, SelectPortal, SelectContent, SelectViewport, SelectGroup, SelectItem, SelectItemIndicator, SelectItemText, SelectLabel, SelectScrollUpButton, SelectScrollDownButton, TooltipRoot, TooltipPortal, TooltipContent, TooltipTrigger, TooltipProvider } from 'radix-vue';
 import { c as cn, _ as _sfc_main$j } from './Card-C-jw3V7W.mjs';
 import { ChevronDown, Check, ChevronUp } from 'lucide-vue-next';
 import { cva } from 'class-variance-authority';
-import { d as useRoute, c as __nuxt_component_9 } from './server.mjs';
+import { d as useRoute, b as navigateTo, c as __nuxt_component_9 } from './server.mjs';
+import { u as useState } from './state-Cl88GJ8H.mjs';
+import { u as useStock } from './useStock-BbedVhZF.mjs';
 import '../runtime.mjs';
 import 'node:http';
 import 'node:https';
@@ -1426,6 +1428,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const seconds = secondsAgo % 60;
       return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} \uC804`;
     }
+    const onClickCard = (id) => {
+      const stock = useStock();
+      stock.value = stockList.value.find((stock2) => stock2.Id === id);
+      navigateTo(`/stock/${route.params.code}/${id}`);
+    };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_StockBar = _sfc_main$i;
       const _component_StockStcokCondition = _sfc_main$7;
@@ -1455,7 +1462,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         _push(ssrRenderComponent(_component_Card, {
           class: "p-2 mx-2 my-1 text-xs flex flex-col gap-1 w-[368px]",
           key: stock.Name,
-          onClick: ($event) => _ctx.$router.push(`/stock/${unref(route).params.code}/${stock.Id}`)
+          onClick: ($event) => onClickCard(stock.Id)
         }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
@@ -1825,4 +1832,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=_code_-C0kgMdV1.mjs.map
+//# sourceMappingURL=_code_-DFOyj-Dm.mjs.map
