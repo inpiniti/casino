@@ -12,7 +12,6 @@ RUN npm install
 
 # Install Puppeteer dependencies
 RUN apt-get update && apt-get install -y \
-    wget \
     ca-certificates \
     fonts-liberation \
     libappindicator3-1 \
@@ -48,7 +47,18 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libxtst6 \
     lsb-release \
-    xdg-utils
+    xdg-utils \
+    --no-install-recommends \
+    && apt-get purge --auto-remove -y curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+# Puppeteer v10.4.0 works with Chrome 92.
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 
 # Automatically fix detected vulnerabilities
 # RUN npm audit fix
