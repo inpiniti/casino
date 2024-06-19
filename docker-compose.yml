@@ -1,12 +1,12 @@
 version: "1.0.0"
 services:
   comics:
-    container_name: casino
-    image: inpiniti/casino:1.0.0
+    container_name: stcok
+    image: inpiniti/stcok:1.0.0
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3002:3000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
