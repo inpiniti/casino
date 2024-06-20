@@ -9,9 +9,7 @@ const investingFetchAll = async (countryId) => {
   console.log(`[${getKoreaTime()}] investingFetch total ${total}`);
   console.log(`[${getKoreaTime()}] investingFetch totalPages ${totalPages}`);
   for (let i = 0; i < totalPages; i++) {
-    promises.push(
-      investingFetch({ countryId, pageSize: 1e3, pageNum: i })
-    );
+    promises.push(investingFetch({ countryId, pageSize: 1e3, pageNum: i }));
   }
   return Promise.all(promises).then((results) => {
     return results.reduce((acc, curr) => {
@@ -22,21 +20,13 @@ const investingFetchAll = async (countryId) => {
     return [];
   });
 };
-const investingFetch = async ({
-  countryId,
-  pageSize = 1,
-  pageNum = 0
-}) => {
-  console.log(
-    `[${getKoreaTime()}] investingFetchTotal(${countryId}, ${pageSize}, ${pageNum})`
-  );
+const investingFetch = async ({ countryId, pageSize = 1, pageNum = 0 }) => {
+  console.log(`[${getKoreaTime()}] investingFetchTotal(${countryId}, ${pageSize}, ${pageNum})`);
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
   const page = await browser.newPage();
-  await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"
-  );
+  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
   await page.setJavaScriptEnabled(true);
   await page.setExtraHTTPHeaders({
     Origin: "https://kr.investing.com",
@@ -62,21 +52,14 @@ const investingFetch = async ({
     return [];
   }
 };
-const investingChartFetch = async ({
-  code,
-  interval,
-  period
-}) => {
-  console.log(
-    `[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`
-  );
+const investingChartFetch = async ({ code, interval, period }) => {
+  console.log(`[${getKoreaTime()}] investingChartFetch(${code}, ${interval}, ${period})`);
   const browser = await puppeteer.launch({
+    executablePath: "/path/to/your/Chromium",
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
   const page = await browser.newPage();
-  await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"
-  );
+  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
   await page.setJavaScriptEnabled(true);
   await page.setExtraHTTPHeaders({
     Origin: "https://kr.investing.com",
@@ -91,9 +74,7 @@ const investingChartFetch = async ({
     period,
     pointscount: "160"
   });
-  await page.goto(
-    `https://api.investing.com/api/financialdata/${code}/historical/chart/?${queryParams}`
-  );
+  await page.goto(`https://api.investing.com/api/financialdata/${code}/historical/chart/?${queryParams}`);
   const result = await page.evaluate(() => {
     return JSON.parse(document.body.innerText);
   });

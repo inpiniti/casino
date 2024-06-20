@@ -1,5 +1,8 @@
 # Use the official Node.js 18.17.0 runtime as a parent image
-FROM node:18.17.0-buster-slim
+#FROM node:18.17.0-buster-slim
+
+# Use the official Node.js 16 runtime as a parent image
+FROM arm64v8/node:16-buster-slim
 
 # Set the working directory in the container to /app
 WORKDIR /app
