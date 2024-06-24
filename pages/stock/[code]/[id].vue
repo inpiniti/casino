@@ -21,6 +21,11 @@ const getInvestingChart = () => {
 };
 
 const transformedData = (rawData: any) => {
+  if (!Array.isArray(rawData)) {
+    console.error("Invalid rawData: rawData should be an array");
+    return [];
+  }
+
   return rawData.map((item: any) => {
     const date = new Date(item[0]);
     const year = date.getFullYear();
@@ -227,8 +232,7 @@ const indicator = ref([
       }, // 예시: "2899.18 KRW"
       {
         label: "EPS 희석 성장 TTM YoY",
-        value:
-          stock?.earnings_per_share_diluted_yoy_growth_ttm?.toFixed(2) + "%",
+        value: stock?.earnings_per_share_diluted_yoy_growth_ttm?.toFixed(2) + "%",
       }, // 예시: "-56.24%"
       {
         label: "배당 수익% 순마진",
@@ -264,61 +268,37 @@ const indicator = ref([
     data: [
       {
         label: "프리-마켓 클로즈",
-        value:
-          stock?.premarket_close !== null
-            ? stock?.premarket_close?.toFixed(2)
-            : "-",
+        value: stock?.premarket_close !== null ? stock?.premarket_close?.toFixed(2) : "-",
       },
       {
         label: "프리-마켓 체인지 %",
-        value:
-          stock?.premarket_change !== null
-            ? (stock?.premarket_change * 100)?.toFixed(2) + "%"
-            : "-",
+        value: stock?.premarket_change !== null ? (stock?.premarket_change * 100)?.toFixed(2) + "%" : "-",
       },
       {
         label: "프리-마켓 갭 %",
-        value:
-          stock?.premarket_gap !== null
-            ? (stock?.premarket_gap * 100)?.toFixed(2) + "%"
-            : "-",
+        value: stock?.premarket_gap !== null ? (stock?.premarket_gap * 100)?.toFixed(2) + "%" : "-",
       },
       {
         label: "프리-마켓 볼륨",
-        value:
-          stock?.premarket_volume !== null
-            ? stock?.premarket_volume?.toString()
-            : "-",
+        value: stock?.premarket_volume !== null ? stock?.premarket_volume?.toString() : "-",
       },
       { label: "갭 %", value: stock?.gap?.toFixed(2) + "%" },
       { label: "거래량", value: "+" + stock?.volume_change?.toFixed(2) + "%" },
       {
         label: "볼륨 변화 %",
-        value:
-          "+" +
-          ((stock?.volume / stock?.AvgVolume - 1) * 100)?.toFixed(2) +
-          "%",
+        value: "+" + ((stock?.volume / stock?.AvgVolume - 1) * 100)?.toFixed(2) + "%",
       },
       {
         label: "포스트-마켓 클로즈",
-        value:
-          stock?.postmarket_close !== null
-            ? stock?.postmarket_close?.toFixed(2)
-            : "-",
+        value: stock?.postmarket_close !== null ? stock?.postmarket_close?.toFixed(2) : "-",
       },
       {
         label: "포스트-마켓 체인지 %",
-        value:
-          stock?.postmarket_change !== null
-            ? (stock?.postmarket_change * 100)?.toFixed(2) + "%"
-            : "-",
+        value: stock?.postmarket_change !== null ? (stock?.postmarket_change * 100)?.toFixed(2) + "%" : "-",
       },
       {
         label: "포스트-마켓 볼륨",
-        value:
-          stock?.postmarket_volume !== null
-            ? stock?.postmarket_volume?.toString()
-            : "-",
+        value: stock?.postmarket_volume !== null ? stock?.postmarket_volume?.toString() : "-",
       },
     ],
   },
@@ -332,15 +312,11 @@ const indicator = ref([
       },
       {
         label: "PEG 순마진",
-        value: stock?.price_earnings_growth_ttm
-          ? stock?.price_earnings_growth_ttm
-          : "-",
+        value: stock?.price_earnings_growth_ttm ? stock?.price_earnings_growth_ttm : "-",
       },
       {
         label: "P/S",
-        value: stock?.price_sales_current
-          ? stock?.price_sales_current?.toString()
-          : "-",
+        value: stock?.price_sales_current ? stock?.price_sales_current?.toString() : "-",
       },
       { label: "P/B", value: stock?.price_book_fq?.toString() },
       {
@@ -349,9 +325,7 @@ const indicator = ref([
       },
       {
         label: "P/FCF",
-        value: stock?.price_free_cash_flow_ttm
-          ? stock?.price_free_cash_flow_ttm?.toString()
-          : "-",
+        value: stock?.price_free_cash_flow_ttm ? stock?.price_free_cash_flow_ttm?.toString() : "-",
       },
       {
         label: "프라이스 / 캐쉬",
@@ -382,9 +356,7 @@ const indicator = ref([
       },
       {
         label: "주당 배당금 FQ",
-        value: stock?.dps_common_stock_prim_issue_fq
-          ? `${stock?.dps_common_stock_prim_issue_fq?.toFixed(2)} KRW`
-          : "-",
+        value: stock?.dps_common_stock_prim_issue_fq ? `${stock?.dps_common_stock_prim_issue_fq?.toFixed(2)} KRW` : "-",
       },
       {
         label: "배당 수익 % 순마진",
@@ -400,9 +372,7 @@ const indicator = ref([
       },
       {
         label: "DPS 성장 연간 YoY",
-        value: `${stock?.dps_common_stock_prim_issue_yoy_growth_fy?.toFixed(
-          2
-        )}%`,
+        value: `${stock?.dps_common_stock_prim_issue_yoy_growth_fy?.toFixed(2)}%`,
       },
       {
         label: "연속 배당 지불",
@@ -418,27 +388,27 @@ const indicator = ref([
     name: "수익성",
     discrption: "회사 수익과 관련된 지표",
     data: [
-      { label: "총마진", value: `${stock.gross_margin_ttm.toFixed(2)}%` },
-      { label: "영업마진", value: `${stock.operating_margin_ttm.toFixed(2)}%` },
-      { label: "세전 마진", value: `${stock.pre_tax_margin_ttm.toFixed(2)}%` },
-      { label: "넷 마진", value: `${stock.net_margin_ttm.toFixed(2)}%` },
+      { label: "총마진", value: `${stock.gross_margin_ttm?.toFixed(2)}%` },
+      { label: "영업마진", value: `${stock.operating_margin_ttm?.toFixed(2)}%` },
+      { label: "세전 마진", value: `${stock.pre_tax_margin_ttm?.toFixed(2)}%` },
+      { label: "넷 마진", value: `${stock.net_margin_ttm?.toFixed(2)}%` },
       {
         label: "FCF 마진",
-        value: `${stock.free_cash_flow_margin_ttm.toFixed(2)}%`,
+        value: `${stock.free_cash_flow_margin_ttm?.toFixed(2)}%`,
       },
-      { label: "ROA", value: `${stock.return_on_assets_fq.toFixed(2)}%` },
-      { label: "ROE", value: `${stock.return_on_equity_fq.toFixed(2)}%` },
+      { label: "ROA", value: `${stock.return_on_assets_fq?.toFixed(2)}%` },
+      { label: "ROE", value: `${stock.return_on_equity_fq?.toFixed(2)}%` },
       {
         label: "투하자본수익률",
-        value: `${stock.return_on_invested_capital_fq.toFixed(2)}%`,
+        value: `${stock.return_on_invested_capital_fq?.toFixed(2)}%`,
       },
       {
         label: "R&D 비율",
-        value: `${stock.research_and_dev_ratio_ttm.toFixed(2)}%`,
+        value: `${stock.research_and_dev_ratio_ttm?.toFixed(2)}%`,
       },
       {
         label: "판관비율",
-        value: `${stock.sell_gen_admin_exp_other_ratio_ttm.toFixed(2)}%`,
+        value: `${stock.sell_gen_admin_exp_other_ratio_ttm?.toFixed(2)}%`,
       },
     ],
   },
@@ -480,10 +450,7 @@ const indicator = ref([
         </div>
       </div>
       <div class="flex items-center">
-        <div
-          v-for="item in itmes.data"
-          class="h-full px-2 py-1 flex items-center hover:bg-neutral-100 cursor-pointer"
-        >
+        <div v-for="item in itmes.data" class="h-full px-2 py-1 flex items-center hover:bg-neutral-100 cursor-pointer">
           <div>
             <div class="text-xs text-neutral-400">{{ item.label }}</div>
             <div>{{ item.value }}</div>

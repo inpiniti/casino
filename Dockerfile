@@ -1,8 +1,8 @@
 # Use the official Node.js 18.17.0 runtime as a parent image
-#FROM node:18.17.0-buster-slim
+FROM node:18.17.0-buster-slim
 
 # Use the official Node.js 16 runtime as a parent image
-FROM --platform=linux/amd64 node:14-buster-slim
+#FROM --platform=linux/amd64 node:14-buster-slim
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -58,7 +58,10 @@ RUN npm install
 # RUN npm audit fix
 
 # Copy the build output to the working directory
-COPY .output ./
+#COPY .output ./
+
+# Build the application
+RUN npm run build
 
 # Make port 3000 available to the outside of the docker container
 EXPOSE 3000

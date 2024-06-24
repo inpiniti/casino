@@ -87,15 +87,12 @@ const cStockList = computed(() => {
       ...stock,
       volumeRate: Math.round((stock.Volume / stock.AvgVolume) * 100 * 10) / 10,
     }))
-    .filter(
-      (stock) =>
-        !condition.value.viewRecentData ||
-        (condition.value.viewRecentData &&
-          Number(stock.Time) * 1000 >= oneHourAgo)
-    ) // If viewRecentData.value is false, include all stocks
-    .filter((stock) =>
-      stock.Name.toLowerCase().includes(condition.value.search.toLowerCase())
-    )
+    .filter((stock) => !condition.value.viewRecentData || (condition.value.viewRecentData && Number(stock.Time) * 1000 >= oneHourAgo)) // If viewRecentData.value is false, include all stocks
+    .filter((stock) => {
+      console.log(stock.Name);
+      console.log(condition.value.search);
+      return stock.Name.toLowerCase().includes(condition.value.search.toLowerCase());
+    })
     .filter(
       (stock) =>
         !condition.value.goodTechnical ||
@@ -120,16 +117,12 @@ const cStockList = computed(() => {
 });
 
 function timeAgo(timestamp: any) {
-  const secondsAgo = Math.floor(
-    (new Date().getTime() - timestamp * 1000) / 1000
-  );
+  const secondsAgo = Math.floor((new Date().getTime() - timestamp * 1000) / 1000);
   const hours = Math.floor(secondsAgo / 3600);
   const minutes = Math.floor((secondsAgo % 3600) / 60);
   const seconds = secondsAgo % 60;
 
-  return `${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} 전`;
+  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} 전`;
 }
 
 const onClickCard = (id: string) => {
@@ -142,25 +135,15 @@ const onClickCard = (id: string) => {
 <template>
   <div class="flex divide-x">
     <div class="flex flex-col shrink-0 divide-y h-screen w-96">
-      <div
-        v-if="selectedCountry"
-        class="shrink-0 flex h-14 w-full overflow-hidden px-2 items-center gap-3"
-      >
+      <div v-if="selectedCountry" class="shrink-0 flex h-14 w-full overflow-hidden px-2 items-center gap-3">
         <StockBar :selectedCountry="selectedCountry" />
       </div>
       <div class="shrink-0 w-full">
         <StockStcokCondition v-model="condition" />
       </div>
       <div class="grow-[0] overflow-hidden flex h-full">
-        <div
-          class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide py-1"
-        >
-          <Card
-            class="p-2 mx-2 my-1 text-xs flex flex-col gap-1 w-[368px]"
-            v-for="stock in cStockList"
-            :key="stock.Name"
-            @click="onClickCard(stock.Id)"
-          >
+        <div class="shrink-0 flex flex-col h-full overflow-y-scroll scrollbar-hide py-1">
+          <Card class="p-2 mx-2 my-1 text-xs flex flex-col gap-1 w-[368px]" v-for="stock in cStockList" :key="stock.Name" @click="onClickCard(stock.Id)">
             <div class="flex justify-between gap-2">
               <div class="text-sm max-w-64">
                 {{ stock.Name }}
@@ -189,9 +172,7 @@ const onClickCard = (id: string) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger as-child>
-                      <span class="text-neutral-400 cursor-pointer">
-                        주가수익비율(PER)
-                      </span>
+                      <span class="text-neutral-400 cursor-pointer"> 주가수익비율(PER) </span>
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>낮을수록 저평가</p>
@@ -209,10 +190,7 @@ const onClickCard = (id: string) => {
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>베타계수가 1에 가까울 수록 시장과 동일한 선상</p>
-                      <p>
-                        0으로 갈수록 시장과 관계없이 주가 수익률을 내고 있다는
-                        뜻
-                      </p>
+                      <p>0으로 갈수록 시장과 관계없이 주가 수익률을 내고 있다는 뜻</p>
                       <p>1보다 큰 값들은 시장보다 수익률이 민감하게 반응</p>
                     </TooltipContent>
                   </Tooltip>
@@ -224,49 +202,25 @@ const onClickCard = (id: string) => {
               <div class="text-neutral-500">성과</div>
               <div class="flex items-center gap-1">
                 <div class="text-neutral-400">일일</div>
-                <div
-                  :class="
-                    stock.PerformanceDay > 0
-                      ? 'text-neutral-700'
-                      : 'text-neutral-300'
-                  "
-                >
+                <div :class="stock.PerformanceDay > 0 ? 'text-neutral-700' : 'text-neutral-300'">
                   {{ stock.PerformanceDay }}
                 </div>
               </div>
               <div class="flex items-center gap-1">
                 <div class="text-neutral-400">주간</div>
-                <div
-                  :class="
-                    stock.PerformanceWeek > 0
-                      ? 'text-neutral-700'
-                      : 'text-neutral-300'
-                  "
-                >
+                <div :class="stock.PerformanceWeek > 0 ? 'text-neutral-700' : 'text-neutral-300'">
                   {{ stock.PerformanceWeek }}
                 </div>
               </div>
               <div class="flex items-center gap-1">
                 <div class="text-neutral-400">월간</div>
-                <div
-                  :class="
-                    stock.PerformanceMonth > 0
-                      ? 'text-neutral-700'
-                      : 'text-neutral-300'
-                  "
-                >
+                <div :class="stock.PerformanceMonth > 0 ? 'text-neutral-700' : 'text-neutral-300'">
                   {{ stock.PerformanceMonth }}
                 </div>
               </div>
               <div class="flex items-center gap-1">
                 <div class="text-neutral-400">연간</div>
-                <div
-                  :class="
-                    stock.PerformanceYear > 0
-                      ? 'text-neutral-700'
-                      : 'text-neutral-300'
-                  "
-                >
+                <div :class="stock.PerformanceYear > 0 ? 'text-neutral-700' : 'text-neutral-300'">
                   {{ stock.PerformanceYear }}
                 </div>
               </div>
@@ -291,30 +245,15 @@ const onClickCard = (id: string) => {
               </div>
             </div>
             <div class="flex gap-2">
-              <div
-                class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"
-              >
-                <div
-                  class="h-5 bg-neutral-600 absolute top-0 left-0 rounded"
-                  :style="{ width: `${stock.volumeRate / 10}%` }"
-                ></div>
-                <div class="h-5 text-white absolute flex items-center px-2">
-                  거래량 {{ stock.volumeRate }}% ({{ stock.Volume }} /
-                  {{ stock.AvgVolume }})
-                </div>
+              <div class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden">
+                <div class="h-5 bg-neutral-600 absolute top-0 left-0 rounded" :style="{ width: `${stock.volumeRate / 10}%` }"></div>
+                <div class="h-5 text-white absolute flex items-center px-2">거래량 {{ stock.volumeRate }}% ({{ stock.Volume }} / {{ stock.AvgVolume }})</div>
               </div>
             </div>
             <div class="flex gap-2">
-              <div
-                class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden"
-              >
-                <div
-                  class="h-5 bg-neutral-600 absolute top-0 left-0 rounded"
-                  :style="{ width: `${stock.ChgPct}%` }"
-                ></div>
-                <div class="h-5 text-white absolute flex items-center px-2">
-                  변동률 {{ stock.ChgPct }}% ({{ stock.Chg }})
-                </div>
+              <div class="h-5 w-full bg-neutral-400 relative rounded overflow-hidden">
+                <div class="h-5 bg-neutral-600 absolute top-0 left-0 rounded" :style="{ width: `${stock.ChgPct}%` }"></div>
+                <div class="h-5 text-white absolute flex items-center px-2">변동률 {{ stock.ChgPct }}% ({{ stock.Chg }})</div>
               </div>
             </div>
           </Card>
