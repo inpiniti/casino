@@ -67,6 +67,6 @@ RUN npm run build
 EXPOSE 3000
 
 # Run the application
-CMD [ "node", "server/index.mjs" ]
+CMD [ "node", "./.output/server/index.mjs" ]
 
 # sudo docker build -t inpiniti/comics:3.3.0 .
