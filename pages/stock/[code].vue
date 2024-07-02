@@ -3,43 +3,170 @@ const route = useRoute();
 
 const selectedCountry = useState<any>("selectedCountry");
 
-type Stock = {
-  AvgVolume: number; // 평균 거래량
-  Chg: number; // 변동치
-  ChgPct: number; // 변동률 (%)
-  CountryNameTranslated: string; // 국가 이름 (번역)
-  ExchangeId: string; // 거래소 ID
-  Flag: string; // 국기
-  FundamentalBeta: number; // 기본 베타
-  FundamentalMarketCap: number; // 기본 시가 총액
-  FundamentalRatio: number; // 기본 비율
-  FundamentalRevenue: string; // 기본 수익
-  High: number; // 최고가
-  Id: string; // ID
-  IsCFD: string; // CFD 여부
-  IsOpen: string; // 개장 여부
-  Last: number; // 마지막 가격
-  LastPairDecimal: number; // 마지막 쌍 소수점
-  Low: number; // 최저가
-  Name: string; // 이름
-  PairType: string; // 쌍 타입
-  Performance3Year: number; // 3년 성과
-  PerformanceDay: number; // 일일 성과
-  PerformanceMonth: number; // 월간 성과
-  PerformanceWeek: number; // 주간 성과
-  PerformanceYear: number; // 연간 성과
-  PerformanceYtd: number; // 연초부터 현재까지의 성과
-  Symbol: string; // 심볼
-  TechnicalDay: string; // 기술적 일일 분석
-  TechnicalHour: string; // 기술적 시간당 분석
-  TechnicalMonth: string; // 기술적 월간 분석
-  TechnicalWeek: string; // 기술적 주간 분석
-  Time: string; // 시간
-  Url: string; // URL
-  Volume: number; // 거래량
+type StockInfo = {
+  AvgVolume: number;
+  Chg: number;
+  ChgPct: number;
+  CountryNameTranslated: string;
+  ExchangeId: string;
+  Flag: string;
+  FundamentalBeta: number;
+  FundamentalMarketCap: number;
+  FundamentalRatio: number;
+  FundamentalRevenue: string;
+  High: number;
+  Id: string;
+  IsCFD: string;
+  IsOpen: string;
+  Last: number;
+  LastPairDecimal: number;
+  Low: number;
+  Name: string;
+  PairType: string;
+  Performance3Year: number;
+  PerformanceDay: number;
+  PerformanceMonth: number;
+  PerformanceWeek: number;
+  PerformanceYear: number;
+  PerformanceYtd: number;
+  Symbol: string;
+  TechnicalDay: string;
+  TechnicalHour: string;
+  TechnicalMonth: string;
+  TechnicalWeek: string;
+  Time: string;
+  Url: string;
+  Volume: number;
+  name: string;
+  description: string;
+  logoid: string;
+  update_mode: string;
+  type: string;
+  close: number;
+  pricescale: number;
+  minmov: number;
+  fractional: string;
+  minmove2: number;
+  currency: string;
+  change: number;
+  volume: number;
+  relative_volume_10d_calc: number;
+  market_cap_basic: number;
+  fundamental_currency_code: string;
+  price_earnings_ttm: number;
+  earnings_per_share_diluted_ttm: number;
+  earnings_per_share_diluted_yoy_growth_ttm: number;
+  dividends_yield_current: number;
+  sector_tr: string;
+  market: string;
+  sector: string;
+  recommendation_mark: number;
+  exchange: string;
+  "Perf.W": number;
+  "Perf.1M": number;
+  "Perf.3M": number;
+  "Perf.6M": number;
+  "Perf.YTD": number;
+  "Perf.Y": number;
+  "Perf.5Y": number;
+  "Perf.10Y": number;
+  "Perf.All": number;
+  "Volatility.W": number;
+  "Volatility.M": number;
+  premarket_close: null | number;
+  premarket_change: null | number;
+  premarket_gap: null | number;
+  premarket_volume: null | number;
+  gap: number;
+  volume_change: number;
+  postmarket_close: null | number;
+  postmarket_change: null | number;
+  postmarket_volume: null | number;
+  "Perf.1Y.MarketCap": number;
+  price_earnings_growth_ttm: null | number;
+  price_sales_current: number;
+  price_book_fq: number;
+  price_to_cash_f_operating_activities_ttm: number;
+  price_free_cash_flow_ttm: null | number;
+  price_to_cash_ratio: number;
+  enterprise_value_current: number;
+  enterprise_value_to_revenue_ttm: number;
+  enterprise_value_to_ebit_ttm: number;
+  enterprise_value_ebitda_ttm: number;
+  dps_common_stock_prim_issue_fy: number;
+  dps_common_stock_prim_issue_fq: null | number;
+  dividends_yield: number;
+  dividend_payout_ratio_ttm: number;
+  dps_common_stock_prim_issue_yoy_growth_fy: number;
+  continuous_dividend_payout: number;
+  continuous_dividend_growth: number;
+  gross_margin_ttm: number;
+  operating_margin_ttm: number;
+  pre_tax_margin_ttm: number;
+  net_margin_ttm: number;
+  free_cash_flow_margin_ttm: number;
+  return_on_assets_fq: number;
+  return_on_equity_fq: number;
+  return_on_invested_capital_fq: number;
+  research_and_dev_ratio_ttm: number;
+  sell_gen_admin_exp_other_ratio_ttm: number;
+  total_assets_fq: number;
+  total_current_assets_fq: number;
+  cash_n_short_term_invest_fq: number;
+  total_liabilities_fq: number;
+  total_debt_fq: number;
+  net_debt_fq: number;
+  total_equity_fq: number;
+  current_ratio_fq: number;
+  quick_ratio_fq: number;
+  debt_to_equity_fq: number;
+  cash_n_short_term_invest_to_total_debt_fq: number;
+  cash_f_operating_activities_ttm: number;
+  cash_f_investing_activities_ttm: number;
+  cash_f_financing_activities_ttm: number;
+  free_cash_flow_ttm: number;
+  capital_expenditures_ttm: number;
+  "Recommend.All": number;
+  "Recommend.MA": number;
+  "Recommend.Other": number;
+  RSI: number;
+  Mom: number;
+  AO: number;
+  CCI20: number;
+  StochK: number;
+  StochD: number;
+  Candle3BlackCrows: number;
+  Candle3WhiteSoldiers: number;
+  CandleAbandonedBabyBearish: number;
+  CandleAbandonedBabyBullish: number;
+  CandleDoji: number;
+  CandleDojiDragonfly: number;
+  CandleDojiGravestone: number;
+  CandleEngulfingBearish: number;
+  CandleEngulfingBullish: number;
+  CandleEveningStar: number;
+  CandleHammer: number;
+  CandleHangingMan: number;
+  CandleHaramiBearish: number;
+  CandleHaramiBullish: number;
+  CandleInvertedHammer: number;
+  CandleKickingBearish: number;
+  CandleKickingBullish: number;
+  CandleLongShadowLower: number;
+  CandleLongShadowUpper: number;
+  CandleMarubozuBlack: number;
+  CandleMarubozuWhite: number;
+  CandleMorningStar: number;
+  CandleShootingStar: number;
+  CandleSpinningTopBlack: number;
+  CandleSpinningTopWhite: number;
+  CandleTriStarBearish: number;
+  CandleTriStarBullish: number;
+
+  score: number;
 };
 
-const stockList = useState<Stock[]>("stockList", () => []);
+const stockList = useState<StockInfo[]>("stockList", () => []);
 const intervalId = ref();
 
 onMounted(() => {
@@ -56,7 +183,7 @@ const getInvesting = () => {
     .then((res) => res.json())
     .then((data) => {
       if (data != undefined) {
-        stockList.value = data;
+        stockListAddScore(data);
       } else {
         stockList.value = [];
       }
@@ -64,6 +191,13 @@ const getInvesting = () => {
     .catch((e) => {
       console.error(e);
     });
+};
+
+const stockListAddScore = (newStockList: any) => {
+  stockList.value = newStockList.map((stock: any) => ({
+    ...stock,
+    score: getScore(stock),
+  }));
 };
 
 const condition = ref({
@@ -119,8 +253,8 @@ const cStockList = computed(() => {
         return b.ChgPct - a.ChgPct;
       }
       return 0;
-    })
-    .slice(0, 100);
+    });
+  //.slice(0, 100);
 });
 
 function timeAgo(timestamp: any) {
@@ -141,11 +275,105 @@ const onClickCard = (id: string) => {
   stock.value = stockList.value.find((stock) => stock.Id === id);
   navigateTo(`/stock/${route.params.code}/${id}`);
 };
+
+// 점수
+const getScore = (stock: any) => {
+  let totalScore = 0;
+
+  // 오버뷰.상대적 거래량이 1보다 크면 3점
+  // 오버뷰.P/E가 50보다 크면 0
+  // 오버뷰.P/E가 25~50 1점
+  // 오버뷰.P/E가 15~25 2점
+  // 오버뷰.P/E가 5~15 3점
+  // 오버뷰.P/E가 5보다 작으면 4점
+  if (Number(stock?.relative_volume_10d_calc) > 1) totalScore += 3;
+  if (stock?.price_earnings_ttm > 50) totalScore += 0;
+  else if (stock?.price_earnings_ttm > 25) totalScore += 1;
+  else if (stock?.price_earnings_ttm > 15) totalScore += 2;
+  else if (stock?.price_earnings_ttm >= 5) totalScore += 3;
+  else totalScore += 4;
+
+  // 오버뷰.EPS 희석 성장 TTM YoY가 50 이상이면 5점
+  // 오버뷰.EPS 희석 성장 TTM YoY가 25~50이면 4점
+  // 오버뷰.EPS 희석 성장 TTM YoY가 10~25이면 3점
+  // 오버뷰.EPS 희석 성장 TTM YoY가 0~10이면 2점
+  // 오버뷰.EPS 희석 성장 TTM YoY가 -25~0 미만이면 1점
+  // 오버뷰.EPS 희석 성장 TTM YoY가 -25 미만이면 0점
+  if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 50) totalScore += 5;
+  else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 25)
+    totalScore += 4;
+  else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 10)
+    totalScore += 3;
+  else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 0)
+    totalScore += 2;
+  else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= -25)
+    totalScore += 1;
+  else totalScore += 0;
+
+  // ROE 30% 이상이면 4점
+  // ROE 15% ~ 3점
+  // ROE 0% ~ 2점
+  // ROE -15% ~ 1점
+  // ROE -15% 보다 작으면 0점
+  if (stock.return_on_equity_fq >= 30) totalScore += 4;
+  else if (stock.return_on_equity_fq >= 15) totalScore += 3;
+  else if (stock.return_on_equity_fq >= 0) totalScore += 2;
+  else if (stock.return_on_equity_fq >= -15) totalScore += 1;
+  else totalScore += 0;
+
+  // PEG 1 이하면 3점
+
+  // 시간외.갭 % 0 이상이면 3점
+  // 시간외.볼륨변화 0 이상이면 3점
+  if (stock?.gap >= 0) totalScore += 3;
+  if (stock?.volume_change >= 0) totalScore += 3;
+
+  // 평가.시가총액 실적 % 1Y가 0 이상이면 3점
+  if (stock?.["Perf.1Y.MarketCap"] >= 0) totalScore += 3;
+
+  // 수익성.총마진 0 이상이면 3점
+  // 수익성.영업마진 0 이상이면 3점
+  // 수익성.세전 마진 0 이상이면 3점
+  // 수익성.넷 마진 0 이상이면 3점
+  // 수익성.FCF 마진 0 이상이면 3점
+  // 수익성.ROA 0 이상이면 3점
+  // 수익성.ROE 0 이상이면 3점
+  // 수익성.투하자본수익률 0 이상이면 3점
+  if (stock.gross_margin_ttm >= 0) totalScore += 3;
+  if (stock.operating_margin_ttm >= 0) totalScore += 3;
+  if (stock.pre_tax_margin_ttm >= 0) totalScore += 3;
+  if (stock.net_margin_ttm >= 0) totalScore += 3;
+  if (stock.free_cash_flow_margin_ttm >= 0) totalScore += 3;
+  if (stock.return_on_assets_fq >= 0) totalScore += 3;
+  if (stock.return_on_equity_fq >= 0) totalScore += 3;
+  if (stock.return_on_invested_capital_fq >= 0) totalScore += 3;
+
+  // 손익계산.매출 성장률 0 이상이면 3점
+  if (stock?.PerformanceYear >= 0) totalScore += 3;
+
+  // 테크니컬즈.기술등급 0.5 ~ 이면 5점
+  // 테크니컬즈.기술등급 0.1 ~ 0.5 이상이면 4점
+  // 테크니컬즈.기술등급 -0.1 ~ 0.1  이상이면 3점
+  // 테크니컬즈.기술등급 -0.5 ~ -0.1  이상이면 2점
+  // 테크니컬즈.기술등급 ~ -0.5 이상이면 1점
+  if (stock?.["Recommend.All"] >= 0.5) totalScore += 5;
+  else if (stock?.["Recommend.All"] >= 0.1) totalScore += 4;
+  else if (stock?.["Recommend.All"] >= -0.1) totalScore += 3;
+  else if (stock?.["Recommend.All"] >= -0.5) totalScore += 2;
+  else totalScore += 1;
+
+  // 테크니컬즈.MA 레이팅 0 이상이면 3점
+  // 테크니컬즈.Os 등급 0 이상이면 3점
+  if (stock?.["Recommend.MA"] >= 0) totalScore += 3;
+  if (stock?.["Recommend.Other"] >= 0) totalScore += 3;
+
+  return totalScore;
+};
 </script>
 
 <template>
   <div class="flex divide-x">
-    <div class="flex flex-col h-screen divide-y shrink-0 w-96">
+    <div class="flex flex-col h-screen divide-y grow-[0] w-full">
       <div
         v-if="selectedCountry"
         class="flex items-center w-full gap-3 px-2 overflow-hidden shrink-0 h-14"
@@ -154,9 +382,52 @@ const onClickCard = (id: string) => {
       </div>
       <div class="grow-[0] overflow-hidden flex h-full">
         <div
-          class="flex flex-col h-full py-1 overflow-y-scroll shrink-0 scrollbar-hide"
+          class="flex flex-col h-full overflow-y-scroll shrink-0 scrollbar-hide"
         >
-          <Card
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead> 종목명 </TableHead>
+                <TableHead>종목코드</TableHead>
+                <TableHead>점수</TableHead>
+                <TableHead>주가수익비율(PER)</TableHead>
+                <TableHead>베타</TableHead>
+                <TableHead>일일</TableHead>
+                <TableHead>주간</TableHead>
+                <TableHead>월간</TableHead>
+                <TableHead>연간</TableHead>
+                <TableHead>일일</TableHead>
+                <TableHead>주간</TableHead>
+                <TableHead>월간</TableHead>
+                <TableHead>연간</TableHead>
+                <TableHead>거래량</TableHead>
+                <TableHead>변동률</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow v-for="stock in cStockList">
+                <TableCell> {{ stock.Name }} </TableCell>
+                <TableCell>{{ stock.Id }}</TableCell>
+                <TableCell>{{ stock.score }}</TableCell>
+                <TableCell>{{ stock.FundamentalRatio }}</TableCell>
+                <TableCell> {{ stock.FundamentalBeta }} </TableCell>
+                <TableCell> {{ stock.PerformanceDay }} </TableCell>
+                <TableCell> {{ stock.PerformanceWeek }} </TableCell>
+                <TableCell> {{ stock.PerformanceMonth }} </TableCell>
+                <TableCell> {{ stock.PerformanceYear }} </TableCell>
+                <TableCell> {{ stock.TechnicalHour }} </TableCell>
+                <TableCell> {{ stock.TechnicalDay }} </TableCell>
+                <TableCell> {{ stock.TechnicalMonth }} </TableCell>
+                <TableCell> {{ stock.TechnicalWeek }} </TableCell>
+                <TableCell>
+                  {{ stock.volumeRate }}% ({{ stock.Volume }} /
+                  {{ stock.AvgVolume }})
+                </TableCell>
+                <TableCell> {{ stock.ChgPct }}% ({{ stock.Chg }}) </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+          <!-- <Card
             class="p-2 mx-2 my-1 text-xs flex flex-col gap-1 w-[368px]"
             v-for="stock in cStockList"
             :key="stock.Name"
@@ -318,12 +589,38 @@ const onClickCard = (id: string) => {
                 </div>
               </div>
             </div>
-          </Card>
+            <div>점수 : {{ stock.score }}</div>
+          </Card> -->
         </div>
       </div>
     </div>
 
-    <div class="grow-[0] overflow-hidden w-full">
+    <div class="shrink-0 w-96">
+      <div class="p-4 flex flex-col gap-4">
+        <div>
+          <div>Mode</div>
+          <div>
+            <Tabs default-value="account" class="w-fit">
+              <TabsList class="grid w-full grid-cols-2">
+                <TabsTrigger value="account"> Account </TabsTrigger>
+                <TabsTrigger value="password"> Password </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
+        </div>
+        <div>
+          <div>상대적 거래량</div>
+          <Slider :default-value="[33]" :max="100" :step="1" />
+        </div>
+        <div>
+          <div>P/E</div>
+          <Slider :default-value="[33]" :max="100" :step="1" />
+        </div>
+        <div>
+          <div>볼륨변환율</div>
+          <Slider :default-value="[33]" :max="100" :step="1" />
+        </div>
+      </div>
       <NuxtPage />
     </div>
   </div>

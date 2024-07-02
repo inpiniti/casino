@@ -121,9 +121,9 @@ type StockInfo = {
   cash_f_financing_activities_ttm: number;
   free_cash_flow_ttm: number;
   capital_expenditures_ttm: number;
-  RecommendAll: number;
-  RecommendMA: number;
-  RecommendOther: number;
+  "Recommend.All": number;
+  "Recommend.MA": number;
+  "Recommend.Other": number;
   RSI: number;
   Mom: number;
   AO: number;
@@ -157,6 +157,8 @@ type StockInfo = {
   CandleSpinningTopWhite: number;
   CandleTriStarBearish: number;
   CandleTriStarBullish: number;
+
+  score: number;
 };
 
-export const useStock = () => useState<StockInfo>("stock");
+export const useStock = () => useState<StockInfo | undefined>("stock");
