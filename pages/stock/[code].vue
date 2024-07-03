@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { cn } from "@/lib/utils";
+
 const route = useRoute();
 
 const selectedCountry = useState<any>("selectedCountry");
@@ -253,8 +255,8 @@ const cStockList = computed(() => {
         return b.ChgPct - a.ChgPct;
       }
       return 0;
-    });
-  //.slice(0, 100);
+    })
+    .slice(0, 100);
 });
 
 function timeAgo(timestamp: any) {
@@ -369,6 +371,8 @@ const getScore = (stock: any) => {
 
   return totalScore;
 };
+
+const modelValue = ref([50]);
 </script>
 
 <template>
@@ -595,8 +599,8 @@ const getScore = (stock: any) => {
       </div>
     </div>
 
-    <div class="shrink-0 w-96">
-      <div class="p-4 flex flex-col gap-4">
+    <div class="w-48 shrink-0">
+      <div class="flex flex-col gap-8 p-4">
         <div>
           <div>Mode</div>
           <div>
@@ -608,9 +612,17 @@ const getScore = (stock: any) => {
             </Tabs>
           </div>
         </div>
-        <div>
-          <div>상대적 거래량</div>
-          <Slider :default-value="[33]" :max="100" :step="1" />
+        <div class="flex flex-col gap-4 text-sm">
+          <div class="flex justify-between">
+            <div class="font-bold">상대적 거래량</div>
+            <div class="text-neutral-500">{{ modelValue[0] / 100 }}</div>
+          </div>
+          <Slider
+            v-model="modelValue"
+            :default-value="[33]"
+            :max="100"
+            :step="1"
+          />
         </div>
         <div>
           <div>P/E</div>
