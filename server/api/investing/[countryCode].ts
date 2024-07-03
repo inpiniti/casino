@@ -15,10 +15,12 @@ export default defineEventHandler(async (event) => {
 export const getCurrentStoer = async (countryCode: string) => {
   const currentStore = store?.[String(countryCode)] ?? [];
   if (!isUpdating) {
-    console.log(`[${getKoreaTime()}] investing`);
-    // updateStore가 실행 중이지 않을 때만 호출
-    updateStore(String(countryCode));
-    console.log(`[${getKoreaTime()}] investing return`);
+    (async () => {
+      console.log(`[${getKoreaTime()}] investing`);
+      // updateStore가 실행 중이지 않을 때만 호출
+      updateStore(String(countryCode));
+      console.log(`[${getKoreaTime()}] investing return`);
+    })();
   }
   return currentStore;
 };
@@ -26,7 +28,9 @@ export const getCurrentStoer = async (countryCode: string) => {
 async function updateStore(countryCode: string) {
   isUpdating = true; // updateStore가 실행 중임을 표시
   try {
-    store[countryCode] = await investingFetchAll(codeList[countryCode].countryId);
+    store[countryCode] = await investingFetchAll(
+      codeList[countryCode].countryId
+    );
   } finally {
     isUpdating = false; // updateStore가 완료되었음을 표시
   }

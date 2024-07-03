@@ -185,6 +185,7 @@ const getInvesting = () => {
     .then((res) => res.json())
     .then((data) => {
       if (data != undefined) {
+        stockList.value = data;
         stockListAddScore(data);
       } else {
         stockList.value = [];
@@ -216,6 +217,8 @@ const cStockList = computed(() => {
     return []; // 배열이 아니면 빈 배열 반환
   }
 
+  stockListAddScore(stockList.value);
+
   const oneHourAgo = Date.now() - 3600 * 1000; // Current time minus one hour in milliseconds
 
   return stockList.value
@@ -230,8 +233,6 @@ const cStockList = computed(() => {
           Number(stock.Time) * 1000 >= oneHourAgo)
     ) // If viewRecentData.value is false, include all stocks
     .filter((stock) => {
-      console.log(stock.Name);
-      console.log(condition.value.search);
       return stock.Name.toLowerCase().includes(
         condition.value.search.toLowerCase()
       );
@@ -245,6 +246,8 @@ const cStockList = computed(() => {
           stock.TechnicalWeek == "strong_buy") // 기술적 주간 분석
     )
     .sort((a, b) => {
+      return b.score - a.score;
+
       if (condition.value.sorting === "Name") {
         return a.Name.localeCompare(b.Name);
       } else if (condition.value.sorting === "volumeRate") {
@@ -288,12 +291,16 @@ const getScore = (stock: any) => {
   // 오버뷰.P/E가 15~25 2점
   // 오버뷰.P/E가 5~15 3점
   // 오버뷰.P/E가 5보다 작으면 4점
-  if (Number(stock?.relative_volume_10d_calc) > 1) totalScore += 3;
+  if (Number(stock?.relative_volume_10d_calc) > 1)
+    totalScore += controller.value.relative_volume_10d_calc[0];
   if (stock?.price_earnings_ttm > 50) totalScore += 0;
-  else if (stock?.price_earnings_ttm > 25) totalScore += 1;
-  else if (stock?.price_earnings_ttm > 15) totalScore += 2;
-  else if (stock?.price_earnings_ttm >= 5) totalScore += 3;
-  else totalScore += 4;
+  else if (stock?.price_earnings_ttm > 25)
+    totalScore += 1 * controller.value.price_earnings_ttm[0];
+  else if (stock?.price_earnings_ttm > 15)
+    totalScore += 2 * controller.value.price_earnings_ttm[0];
+  else if (stock?.price_earnings_ttm >= 5)
+    totalScore += 3 * controller.value.price_earnings_ttm[0];
+  else totalScore += 4 * controller.value.price_earnings_ttm[0];
 
   // 오버뷰.EPS 희석 성장 TTM YoY가 50 이상이면 5점
   // 오버뷰.EPS 희석 성장 TTM YoY가 25~50이면 4점
@@ -301,15 +308,21 @@ const getScore = (stock: any) => {
   // 오버뷰.EPS 희석 성장 TTM YoY가 0~10이면 2점
   // 오버뷰.EPS 희석 성장 TTM YoY가 -25~0 미만이면 1점
   // 오버뷰.EPS 희석 성장 TTM YoY가 -25 미만이면 0점
-  if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 50) totalScore += 5;
+  if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 50)
+    totalScore +=
+      5 * controller.value.earnings_per_share_diluted_yoy_growth_ttm[0];
   else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 25)
-    totalScore += 4;
+    totalScore +=
+      4 * controller.value.earnings_per_share_diluted_yoy_growth_ttm[0];
   else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 10)
-    totalScore += 3;
+    totalScore +=
+      3 * controller.value.earnings_per_share_diluted_yoy_growth_ttm[0];
   else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= 0)
-    totalScore += 2;
+    totalScore +=
+      2 * controller.value.earnings_per_share_diluted_yoy_growth_ttm[0];
   else if (stock?.earnings_per_share_diluted_yoy_growth_ttm >= -25)
-    totalScore += 1;
+    totalScore +=
+      1 * controller.value.earnings_per_share_diluted_yoy_growth_ttm[0];
   else totalScore += 0;
 
   // ROE 30% 이상이면 4점
@@ -317,21 +330,27 @@ const getScore = (stock: any) => {
   // ROE 0% ~ 2점
   // ROE -15% ~ 1점
   // ROE -15% 보다 작으면 0점
-  if (stock.return_on_equity_fq >= 30) totalScore += 4;
-  else if (stock.return_on_equity_fq >= 15) totalScore += 3;
-  else if (stock.return_on_equity_fq >= 0) totalScore += 2;
-  else if (stock.return_on_equity_fq >= -15) totalScore += 1;
+  if (stock.return_on_equity_fq >= 30)
+    totalScore += 4 * controller.value.return_on_equity_fq[0];
+  else if (stock.return_on_equity_fq >= 15)
+    totalScore += 3 * controller.value.return_on_equity_fq[0];
+  else if (stock.return_on_equity_fq >= 0)
+    totalScore += 2 * controller.value.return_on_equity_fq[0];
+  else if (stock.return_on_equity_fq >= -15)
+    totalScore += 1 * controller.value.return_on_equity_fq[0];
   else totalScore += 0;
 
   // PEG 1 이하면 3점
 
   // 시간외.갭 % 0 이상이면 3점
   // 시간외.볼륨변화 0 이상이면 3점
-  if (stock?.gap >= 0) totalScore += 3;
-  if (stock?.volume_change >= 0) totalScore += 3;
+  if (stock?.gap >= 0) totalScore += controller.value.gap[0];
+  if (stock?.volume_change >= 0)
+    totalScore += controller.value.volume_change[0];
 
   // 평가.시가총액 실적 % 1Y가 0 이상이면 3점
-  if (stock?.["Perf.1Y.MarketCap"] >= 0) totalScore += 3;
+  if (stock?.["Perf.1Y.MarketCap"] >= 0)
+    totalScore += controller.value.marketCap[0];
 
   // 수익성.총마진 0 이상이면 3점
   // 수익성.영업마진 0 이상이면 3점
@@ -341,8 +360,10 @@ const getScore = (stock: any) => {
   // 수익성.ROA 0 이상이면 3점
   // 수익성.ROE 0 이상이면 3점
   // 수익성.투하자본수익률 0 이상이면 3점
-  if (stock.gross_margin_ttm >= 0) totalScore += 3;
-  if (stock.operating_margin_ttm >= 0) totalScore += 3;
+  if (stock.gross_margin_ttm >= 0)
+    totalScore += controller.value.gross_margin_ttm[0];
+  if (stock.operating_margin_ttm >= 0)
+    totalScore += controller.value.operating_margin_ttm[0];
   if (stock.pre_tax_margin_ttm >= 0) totalScore += 3;
   if (stock.net_margin_ttm >= 0) totalScore += 3;
   if (stock.free_cash_flow_margin_ttm >= 0) totalScore += 3;
@@ -372,7 +393,17 @@ const getScore = (stock: any) => {
   return totalScore;
 };
 
-const modelValue = ref([50]);
+const controller = ref({
+  relative_volume_10d_calc: [3],
+  price_earnings_ttm: [1],
+  earnings_per_share_diluted_yoy_growth_ttm: [1],
+  return_on_equity_fq: [1],
+  gap: [3],
+  volume_change: [3],
+  marketCap: [3],
+  gross_margin_ttm: [3],
+  operating_margin_ttm: [3],
+});
 </script>
 
 <template>
@@ -600,39 +631,7 @@ const modelValue = ref([50]);
     </div>
 
     <div class="w-48 shrink-0">
-      <div class="flex flex-col gap-8 p-4">
-        <div>
-          <div>Mode</div>
-          <div>
-            <Tabs default-value="account" class="w-fit">
-              <TabsList class="grid w-full grid-cols-2">
-                <TabsTrigger value="account"> Account </TabsTrigger>
-                <TabsTrigger value="password"> Password </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-        </div>
-        <div class="flex flex-col gap-4 text-sm">
-          <div class="flex justify-between">
-            <div class="font-bold">상대적 거래량</div>
-            <div class="text-neutral-500">{{ modelValue[0] / 100 }}</div>
-          </div>
-          <Slider
-            v-model="modelValue"
-            :default-value="[33]"
-            :max="100"
-            :step="1"
-          />
-        </div>
-        <div>
-          <div>P/E</div>
-          <Slider :default-value="[33]" :max="100" :step="1" />
-        </div>
-        <div>
-          <div>볼륨변환율</div>
-          <Slider :default-value="[33]" :max="100" :step="1" />
-        </div>
-      </div>
+      <Controller v-model="controller" />
       <NuxtPage />
     </div>
   </div>

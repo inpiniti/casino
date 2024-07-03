@@ -14,9 +14,11 @@ export default defineEventHandler(async (event) => {
 export const getCurrentStoer = async (countryCode: string) => {
   const currentStore = store?.[String(countryCode)] ?? [];
   if (!isUpdating) {
-    console.log(`[${getKoreaTime()}] tradingview`);
-    store[String(countryCode)] = await updateStore(String(countryCode));
-    console.log(`[${getKoreaTime()}] tradingview return`);
+    (async () => {
+      console.log(`[${getKoreaTime()}] tradingview`);
+      store[String(countryCode)] = await updateStore(String(countryCode));
+      console.log(`[${getKoreaTime()}] tradingview return`);
+    })();
   }
   return currentStore;
 };
@@ -274,114 +276,130 @@ async function updateStore(countryCode: string) {
       "exchange", // 거래소
     ];
 
-    const columns: any = Array.from(new Set([...오버뷰, ...성과, ...시간외, ...평가, ...배당, ...수익성, ...손익계산, ...대차대조표, ...현금흐름, ...테크니컬즈]));
+    const columns: any = Array.from(
+      new Set([
+        ...오버뷰,
+        ...성과,
+        ...시간외,
+        ...평가,
+        ...배당,
+        ...수익성,
+        ...손익계산,
+        ...대차대조표,
+        ...현금흐름,
+        ...테크니컬즈,
+      ])
+    );
 
     console.log(`[${getKoreaTime()}] tradingview fetch start`);
 
-    const response = await fetch(`https://scanner.tradingview.com/${codeList[countryCode].name}/scan`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        columns: columns,
-        ignore_unknown_fields: false,
-        options: { lang: codeList[countryCode].name },
-        range: [0, 2692],
-        sort: { sortBy: "market_cap_basic", sortOrder: "desc" },
-        symbols: {},
-        markets: ["korea"],
-        filter2: {
-          operator: "and",
-          operands: [
-            {
-              operation: {
-                operator: "or",
-                operands: [
-                  {
-                    operation: {
-                      operator: "and",
-                      operands: [
-                        {
-                          expression: {
-                            left: "type",
-                            operation: "equal",
-                            right: "stock",
-                          },
-                        },
-                        {
-                          expression: {
-                            left: "typespecs",
-                            operation: "has",
-                            right: ["common"],
-                          },
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    operation: {
-                      operator: "and",
-                      operands: [
-                        {
-                          expression: {
-                            left: "type",
-                            operation: "equal",
-                            right: "stock",
-                          },
-                        },
-                        {
-                          expression: {
-                            left: "typespecs",
-                            operation: "has",
-                            right: ["preferred"],
-                          },
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    operation: {
-                      operator: "and",
-                      operands: [
-                        {
-                          expression: {
-                            left: "type",
-                            operation: "equal",
-                            right: "dr",
-                          },
-                        },
-                      ],
-                    },
-                  },
-                  {
-                    operation: {
-                      operator: "and",
-                      operands: [
-                        {
-                          expression: {
-                            left: "type",
-                            operation: "equal",
-                            right: "fund",
-                          },
-                        },
-                        {
-                          expression: {
-                            left: "typespecs",
-                            operation: "has_none_of",
-                            right: ["etf"],
-                          },
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-            },
-          ],
+    const response = await fetch(
+      `https://scanner.tradingview.com/${codeList[countryCode].name}/scan`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    });
+        body: JSON.stringify({
+          columns: columns,
+          ignore_unknown_fields: false,
+          options: { lang: codeList[countryCode].name },
+          range: [0, 2692],
+          sort: { sortBy: "market_cap_basic", sortOrder: "desc" },
+          symbols: {},
+          markets: ["korea"],
+          filter2: {
+            operator: "and",
+            operands: [
+              {
+                operation: {
+                  operator: "or",
+                  operands: [
+                    {
+                      operation: {
+                        operator: "and",
+                        operands: [
+                          {
+                            expression: {
+                              left: "type",
+                              operation: "equal",
+                              right: "stock",
+                            },
+                          },
+                          {
+                            expression: {
+                              left: "typespecs",
+                              operation: "has",
+                              right: ["common"],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      operation: {
+                        operator: "and",
+                        operands: [
+                          {
+                            expression: {
+                              left: "type",
+                              operation: "equal",
+                              right: "stock",
+                            },
+                          },
+                          {
+                            expression: {
+                              left: "typespecs",
+                              operation: "has",
+                              right: ["preferred"],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      operation: {
+                        operator: "and",
+                        operands: [
+                          {
+                            expression: {
+                              left: "type",
+                              operation: "equal",
+                              right: "dr",
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      operation: {
+                        operator: "and",
+                        operands: [
+                          {
+                            expression: {
+                              left: "type",
+                              operation: "equal",
+                              right: "fund",
+                            },
+                          },
+                          {
+                            expression: {
+                              left: "typespecs",
+                              operation: "has_none_of",
+                              right: ["etf"],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
