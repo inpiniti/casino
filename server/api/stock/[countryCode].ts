@@ -5,10 +5,8 @@ let store: any = [];
 
 export default defineEventHandler((event) => {
   const countryCode = getRouterParam(event, "countryCode");
-  console.log(1);
 
   setTimeout(async () => {
-    console.log(2);
     const investingArr = await investingStore(String(countryCode));
     // "Symbol": "005935",
 
@@ -24,8 +22,6 @@ export default defineEventHandler((event) => {
       };
     });
   });
-
-  console.log(3);
 
   return store;
 });
