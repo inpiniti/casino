@@ -14,6 +14,8 @@ const emit = defineEmits(["update:modelValue"]);
 const changeCondition = () => {
   emit("update:modelValue", condition.value);
 };
+
+const exchange = useExchange();
 </script>
 <template>
   <div class="flex justify-between w-full">
@@ -46,19 +48,55 @@ const changeCondition = () => {
           </div>
         </div>
       </div>
+      <div
+        class="shrink-0 h-14 px-4 flex items-center gap-2"
+        v-if="selectedCountry"
+      >
+        <Select v-model="exchange" v-if="selectedCountry?.name == 'Korea'">
+          <SelectTrigger>
+            <SelectValue placeholder="거래소" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>거래소</SelectLabel>
+              <SelectItem value="60"> 코스피 </SelectItem>
+              <SelectItem value="130"> 코넥스 </SelectItem>
+              <SelectItem value="110"> 코스닥 </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Select v-model="exchange" v-else-if="selectedCountry?.name == 'US'">
+          <SelectTrigger>
+            <SelectValue placeholder="거래소" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>거래소</SelectLabel>
+              <SelectItem value="95"> OTC Markets </SelectItem>
+              <SelectItem value="2"> 나스닥 </SelectItem>
+              <SelectItem value="1"> 뉴욕 </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
-    <Popover>
-      <PopoverTrigger class="grow-[0]">
-        <Button variant="outline">
-          <font-awesome-icon icon="filter" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <StockStcokCondition
-          v-model="condition"
-          @update:modelValue="changeCondition"
-        />
-      </PopoverContent>
-    </Popover>
+    <div class="flex items-center gap-2">
+      <Button>
+        <font-awesome-icon icon="rotate-right" />
+      </Button>
+      <Popover>
+        <PopoverTrigger class="grow-[0]">
+          <Button variant="outline">
+            <font-awesome-icon icon="filter" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <StockStcokCondition
+            v-model="condition"
+            @update:modelValue="changeCondition"
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
   </div>
 </template>

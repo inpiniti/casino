@@ -304,7 +304,7 @@ async function updateStore(countryCode: string) {
           columns: columns,
           ignore_unknown_fields: false,
           options: { lang: codeList[countryCode].name },
-          range: [0, 2692],
+          range: [0, 99999],
           sort: { sortBy: "market_cap_basic", sortOrder: "desc" },
           symbols: {},
           markets: ["korea"],

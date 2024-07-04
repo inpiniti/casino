@@ -1,174 +1,10 @@
 <script setup lang="ts">
-import { cn } from "@/lib/utils";
-
 const route = useRoute();
 
 const selectedCountry = useState<any>("selectedCountry");
+const exchange = useExchange();
 
-type StockInfo = {
-  AvgVolume: number;
-  Chg: number;
-  ChgPct: number;
-  CountryNameTranslated: string;
-  ExchangeId: string;
-  Flag: string;
-  FundamentalBeta: number;
-  FundamentalMarketCap: number;
-  FundamentalRatio: number;
-  FundamentalRevenue: string;
-  High: number;
-  Id: string;
-  IsCFD: string;
-  IsOpen: string;
-  Last: number;
-  LastPairDecimal: number;
-  Low: number;
-  Name: string;
-  PairType: string;
-  Performance3Year: number;
-  PerformanceDay: number;
-  PerformanceMonth: number;
-  PerformanceWeek: number;
-  PerformanceYear: number;
-  PerformanceYtd: number;
-  Symbol: string;
-  TechnicalDay: string;
-  TechnicalHour: string;
-  TechnicalMonth: string;
-  TechnicalWeek: string;
-  Time: string;
-  Url: string;
-  Volume: number;
-  name: string;
-  description: string;
-  logoid: string;
-  update_mode: string;
-  type: string;
-  close: number;
-  pricescale: number;
-  minmov: number;
-  fractional: string;
-  minmove2: number;
-  currency: string;
-  change: number;
-  volume: number;
-  relative_volume_10d_calc: number;
-  market_cap_basic: number;
-  fundamental_currency_code: string;
-  price_earnings_ttm: number;
-  earnings_per_share_diluted_ttm: number;
-  earnings_per_share_diluted_yoy_growth_ttm: number;
-  dividends_yield_current: number;
-  sector_tr: string;
-  market: string;
-  sector: string;
-  recommendation_mark: number;
-  exchange: string;
-  "Perf.W": number;
-  "Perf.1M": number;
-  "Perf.3M": number;
-  "Perf.6M": number;
-  "Perf.YTD": number;
-  "Perf.Y": number;
-  "Perf.5Y": number;
-  "Perf.10Y": number;
-  "Perf.All": number;
-  "Volatility.W": number;
-  "Volatility.M": number;
-  premarket_close: null | number;
-  premarket_change: null | number;
-  premarket_gap: null | number;
-  premarket_volume: null | number;
-  gap: number;
-  volume_change: number;
-  postmarket_close: null | number;
-  postmarket_change: null | number;
-  postmarket_volume: null | number;
-  "Perf.1Y.MarketCap": number;
-  price_earnings_growth_ttm: null | number;
-  price_sales_current: number;
-  price_book_fq: number;
-  price_to_cash_f_operating_activities_ttm: number;
-  price_free_cash_flow_ttm: null | number;
-  price_to_cash_ratio: number;
-  enterprise_value_current: number;
-  enterprise_value_to_revenue_ttm: number;
-  enterprise_value_to_ebit_ttm: number;
-  enterprise_value_ebitda_ttm: number;
-  dps_common_stock_prim_issue_fy: number;
-  dps_common_stock_prim_issue_fq: null | number;
-  dividends_yield: number;
-  dividend_payout_ratio_ttm: number;
-  dps_common_stock_prim_issue_yoy_growth_fy: number;
-  continuous_dividend_payout: number;
-  continuous_dividend_growth: number;
-  gross_margin_ttm: number;
-  operating_margin_ttm: number;
-  pre_tax_margin_ttm: number;
-  net_margin_ttm: number;
-  free_cash_flow_margin_ttm: number;
-  return_on_assets_fq: number;
-  return_on_equity_fq: number;
-  return_on_invested_capital_fq: number;
-  research_and_dev_ratio_ttm: number;
-  sell_gen_admin_exp_other_ratio_ttm: number;
-  total_assets_fq: number;
-  total_current_assets_fq: number;
-  cash_n_short_term_invest_fq: number;
-  total_liabilities_fq: number;
-  total_debt_fq: number;
-  net_debt_fq: number;
-  total_equity_fq: number;
-  current_ratio_fq: number;
-  quick_ratio_fq: number;
-  debt_to_equity_fq: number;
-  cash_n_short_term_invest_to_total_debt_fq: number;
-  cash_f_operating_activities_ttm: number;
-  cash_f_investing_activities_ttm: number;
-  cash_f_financing_activities_ttm: number;
-  free_cash_flow_ttm: number;
-  capital_expenditures_ttm: number;
-  "Recommend.All": number;
-  "Recommend.MA": number;
-  "Recommend.Other": number;
-  RSI: number;
-  Mom: number;
-  AO: number;
-  CCI20: number;
-  StochK: number;
-  StochD: number;
-  Candle3BlackCrows: number;
-  Candle3WhiteSoldiers: number;
-  CandleAbandonedBabyBearish: number;
-  CandleAbandonedBabyBullish: number;
-  CandleDoji: number;
-  CandleDojiDragonfly: number;
-  CandleDojiGravestone: number;
-  CandleEngulfingBearish: number;
-  CandleEngulfingBullish: number;
-  CandleEveningStar: number;
-  CandleHammer: number;
-  CandleHangingMan: number;
-  CandleHaramiBearish: number;
-  CandleHaramiBullish: number;
-  CandleInvertedHammer: number;
-  CandleKickingBearish: number;
-  CandleKickingBullish: number;
-  CandleLongShadowLower: number;
-  CandleLongShadowUpper: number;
-  CandleMarubozuBlack: number;
-  CandleMarubozuWhite: number;
-  CandleMorningStar: number;
-  CandleShootingStar: number;
-  CandleSpinningTopBlack: number;
-  CandleSpinningTopWhite: number;
-  CandleTriStarBearish: number;
-  CandleTriStarBullish: number;
-
-  score: number;
-};
-
-const stockList = useState<StockInfo[]>("stockList", () => []);
+const stockList = useState<any[]>("stockList", () => []);
 const intervalId = ref();
 
 onMounted(() => {
@@ -181,7 +17,9 @@ onUnmounted(() => {
 });
 
 const getInvesting = () => {
-  fetch(`/api/stock/${route.params.code}`, {
+  if (exchange.value == undefined) return;
+
+  fetch(`/api/stock/${route.params.code}/${exchange.value}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -206,56 +44,6 @@ const condition = ref({
   viewRecentData: false, // 최근 한시간 이내 데이터만
   goodTechnical: false, // 좋은 분석 데이터만
   sorting: "volumeRate",
-});
-
-const cStockList = computed(() => {
-  if (!Array.isArray(stockList.value)) {
-    // 3단계: stockList.value가 배열인지 확인
-    console.error("stockList.value is not an array", stockList.value); // 4단계: 디버깅 로그
-    return []; // 배열이 아니면 빈 배열 반환
-  }
-
-  const oneHourAgo = Date.now() - 3600 * 1000; // Current time minus one hour in milliseconds
-
-  return stockList.value
-    .map((stock) => ({
-      ...stock,
-      volumeRate: Math.round((stock.Volume / stock.AvgVolume) * 100 * 10) / 10,
-    }))
-    .filter(
-      (stock) =>
-        !condition.value.viewRecentData ||
-        (condition.value.viewRecentData &&
-          Number(stock.Time) * 1000 >= oneHourAgo)
-    ) // If viewRecentData.value is false, include all stocks
-    .filter((stock) => {
-      return stock.Name.toLowerCase().includes(
-        condition.value.search.toLowerCase()
-      );
-    })
-    .filter(
-      (stock) =>
-        !condition.value.goodTechnical ||
-        (stock.TechnicalDay == "strong_buy" &&
-          stock.TechnicalHour == "strong_buy" && // 기술적 시간당 분석
-          stock.TechnicalMonth == "strong_buy" && // 기술적 월간 분석
-          stock.TechnicalWeek == "strong_buy") // 기술적 주간 분석
-    )
-    .sort((a, b) => {
-      return b.score - a.score;
-
-      if (condition.value.sorting === "Name") {
-        return a.Name.localeCompare(b.Name);
-      } else if (condition.value.sorting === "volumeRate") {
-        return b.volumeRate - a.volumeRate;
-      } else if (condition.value.sorting === "Chg") {
-        return b.Chg - a.Chg;
-      } else if (condition.value.sorting === "ChgPct") {
-        return b.ChgPct - a.ChgPct;
-      }
-      return 0;
-    })
-    .slice(0, 100);
 });
 
 function timeAgo(timestamp: any) {
@@ -306,43 +94,54 @@ const controller = ref({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead> 종목명 </TableHead>
+                <TableHead>종목명</TableHead>
                 <TableHead>종목코드</TableHead>
                 <TableHead>점수</TableHead>
+                <TableHead>섹터</TableHead>
+                <TableHead>산업</TableHead>
+
                 <TableHead>주가수익비율(PER)</TableHead>
                 <TableHead>베타</TableHead>
+
                 <TableHead>일일</TableHead>
                 <TableHead>주간</TableHead>
                 <TableHead>월간</TableHead>
                 <TableHead>연간</TableHead>
+
                 <TableHead>일일</TableHead>
                 <TableHead>주간</TableHead>
                 <TableHead>월간</TableHead>
                 <TableHead>연간</TableHead>
+
                 <TableHead>거래량</TableHead>
                 <TableHead>변동률</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow v-for="stock in cStockList">
-                <TableCell> {{ stock.Name }} </TableCell>
-                <TableCell>{{ stock.Id }}</TableCell>
+              <TableRow v-for="stock in stockList">
+                <TableCell> {{ stock.viewData.name }} </TableCell>
+                <TableCell>{{ stock.viewData.symbol }}</TableCell>
                 <TableCell>{{ stock.score }}</TableCell>
+                <TableCell>{{ stock.sector_trans }}</TableCell>
+                <TableCell>{{ stock.industry_trans }}</TableCell>
+
                 <TableCell>{{ stock.FundamentalRatio }}</TableCell>
                 <TableCell> {{ stock.FundamentalBeta }} </TableCell>
+
                 <TableCell> {{ stock.PerformanceDay }} </TableCell>
                 <TableCell> {{ stock.PerformanceWeek }} </TableCell>
                 <TableCell> {{ stock.PerformanceMonth }} </TableCell>
                 <TableCell> {{ stock.PerformanceYear }} </TableCell>
+
                 <TableCell> {{ stock.TechnicalHour }} </TableCell>
                 <TableCell> {{ stock.TechnicalDay }} </TableCell>
                 <TableCell> {{ stock.TechnicalMonth }} </TableCell>
                 <TableCell> {{ stock.TechnicalWeek }} </TableCell>
                 <TableCell>
-                  {{ stock.volumeRate }}% ({{ stock.Volume }} /
-                  {{ stock.AvgVolume }})
+                  {{ stock.volumeRate }}% ({{ stock.turnover_volume }} /
+                  {{ stock.avg_volume }})
                 </TableCell>
-                <TableCell> {{ stock.ChgPct }}% ({{ stock.Chg }}) </TableCell>
+                <TableCell> {{ stock.daily }}%</TableCell>
               </TableRow>
             </TableBody>
           </Table>

@@ -7,7 +7,10 @@ const condition = ref(props.modelValue);
 
 const emit = defineEmits(["update:modelValue"]);
 
-const changeCondition = () => {
+const changeCondition = (newWord?: string) => {
+  if (newWord && typeof newWord === "string") {
+    condition.value.search = newWord;
+  }
   emit("update:modelValue", condition.value);
 };
 
@@ -26,9 +29,8 @@ watch(condition, changeCondition, { deep: true });
       <div class="col-span-2">
         <Input
           type="text"
-          v-model="condition.search"
           placeholder="search"
-          @input="changeCondition"
+          @change="(event: any) => changeCondition(event.target.value)"
         />
       </div>
       <div class="text-sm font-bold">최근 1시간</div>

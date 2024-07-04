@@ -35,9 +35,12 @@ const selectedCountry = useState<any>("selectedCountry");
 
 const nameTo = ({ name, indiceList }: { name: string; indiceList: any }) => {
   selectedCountry.value = { name, indiceList };
+  exchange.value = undefined;
   const router = useRouter();
   router.push({ path: `/stock/${nameList[name]}` });
 };
+
+const exchange = useExchange();
 </script>
 <template>
   <div class="shrink-0 h-14 px-2 flex items-center">
