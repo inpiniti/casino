@@ -1,5 +1,5 @@
 # Use the official Node.js 18.17.0 runtime as a parent image
-FROM node:18.17.0-buster-slim
+FROM node:18.17.0
 
 # Use the official Node.js 16 runtime as a parent image
 #FROM --platform=linux/amd64 node:14-buster-slim
@@ -12,6 +12,9 @@ COPY package*.json ./
 
 # Install the project dependencies
 RUN npm install
+
+# Copy the rest of the application code to the working directory
+COPY . .
 
 # Automatically fix detected vulnerabilities
 # RUN npm audit fix
