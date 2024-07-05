@@ -49,7 +49,7 @@ const exchange = useExchange();
         </div>
       </div>
       <div
-        class="shrink-0 h-14 px-4 flex items-center gap-2"
+        class="flex items-center gap-2 px-4 shrink-0 h-14"
         v-if="selectedCountry"
       >
         <Select v-model="exchange" v-if="selectedCountry?.name == 'Korea'">
@@ -81,9 +81,7 @@ const exchange = useExchange();
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <Button>
-        <font-awesome-icon icon="rotate-right" />
-      </Button>
+      <ButtonLoading />
       <Popover>
         <PopoverTrigger class="grow-[0]">
           <Button variant="outline">

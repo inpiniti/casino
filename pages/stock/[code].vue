@@ -2,22 +2,37 @@
 const route = useRoute();
 
 const selectedCountry = useState<any>("selectedCountry");
-const exchange = useExchange();
-
 const stockList = useState<any[]>("stockList", () => []);
-const intervalId = ref();
 
-onMounted(() => {
-  getInvesting();
-  intervalId.value = setInterval(getInvesting, 1000 * 60 * 1);
-});
+const exchange = useExchange();
+const { count, loading } = useLoading().value;
 
-onUnmounted(() => {
-  clearInterval(intervalId.value);
-});
+watch(
+  () => [count.value, loading.value, exchange.value],
+  () => {
+    console.log("watch");
+    console.log(loading.value);
+    if (loading.value) {
+      getInvesting();
+    }
+  }
+);
+
+watch(
+  () => exchange.value,
+  () => {
+    loading.value = true;
+    count.value = 0;
+    getInvesting();
+  }
+);
 
 const getInvesting = () => {
-  if (exchange.value == undefined) return;
+  if (exchange.value == undefined) {
+    loading.value = false;
+    count.value = 60;
+    return;
+  }
 
   fetch(`/api/stock/${route.params.code}/${exchange.value}`, {
     method: "POST",
@@ -36,6 +51,10 @@ const getInvesting = () => {
     })
     .catch((e) => {
       console.error(e);
+    })
+    .finally(() => {
+      loading.value = false;
+      count.value = 60;
     });
 };
 
