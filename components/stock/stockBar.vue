@@ -16,10 +16,18 @@ const changeCondition = () => {
 };
 
 const exchange = useExchange();
+const windowLayout = useWindowLayout();
 </script>
 <template>
   <div class="flex justify-between w-full">
     <div class="flex gap-4 shrink-0">
+      <div
+        class="flex items-center px-3 cursor-pointer"
+        @click="windowLayout = windowLayout == 'all' ? 'full' : 'all'"
+      >
+        <font-awesome-icon icon="bars" v-if="windowLayout == 'full'" />
+        <font-awesome-icon icon="x" v-else />
+      </div>
       <div class="flex items-center gap-2 font-bold">
         <img
           class="border h-fit border-neutral-400"
@@ -82,6 +90,7 @@ const exchange = useExchange();
     </div>
     <div class="flex items-center gap-2">
       <ButtonLoading />
+      <Input v-model="condition.search" placeholder="삼성전자" />
       <Popover>
         <PopoverTrigger class="grow-[0]">
           <Button variant="outline">
@@ -95,6 +104,9 @@ const exchange = useExchange();
           />
         </PopoverContent>
       </Popover>
+      <Button class="flex gap-2" variant="outline"
+        ><font-awesome-icon icon="user" /> 관심종목</Button
+      >
     </div>
   </div>
 </template>

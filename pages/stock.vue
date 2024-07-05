@@ -34,10 +34,15 @@ const selectCountry = () => {
     };
   }
 };
+
+const windowLayout = useWindowLayout();
 </script>
 <template>
   <div class="grow-[0] h-full flex divide-x overflow-hidden">
-    <div class="flex flex-col shrink-0 w-36 h-full divide-y">
+    <div
+      class="flex flex-col h-full divide-y shrink-0 w-36"
+      v-if="windowLayout == 'all'"
+    >
       <StockMenu :indices="indices" />
     </div>
     <div class="grow-[0] overflow-hidden h-full w-full">

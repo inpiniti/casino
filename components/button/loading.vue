@@ -10,13 +10,16 @@ onMounted(() => {
     }
   }, 1000);
 });
+onUnmounted(() => {
+  clearInterval(intervalId.value);
+});
 const onClickLoading = () => {
   if (loading.value) return;
   loading.value = true;
 };
 </script>
 <template>
-  <Button class="flex gap-2" @click="onClickLoading">
+  <Button variant="secondary" class="flex gap-2" @click="onClickLoading">
     <font-awesome-icon icon="rotate-right" :spin="loading" />
     <div v-if="loading">Loading...</div>
     <div v-else>{{ count }}</div>
