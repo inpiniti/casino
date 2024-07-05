@@ -1,2 +1,2 @@
 // 레이아웃
-export const useWindowLayout = () => useState("full");
+export const useWindowLayout = () => useState("windowLayout", () => "full");
