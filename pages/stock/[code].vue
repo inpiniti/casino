@@ -105,11 +105,11 @@ const windowLayout = useWindowLayout();
       >
         <StockBar :selectedCountry="selectedCountry" v-model="condition" />
       </div>
-      <div class="grow-[0] flex h-full divide-x">
-        <div class="grow-[0] overflow-scroll scrollbar-hide h-full">
+      <div class="grow-[0] overflow-hidden flex h-full divide-x">
+        <div class="grow-[0] overflow-scroll scrollbar-hide h-full flex">
           <div class="whitespace-nowrap">
             <Table>
-              <TableHeader class="sticky top-0">
+              <TableHeader class="sticky top-0 bg-white shadow-lg">
                 <TableRow>
                   <TableHead>종목명</TableHead>
                   <TableHead>종목코드</TableHead>
@@ -164,12 +164,12 @@ const windowLayout = useWindowLayout();
           </div>
         </div>
         <div
-          class="flex h-full overflow-scroll w-[453px] scrollbar-hide"
+          class="shrink-0 flex h-full overflow-scroll w-[434px] scrollbar-hide"
           v-if="windowLayout.interest"
         >
           <div class="whitespace-nowrap">
             <Table>
-              <TableHeader class="sticky top-0">
+              <TableHeader class="sticky top-0 bg-white shadow-lg">
                 <TableRow>
                   <TableHead>종목명</TableHead>
                   <TableHead>종목코드</TableHead>
