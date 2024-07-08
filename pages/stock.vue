@@ -41,7 +41,7 @@ const windowLayout = useWindowLayout();
   <div class="grow-[0] h-full flex divide-x overflow-hidden">
     <div
       class="flex flex-col h-full divide-y shrink-0 w-36"
-      v-if="windowLayout == 'all'"
+      v-if="windowLayout.layout == 'all'"
     >
       <StockMenu :indices="indices" />
     </div>
