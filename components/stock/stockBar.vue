@@ -91,22 +91,9 @@ const windowLayout = useWindowLayout();
     <div class="flex items-center gap-2">
       <ButtonLoading />
       <Input v-model="condition.search" placeholder="삼성전자" />
-      <Popover>
-        <PopoverTrigger class="grow-[0]">
-          <Button variant="outline">
-            <font-awesome-icon icon="filter" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <StockStcokCondition
-            v-model="condition"
-            @update:modelValue="changeCondition"
-          />
-        </PopoverContent>
-      </Popover>
-      <Button class="flex gap-2" variant="outline"
-        ><font-awesome-icon icon="user" /> 관심종목</Button
-      >
+      <Button class="flex gap-2" variant="outline">
+        <font-awesome-icon icon="user" /> 관심종목
+      </Button>
     </div>
   </div>
 </template>
