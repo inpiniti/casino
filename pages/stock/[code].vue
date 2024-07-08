@@ -105,65 +105,92 @@ const windowLayout = useWindowLayout();
       >
         <StockBar :selectedCountry="selectedCountry" v-model="condition" />
       </div>
-      <div class="grow-[0] overflow-hidden scrollbar-hide flex h-full">
-        <div class="whitespace-nowrap overflow-hidden">
-          <Table>
-            <TableHeader class="sticky top-0 bg-white">
-              <TableRow>
-                <TableHead class="p-2">종목명</TableHead>
-                <TableHead class="p-2">종목코드</TableHead>
-                <TableHead class="p-2">점수</TableHead>
-                <TableHead class="p-2">섹터</TableHead>
-                <TableHead class="p-2">산업</TableHead>
-                <TableHead class="p-2">거래량</TableHead>
-                <TableHead class="p-2">변동률</TableHead>
+      <div class="grow-[0] flex h-full divide-x">
+        <div class="grow-[0] overflow-scroll scrollbar-hide h-full">
+          <div class="whitespace-nowrap">
+            <Table>
+              <TableHeader class="sticky top-0">
+                <TableRow>
+                  <TableHead>종목명</TableHead>
+                  <TableHead>종목코드</TableHead>
+                  <TableHead>점수</TableHead>
+                  <TableHead>섹터</TableHead>
+                  <TableHead>산업</TableHead>
+                  <TableHead>거래량</TableHead>
+                  <TableHead>변동률</TableHead>
 
-                <TableHead class="p-2">주가수익비율(PER)</TableHead>
-                <TableHead class="p-2">베타</TableHead>
+                  <TableHead>주가수익비율(PER)</TableHead>
+                  <TableHead>베타</TableHead>
 
-                <TableHead class="p-2">일일</TableHead>
-                <TableHead class="p-2">주간</TableHead>
-                <TableHead class="p-2">월간</TableHead>
-                <TableHead class="p-2">연간</TableHead>
+                  <TableHead>일일</TableHead>
+                  <TableHead>주간</TableHead>
+                  <TableHead>월간</TableHead>
+                  <TableHead>연간</TableHead>
 
-                <TableHead class="p-2">일일</TableHead>
-                <TableHead class="p-2">주간</TableHead>
-                <TableHead class="p-2">월간</TableHead>
-                <TableHead class="p-2">연간</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow v-for="stock in stockList">
-                <TableCell class="p-2"> {{ stock.viewData.name }} </TableCell>
-                <TableCell class="p-2">{{ stock.viewData.symbol }}</TableCell>
-                <TableCell class="p-2">{{ stock.score }}</TableCell>
-                <TableCell class="p-2">{{ stock.sector_trans }}</TableCell>
-                <TableCell class="p-2">{{ stock.industry_trans }}</TableCell>
-                <TableCell class="p-2">
-                  {{ stock.volumeRate }}% ({{ stock.turnover_volume }} /
-                  {{ stock.avg_volume }})
-                </TableCell class="p-2">
-                <TableCell class="p-2"> {{ stock.daily }}%</TableCell>
+                  <TableHead>일일</TableHead>
+                  <TableHead>주간</TableHead>
+                  <TableHead>월간</TableHead>
+                  <TableHead>연간</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow v-for="stock in stockList">
+                  <TableCell> {{ stock.viewData.name }} </TableCell>
+                  <TableCell>{{ stock.viewData.symbol }}</TableCell>
+                  <TableCell>{{ stock.score }}</TableCell>
+                  <TableCell>{{ stock.sector_trans }}</TableCell>
+                  <TableCell>{{ stock.industry_trans }}</TableCell>
+                  <TableCell>
+                    {{ stock.volumeRate }}% ({{ stock.turnover_volume }} /
+                    {{ stock.avg_volume }})
+                  </TableCell>
+                  <TableCell> {{ stock.daily }}%</TableCell>
 
-                <TableCell class="p-2">{{ stock.FundamentalRatio }}</TableCell>
-                <TableCell class="p-2"> {{ stock.FundamentalBeta }} </TableCell>
+                  <TableCell>{{ stock.FundamentalRatio }}</TableCell>
+                  <TableCell> {{ stock.FundamentalBeta }} </TableCell>
 
-                <TableCell class="p-2"> {{ stock.PerformanceDay }} </TableCell>
-                <TableCell class="p-2"> {{ stock.PerformanceWeek }} </TableCell>
-                <TableCell class="p-2"> {{ stock.PerformanceMonth }} </TableCell>
-                <TableCell class="p-2"> {{ stock.PerformanceYear }} </TableCell>
+                  <TableCell> {{ stock.PerformanceDay }} </TableCell>
+                  <TableCell> {{ stock.PerformanceWeek }} </TableCell>
+                  <TableCell> {{ stock.PerformanceMonth }} </TableCell>
+                  <TableCell> {{ stock.PerformanceYear }} </TableCell>
 
-                <TableCell class="p-2"> {{ stock.TechnicalHour }} </TableCell>
-                <TableCell class="p-2"> {{ stock.TechnicalDay }} </TableCell>
-                <TableCell class="p-2"> {{ stock.TechnicalMonth }} </TableCell>
-                <TableCell class="p-2"> {{ stock.TechnicalWeek }} </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+                  <TableCell> {{ stock.TechnicalHour }} </TableCell>
+                  <TableCell> {{ stock.TechnicalDay }} </TableCell>
+                  <TableCell> {{ stock.TechnicalMonth }} </TableCell>
+                  <TableCell> {{ stock.TechnicalWeek }} </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+        <div
+          class="flex h-full overflow-scroll w-[453px] scrollbar-hide"
+          v-if="windowLayout.interest"
+        >
+          <div class="whitespace-nowrap">
+            <Table>
+              <TableHeader class="sticky top-0">
+                <TableRow>
+                  <TableHead>종목명</TableHead>
+                  <TableHead>종목코드</TableHead>
+                  <TableHead>점수</TableHead>
+                  <TableHead>변동률</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow v-for="stock in stockList">
+                  <TableCell> {{ stock.viewData.name }} </TableCell>
+                  <TableCell>{{ stock.viewData.symbol }}</TableCell>
+                  <TableCell>{{ stock.score }}</TableCell>
+                  <TableCell> {{ stock.daily }}%</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </div>
     </div>
-    <div class="w-48 shrink-0" v-if="windowLayout == 'all'">
+    <div class="w-48 shrink-0" v-if="windowLayout.layout == 'all'">
       <Controller v-model="controller" />
     </div>
   </div>

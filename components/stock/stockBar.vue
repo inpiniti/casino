@@ -23,9 +23,11 @@ const windowLayout = useWindowLayout();
     <div class="flex gap-4 shrink-0">
       <div
         class="flex items-center px-3 cursor-pointer"
-        @click="windowLayout = windowLayout == 'all' ? 'full' : 'all'"
+        @click="
+          windowLayout.layout = windowLayout.layout == 'all' ? 'full' : 'all'
+        "
       >
-        <font-awesome-icon icon="bars" v-if="windowLayout == 'full'" />
+        <font-awesome-icon icon="bars" v-if="windowLayout.layout == 'full'" />
         <font-awesome-icon icon="x" v-else />
       </div>
       <div class="flex items-center gap-2 font-bold">
@@ -91,8 +93,25 @@ const windowLayout = useWindowLayout();
     <div class="flex items-center gap-2">
       <ButtonLoading />
       <Input v-model="condition.search" placeholder="삼성전자" />
-      <Button class="flex gap-2" variant="outline">
-        <font-awesome-icon icon="user" /> 관심종목
+      <Popover>
+        <PopoverTrigger class="grow-[0]">
+          <Button variant="outline">
+            <font-awesome-icon icon="filter" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <StockStcokCondition
+            v-model="condition"
+            @update:modelValue="changeCondition"
+          />
+        </PopoverContent>
+      </Popover>
+      <Button
+        class="flex gap-2"
+        :variant="windowLayout.interest ? 'default' : 'outline'"
+        @click="windowLayout.interest = !windowLayout.interest"
+      >
+        <font-awesome-icon icon="heart" /> 관심종목
       </Button>
     </div>
   </div>
