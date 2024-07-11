@@ -94,6 +94,13 @@ const controller = ref({
 });
 
 const windowLayout = useWindowLayout();
+
+const openNaver = (code: string) => {
+  window.open(`https://finance.naver.com/item/main.naver?code=${code}#`);
+};
+const openTradingview = (code: string) => {
+  window.open(`https://www.tradingview.com/symbols/KRX-${code}/`);
+};
 </script>
 
 <template>
@@ -120,17 +127,7 @@ const windowLayout = useWindowLayout();
                   <TableHead>변동률</TableHead>
 
                   <TableHead>최근 가격</TableHead>
-                  <TableHead>베타</TableHead>
-
-                  <TableHead>일일</TableHead>
-                  <TableHead>주간</TableHead>
-                  <TableHead>월간</TableHead>
-                  <TableHead>연간</TableHead>
-
-                  <TableHead>일일</TableHead>
-                  <TableHead>주간</TableHead>
-                  <TableHead>월간</TableHead>
-                  <TableHead>연간</TableHead>
+                  <TableHead>차트</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -145,6 +142,14 @@ const windowLayout = useWindowLayout();
                       </ContextMenuTrigger>
                       <ContextMenuContent>
                         <ContextMenuItem>관심종목 추가</ContextMenuItem>
+                        <ContextMenuItem
+                          @click="openNaver(stock.viewData.symbol)"
+                          >네이버 새창
+                        </ContextMenuItem>
+                        <ContextMenuItem
+                          @click="openTradingview(stock.viewData.symbol)"
+                          >트레이딩뷰 새창
+                        </ContextMenuItem>
                       </ContextMenuContent>
                     </ContextMenu>
                   </TableCell>
@@ -154,20 +159,14 @@ const windowLayout = useWindowLayout();
                   <TableCell>{{ stock.industry_trans }}</TableCell>
                   <TableCell> {{ stock.volumeRate }}% </TableCell>
                   <TableCell> {{ stock.daily }}%</TableCell>
-
                   <TableCell>{{ stock.last }}</TableCell>
-
-                  <TableCell> {{ stock.FundamentalBeta }} </TableCell>
-
-                  <TableCell> {{ stock.PerformanceDay }} </TableCell>
-                  <TableCell> {{ stock.PerformanceWeek }} </TableCell>
-                  <TableCell> {{ stock.PerformanceMonth }} </TableCell>
-                  <TableCell> {{ stock.PerformanceYear }} </TableCell>
-
-                  <TableCell> {{ stock.TechnicalHour }} </TableCell>
-                  <TableCell> {{ stock.TechnicalDay }} </TableCell>
-                  <TableCell> {{ stock.TechnicalMonth }} </TableCell>
-                  <TableCell> {{ stock.TechnicalWeek }} </TableCell>
+                  <TableCell class="p-0 w-32">
+                    <img
+                      :src="`https://ssl.pstatic.net/imgfinance/chart/item/area/day/${
+                        stock.viewData.symbol
+                      }.png?sidcode=${Date.now()}`"
+                    />
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
