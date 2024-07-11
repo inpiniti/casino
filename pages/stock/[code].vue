@@ -105,21 +105,21 @@ const windowLayout = useWindowLayout();
       >
         <StockBar :selectedCountry="selectedCountry" v-model="condition" />
       </div>
-      <div class="grow-[0] flex h-full divide-x">
-        <div class="grow-[0] overflow-scroll scrollbar-hide h-full">
+      <div class="grow-[0] overflow-hidden flex h-full divide-x">
+        <div class="grow-[0] overflow-scroll scrollbar-hide h-full flex">
           <div class="whitespace-nowrap">
             <Table>
-              <TableHeader class="sticky top-0">
+              <TableHeader class="sticky top-0 bg-white shadow-lg">
                 <TableRow>
                   <TableHead>종목명</TableHead>
                   <TableHead>종목코드</TableHead>
                   <TableHead>점수</TableHead>
                   <TableHead>섹터</TableHead>
                   <TableHead>산업</TableHead>
-                  <TableHead>거래량</TableHead>
+                  <TableHead>거래량 율</TableHead>
                   <TableHead>변동률</TableHead>
 
-                  <TableHead>주가수익비율(PER)</TableHead>
+                  <TableHead>최근 가격</TableHead>
                   <TableHead>베타</TableHead>
 
                   <TableHead>일일</TableHead>
@@ -135,18 +135,28 @@ const windowLayout = useWindowLayout();
               </TableHeader>
               <TableBody>
                 <TableRow v-for="stock in stockList">
-                  <TableCell> {{ stock.viewData.name }} </TableCell>
+                  <TableCell>
+                    <ContextMenu>
+                      <ContextMenuTrigger
+                        class="text-red-400 flex items-center gap-2 cursor-pointer"
+                      >
+                        {{ stock.viewData.name }}
+                        <font-awesome-icon icon="computer-mouse" />
+                      </ContextMenuTrigger>
+                      <ContextMenuContent>
+                        <ContextMenuItem>관심종목 추가</ContextMenuItem>
+                      </ContextMenuContent>
+                    </ContextMenu>
+                  </TableCell>
                   <TableCell>{{ stock.viewData.symbol }}</TableCell>
                   <TableCell>{{ stock.score }}</TableCell>
                   <TableCell>{{ stock.sector_trans }}</TableCell>
                   <TableCell>{{ stock.industry_trans }}</TableCell>
-                  <TableCell>
-                    {{ stock.volumeRate }}% ({{ stock.turnover_volume }} /
-                    {{ stock.avg_volume }})
-                  </TableCell>
+                  <TableCell> {{ stock.volumeRate }}% </TableCell>
                   <TableCell> {{ stock.daily }}%</TableCell>
 
-                  <TableCell>{{ stock.FundamentalRatio }}</TableCell>
+                  <TableCell>{{ stock.last }}</TableCell>
+
                   <TableCell> {{ stock.FundamentalBeta }} </TableCell>
 
                   <TableCell> {{ stock.PerformanceDay }} </TableCell>
@@ -164,12 +174,12 @@ const windowLayout = useWindowLayout();
           </div>
         </div>
         <div
-          class="flex h-full overflow-scroll w-[453px] scrollbar-hide"
+          class="shrink-0 flex h-full overflow-scroll w-[434px] scrollbar-hide"
           v-if="windowLayout.interest"
         >
           <div class="whitespace-nowrap">
             <Table>
-              <TableHeader class="sticky top-0">
+              <TableHeader class="sticky top-0 bg-white shadow-lg">
                 <TableRow>
                   <TableHead>종목명</TableHead>
                   <TableHead>종목코드</TableHead>
