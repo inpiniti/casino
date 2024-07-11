@@ -2,7 +2,7 @@ const appConfig = useAppConfig();
 const codeList: any = appConfig.codeList;
 
 export default defineEventHandler(async (event) => {
-  return await updateStore("kr", "60");
+  return (await updateStore("kr", "60")).slice(0, 10);
 });
 
 async function updateStore(countryCode: string, exchangeCode: string) {
