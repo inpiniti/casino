@@ -1,7 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@nuxt/test-utils/module"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "shadcn-nuxt",
+    "@nuxt/test-utils/module",
+    "nuxt-scheduler",
+  ],
   css: [
     "@/assets/css/swagger-ui.css",
     "@fortawesome/fontawesome-svg-core/styles.css",

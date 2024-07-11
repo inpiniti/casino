@@ -1,4 +1,4 @@
-import { getKoreaTime } from "../utils/index";
+import { getKoreaTime } from "../../utils/index";
 const appConfig = useAppConfig();
 const codeList: any = appConfig.codeList;
 

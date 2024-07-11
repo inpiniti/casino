@@ -1,4 +1,4 @@
-import { getKoreaTime } from "../../utils/index";
+import { getKoreaTime } from "../../../utils/index";
 const appConfig = useAppConfig();
 const codeList: any = appConfig.codeList;
 
@@ -9,7 +9,12 @@ export default defineEventHandler(async (event) => {
   const countryCode = getRouterParam(event, "countryCode");
   const exchangeCode = getRouterParam(event, "exchangeCode");
 
-  return await getCurrentStoer(String(countryCode), String(exchangeCode));
+  //const data = await updateStore(String(countryCode), String(exchangeCode));
+  //await insertDataToSupabase(data);
+
+  //return "null";
+
+  return await updateStore(String(countryCode), String(exchangeCode));
 });
 
 export const getCurrentStoer = async (
@@ -30,7 +35,7 @@ export const getCurrentStoer = async (
   return currentStore;
 };
 
-async function updateStore(countryCode: string, exchangeCode: string) {
+export async function updateStore(countryCode: string, exchangeCode: string) {
   //   const a = {
   //     pair_ID: 951042, // 데이터 쌍의 ID
   //     stock_symbol: "005935", // 주식 심볼
@@ -312,7 +317,166 @@ async function updateStore(countryCode: string, exchangeCode: string) {
 
     console.log(`[${getKoreaTime()}] new investing parsing end`);
 
-    return allData;
+    return allData.map((item: any) => {
+      return {
+        flag: item.viewData.flag, // 국가 플래그
+        symbol: item.viewData.symbol, // 주식 심볼
+        link: item.viewData.link, // 주식 링크
+        name: item.viewData.name, // 이름 번역
+        stock_symbol: item.stock_symbol,
+        parent_pair_id: item.parent_pair_ID,
+        canonical_to_pair_id: item.canonical_to_pair_id,
+        override_country_id: item.override_country_ID,
+        eq_pe_ratio: item.eq_pe_ratio,
+        eq_market_cap: item.eq_market_cap,
+        eq_one_year_return: item.eq_one_year_return,
+        eq_dividend: item.eq_dividend,
+        eq_eps: item.eq_eps,
+        eq_beta: item.eq_beta,
+        eq_revenue: item.eq_revenue,
+        exchange_id: item.exchange_ID,
+        security_type: item.security_type,
+        a1fcf: item.a1fcf,
+        aastturn: item.aastturn,
+        abepsxclxo: item.abepsxclxo,
+        abvps: item.abvps,
+        acfshr: item.acfshr,
+        acshps: item.acshps,
+        acurratio: item.acurratio,
+        adiv5yavg: item.adiv5yavg,
+        aebitd: item.aebitd,
+        aebt: item.aebt,
+        aebtnorm: item.aebtnorm,
+        aepsinclxo: item.aepsinclxo,
+        aepsxclxor: item.aepsxclxor,
+        agrosmgn: item.agrosmgn,
+        aintcov: item.aintcov,
+        ainvturn: item.ainvturn,
+        altd2eq: item.altd2eq,
+        aniac: item.aniac,
+        aniacnorm: item.aniacnorm,
+        aniperemp: item.aniperemp,
+        anpmgnpct: item.anpmgnpct,
+        aopmgnpct: item.aopmgnpct,
+        apayratio: item.apayratio,
+        apeexclxor: item.apeexclxor,
+        apenorm: item.apenorm,
+        apr2rev: item.apr2rev,
+        apr2tanbk: item.apr2tanbk,
+        aprfcfps: item.aprfcfps,
+        aprice2bk: item.aprice2bk,
+        aptmgnpct: item.aptmgnpct,
+        aquickrati: item.aquickrati,
+        arecturn: item.arecturn,
+        arevperemp: item.arevperemp,
+        arevps: item.arevps,
+        aroa5yavg: item.aroa5yavg,
+        aroapct: item.aroapct,
+        aroe5yavg: item.aroe5yavg,
+        aroepct: item.aroepct,
+        aroi5yravg: item.aroi5yravg,
+        aroipct: item.aroipct,
+        atanbvps: item.atanbvps,
+        atotd2eq: item.atotd2eq,
+        bvtrendgr: item.bvtrendgr,
+        country_id: item.country_id,
+        csptrendgr: item.csptrendgr,
+        divyield_curttm: item.divyield_curttm,
+        ebitda_ayr5cagr: item.ebitda_ayr5cagr,
+        ebitda_ttmy5cagr: item.ebitda_ttmy5cagr,
+        epschngyr: item.epschngyr,
+        epsgrpct: item.epsgrpct,
+        epstrendgr: item.epstrendgr,
+        ev2fcf_cura: item.ev2fcf_cura,
+        ev2fcf_curttm: item.ev2fcf_curttm,
+        focf_ayr5cagr: item.focf_ayr5cagr,
+        grosmgn5yr: item.grosmgn5yr,
+        industry_id: item.industry_id,
+        margin5yr: item.margin5yr,
+        mktcap: item.mktcap,
+        netdebt_a: item.netdebt_a,
+        netdebt_i: item.netdebt_i,
+        npmtrendgr: item.npmtrendgr,
+        opmgn5yr: item.opmgn5yr,
+        pair_id: item.pair_id,
+        pebexclxor: item.pebexclxor,
+        peexclxor: item.peexclxor,
+        pr2tanbk: item.pr2tanbk,
+        price2bk: item.price2bk,
+        ptmgn5yr: item.ptmgn5yr,
+        qbvps: item.qbvps,
+        qcshps: item.qcshps,
+        qcurratio: item.qcurratio,
+        qltd2eq: item.qltd2eq,
+        qquickrati: item.qquickrati,
+        qtanbvps: item.qtanbvps,
+        qtotd2eq: item.qtotd2eq,
+        revchngyr: item.revchngyr,
+        revgrpct: item.revgrpct,
+        revps5ygr: item.revps5ygr,
+        revtrendgr: item.revtrendgr,
+        stld_ayr5cagr: item.stld_ayr5cagr,
+        ttmastturn: item.ttmastturn,
+        ttminvturn: item.ttminvturn,
+        ttmniac: item.ttmniac,
+        ttmnpmgn: item.ttmnpmgn,
+        ttmopmgn: item.ttmopmgn,
+        ttmpayrat: item.ttmpayrat,
+        ttmpr2rev: item.ttmpr2rev,
+        ttmprcfps: item.ttmprcfps,
+        ttmprfcfps: item.ttmprfcfps,
+        ttmptmgn: item.ttmptmgn,
+        ttmrecturn: item.ttmrecturn,
+        ttmrevchg: item.ttmrevchg,
+        ttmrevps: item.ttmrevps,
+        ttmroapct: item.ttmroapct,
+        ttmroepct: item.ttmroepct,
+        ttmroipct: item.ttmroipct,
+        vdes_ttm: item.vdes_ttm,
+        yield: item.yield,
+        yld5yavg: item.yld5yavg,
+        rsi: item.RSI,
+        stoch: item.STOCH,
+        cci: item.CCI,
+        macd: item.MACD,
+        adx: item.ADX,
+        williamsr: item.WilliamsR,
+        stochrsi: item.STOCHRSI,
+        atr: item.ATR,
+        hl: item.HL,
+        uo: item.UO,
+        roc: item.ROC,
+        bullbear: item.BullBear,
+        tech_sum_300: item.tech_sum_300,
+        tech_sum_900: item.tech_sum_900,
+        tech_sum_1800: item.tech_sum_1800,
+        tech_sum_3600: item.tech_sum_3600,
+        tech_sum_18000: item.tech_sum_18000,
+        tech_sum_86400: item.tech_sum_86400,
+        tech_sum_week: item.tech_sum_week,
+        tech_sum_month: item.tech_sum_month,
+        daily: item.daily,
+        sector_id: item.sector_id,
+        avg_volume: item.avg_volume,
+        pair_change_percent: item.pair_change_percent,
+        a52_week_high: item.a52_week_high,
+        a52_week_low: item.a52_week_low,
+        turnover_volume: item.turnover_volume,
+        last: item.last,
+        a52_week_high_diff: item.a52_week_high_diff,
+        a52_week_low_diff: item.a52_week_low_diff,
+        exchange_trans: item.exchange_trans,
+        name_trans: item.name_trans,
+        sector_trans: item.sector_trans,
+        industry_trans: item.industry_trans,
+        month_change: item.month_change,
+        ytd: item.ytd,
+        week: item.week,
+        month: item.month,
+        year: item.year,
+        "3year": item["3year"],
+      };
+    });
   } catch (error) {
     console.error(error);
     return error;
