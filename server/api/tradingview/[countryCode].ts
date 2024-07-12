@@ -8,8 +8,29 @@ let isUpdating = false; // 플래그를 추가
 export default defineEventHandler(async (event) => {
   const countryCode = getRouterParam(event, "countryCode");
 
-  return await getCurrentStoer(String(countryCode));
+  //return await getCurrentStoer(String(countryCode));
+  const data = await updateStore(String(countryCode));
+  return data.map((item: any) => toSnakeCase(item));
 });
+
+function toSnakeCase(obj: any): any {
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    let snakeCaseKey = key
+      .replace(/\.+/g, "_") // Replace dots with underscores
+      .replace(/([A-Z])/g, "_$1") // Prefix uppercase letters with an underscore
+      .toLowerCase() // Convert to lowercase
+      .replace(/__+/g, "_"); // Replace double underscores with a single underscore
+
+    // Remove leading underscore if it's the first character
+    snakeCaseKey = snakeCaseKey.startsWith("_")
+      ? snakeCaseKey.substring(1)
+      : snakeCaseKey;
+
+    newObj[snakeCaseKey] = obj[key];
+  });
+  return newObj;
+}
 
 export const getCurrentStoer = async (countryCode: string) => {
   const currentStore = store?.[String(countryCode)] ?? [];
@@ -23,12 +44,11 @@ export const getCurrentStoer = async (countryCode: string) => {
   return currentStore;
 };
 
-async function updateStore(countryCode: string) {
+export async function updateStore(countryCode: string) {
   isUpdating = true; // updateStore가 실행 중임을 표시
   try {
     // url https://scanner.tradingview.com/korea/scan
     // 메서드 POST
-    // 페이로드 {"columns":["name","description","logoid","update_mode","type","typespecs","Recommend.All","Recommend.MA","Recommend.Other","RSI","Mom","pricescale","minmov","fractional","minmove2","AO","CCI20","Stoch.K","Stoch.D","Candle.3BlackCrows","Candle.3WhiteSoldiers","Candle.AbandonedBaby.Bearish","Candle.AbandonedBaby.Bullish","Candle.Doji","Candle.Doji.Dragonfly","Candle.Doji.Gravestone","Candle.Engulfing.Bearish","Candle.Engulfing.Bullish","Candle.EveningStar","Candle.Hammer","Candle.HangingMan","Candle.Harami.Bearish","Candle.Harami.Bullish","Candle.InvertedHammer","Candle.Kicking.Bearish","Candle.Kicking.Bullish","Candle.LongShadow.Lower","Candle.LongShadow.Upper","Candle.Marubozu.Black","Candle.Marubozu.White","Candle.MorningStar","Candle.ShootingStar","Candle.SpinningTop.Black","Candle.SpinningTop.White","Candle.TriStar.Bearish","Candle.TriStar.Bullish","exchange"],"ignore_unknown_fields":false,"options":{"lang":"ko"},"range":[0,100],"sort":{"sortBy":"market_cap_basic","sortOrder":"desc"},"symbols":{},"markets":["korea"],"filter2":{"operator":"and","operands":[{"operation":{"operator":"or","operands":[{"operation":{"operator":"and","operands":[{"expression":{"left":"type","operation":"equal","right":"stock"}},{"expression":{"left":"typespecs","operation":"has","right":["common"]}}]}},{"operation":{"operator":"and","operands":[{"expression":{"left":"type","operation":"equal","right":"stock"}},{"expression":{"left":"typespecs","operation":"has","right":["preferred"]}}]}},{"operation":{"operator":"and","operands":[{"expression":{"left":"type","operation":"equal","right":"dr"}}]}},{"operation":{"operator":"and","operands":[{"expression":{"left":"type","operation":"equal","right":"fund"}},{"expression":{"left":"typespecs","operation":"has_none_of","right":["etf"]}}]}}]}}]}}
 
     const 오버뷰 = [
       "name", // 이름
@@ -36,7 +56,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "close", // 종가
       "pricescale", // 가격 척도
       "minmov", // 최소 이동
@@ -64,7 +83,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "close", // 종가
       "pricescale", // 가격 척도
       "minmov", // 최소 이동
@@ -91,7 +109,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "premarket_close", // 시장 개장 전 종가
       "pricescale", // 가격 척도
       "minmov", // 최소 이동
@@ -117,7 +134,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "market_cap_basic", // 기본 시장 규모
       "fundamental_currency_code", // 기본 통화 코드
       "Perf.1Y.MarketCap", // 1년 시장 규모 성과
@@ -140,7 +156,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "dps_common_stock_prim_issue_fy", // 주식 기본 발행 DPS(연간)
       "fundamental_currency_code", // 기본 통화 코드
       "dps_common_stock_prim_issue_fq", // 주식 기본 발행 DPS(분기별)
@@ -158,7 +173,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "gross_margin_ttm", // 총 마진(TTM)
       "operating_margin_ttm", // 운영 마진(TTM)
       "pre_tax_margin_ttm", // 세전 마진(TTM)
@@ -177,7 +191,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "gross_margin_ttm", // 총 마진(TTM)
       "operating_margin_ttm", // 운영 마진(TTM)
       "pre_tax_margin_ttm", // 세전 마진(TTM)
@@ -196,7 +209,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "total_assets_fq", // 총 자산(분기별)
       "fundamental_currency_code", // 기본 통화 코드
       "total_current_assets_fq", // 총 유동 자산(분기별)
@@ -217,7 +229,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "cash_f_operating_activities_ttm", // 운영 활동으로 인한 현금 흐름(TTM)
       "fundamental_currency_code", // 기본 통화 코드
       "cash_f_investing_activities_ttm", // 투자 활동으로 인한 현금 흐름(TTM)
@@ -232,7 +243,6 @@ async function updateStore(countryCode: string) {
       "logoid", // 로고 ID
       "update_mode", // 업데이트 모드
       "type", // 유형
-      "typespecs", // 유형 사양
       "Recommend.All", // 모든 추천
       "Recommend.MA", // 이동 평균 추천
       "Recommend.Other", // 기타 추천
@@ -246,33 +256,33 @@ async function updateStore(countryCode: string) {
       "CCI20", // 상품 채널 지수 20
       "Stoch.K", // 스토캐스틱 K
       "Stoch.D", // 스토캐스틱 D
-      "Candle.3BlackCrows", // 3 검은 까마귀 캔들
-      "Candle.3WhiteSoldiers", // 3 흰 병사 캔들
-      "Candle.AbandonedBaby.Bearish", // 버려진 아기 곰팡이 캔들
-      "Candle.AbandonedBaby.Bullish", // 버려진 아기 황소 캔들
-      "Candle.Doji", // 도지 캔들
-      "Candle.Doji.Dragonfly", // 도지 잠자리 캔들
-      "Candle.Doji.Gravestone", // 도지 묘비 캔들
-      "Candle.Engulfing.Bearish", // 포식 곰팡이 캔들
-      "Candle.Engulfing.Bullish", // 포식 황소 캔들
-      "Candle.EveningStar", // 저녁 별 캔들
-      "Candle.Hammer", // 망치 캔들
-      "Candle.HangingMan", // 매달린 사람 캔들
-      "Candle.Harami.Bearish", // 하라미 곰팡이 캔들
-      "Candle.Harami.Bullish", // 하라미 황소 캔들
-      "Candle.InvertedHammer", // 뒤집힌 망치 캔들
-      "Candle.Kicking.Bearish", // 킥 곰팡이 캔들
-      "Candle.Kicking.Bullish", // 킥 황소 캔들
-      "Candle.LongShadow.Lower", // 긴 그림자 하단 캔들
-      "Candle.LongShadow.Upper", // 긴 그림자 상단 캔들
-      "Candle.Marubozu.Black", // 마루보즈 검은 캔들
-      "Candle.Marubozu.White", // 마루보즈 흰 캔들
-      "Candle.MorningStar", // 아침 별 캔들
-      "Candle.ShootingStar", // 별똥별 캔들
-      "Candle.SpinningTop.Black", // 회전하는 꼭대기 검은 캔들
-      "Candle.SpinningTop.White", // 회전하는 꼭대기 흰 캔들
-      "Candle.TriStar.Bearish", // 트라이스타 곰팡이 캔들
-      "Candle.TriStar.Bullish", // 트라이스타 황소 캔들
+      // "Candle.3BlackCrows", // 3 검은 까마귀 캔들
+      // "Candle.3WhiteSoldiers", // 3 흰 병사 캔들
+      // "Candle.AbandonedBaby.Bearish", // 버려진 아기 곰팡이 캔들
+      // "Candle.AbandonedBaby.Bullish", // 버려진 아기 황소 캔들
+      // "Candle.Doji", // 도지 캔들
+      // "Candle.Doji.Dragonfly", // 도지 잠자리 캔들
+      // "Candle.Doji.Gravestone", // 도지 묘비 캔들
+      // "Candle.Engulfing.Bearish", // 포식 곰팡이 캔들
+      // "Candle.Engulfing.Bullish", // 포식 황소 캔들
+      // "Candle.EveningStar", // 저녁 별 캔들
+      // "Candle.Hammer", // 망치 캔들
+      // "Candle.HangingMan", // 매달린 사람 캔들
+      // "Candle.Harami.Bearish", // 하라미 곰팡이 캔들
+      // "Candle.Harami.Bullish", // 하라미 황소 캔들
+      // "Candle.InvertedHammer", // 뒤집힌 망치 캔들
+      // "Candle.Kicking.Bearish", // 킥 곰팡이 캔들
+      // "Candle.Kicking.Bullish", // 킥 황소 캔들
+      // "Candle.LongShadow.Lower", // 긴 그림자 하단 캔들
+      // "Candle.LongShadow.Upper", // 긴 그림자 상단 캔들
+      // "Candle.Marubozu.Black", // 마루보즈 검은 캔들
+      // "Candle.Marubozu.White", // 마루보즈 흰 캔들
+      // "Candle.MorningStar", // 아침 별 캔들
+      // "Candle.ShootingStar", // 별똥별 캔들
+      // "Candle.SpinningTop.Black", // 회전하는 꼭대기 검은 캔들
+      // "Candle.SpinningTop.White", // 회전하는 꼭대기 흰 캔들
+      // "Candle.TriStar.Bearish", // 트라이스타 곰팡이 캔들
+      // "Candle.TriStar.Bullish", // 트라이스타 황소 캔들
       "exchange", // 거래소
     ];
 
@@ -409,13 +419,15 @@ async function updateStore(countryCode: string) {
 
     console.log(`[${getKoreaTime()}] tradingview parsing start`);
 
-    return responseJson.data.map((item: any) => {
+    const data = responseJson.data.map((item: any) => {
       let obj: any = {};
       for (let i = 0; i < columns.length; i++) {
         obj[columns[i]] = item.d[i];
       }
       return obj;
     });
+
+    return data.map((item: any) => toSnakeCase(item));
   } catch (error) {
     console.error(error);
     return error;
