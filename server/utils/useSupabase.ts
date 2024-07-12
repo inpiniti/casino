@@ -103,10 +103,12 @@ async function fetchStockDataInBatches(uniqueSymbols: any[]) {
     const batchSymbols = uniqueSymbols.slice(i, i + BATCH_SIZE);
     console.log("batchSymbols", batchSymbols.length);
     const { data, error: queryError } = await supabaseClient
-      .from("stock")
-      .select("name, volume, created_at")
-      .in("name", batchSymbols)
-      .order("created_at", { ascending: false });
+  .from("stock")
+  .select("name, volume, created_at")
+  .in("name", batchSymbols)
+  .order("name", { ascending: true })
+  .order("created_at", { ascending: false })
+  .limit(1, { signal: 'distinct' });
 
     if (queryError) {
       error = queryError;
