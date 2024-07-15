@@ -33,16 +33,8 @@ export async function insertDataToSupabase(allData: any) {
 
   // 캐시된 데이터가 없을 경우에만 데이터베이스에서 조회
   if (latestDataMap.size === 0) {
-    const { data, error } = (await fetchStockDataInBatches(
-      uniqueSymbols
-    )) as any;
+    const existingData = (await fetchStockDataInBatches(uniqueSymbols)) as any;
 
-    if (error) {
-      console.error("Error fetching existing data", error);
-      return;
-    }
-
-    existingData = data;
     console.log("Fetched existing data: ", existingData.length);
 
     // 조회한 데이터를 메모리에 캐싱
@@ -62,7 +54,13 @@ export async function insertDataToSupabase(allData: any) {
     const latestRecord = latestDataMap.get(item.name);
     const shouldInsert = latestRecord?.volume != item?.volume;
     if (!shouldInsert) {
-      //console.log(`Skipping name: ${item.name}`);
+      console.log(
+        `Skipping name: ${item.name}   ${latestRecord?.volume} == ${item?.volume}`
+      );
+    } else {
+      console.log(
+        `Inserting name: ${item.name}   ${latestRecord?.volume} != ${item?.volume}`
+      );
     }
     return shouldInsert;
   });
@@ -101,14 +99,11 @@ async function fetchStockDataInBatches(uniqueSymbols: any[]) {
 
   for (let i = 0; i < uniqueSymbols.length; i += BATCH_SIZE) {
     const batchSymbols = uniqueSymbols.slice(i, i + BATCH_SIZE);
-    console.log("batchSymbols", batchSymbols.length);
-    const { data, error: queryError } = await supabaseClient
-  .from("stock")
-  .select("name, volume, created_at")
-  .in("name", batchSymbols)
-  .order("name", { ascending: true })
-  .order("created_at", { ascending: false })
-  .limit(1, { signal: 'distinct' });
+
+    const { data, error: queryError } = await supabaseClient.rpc(
+      "get_latest_stock_entries",
+      { batchsymbols: batchSymbols }
+    );
 
     if (queryError) {
       error = queryError;
@@ -116,20 +111,21 @@ async function fetchStockDataInBatches(uniqueSymbols: any[]) {
     }
 
     finalResults = [...finalResults, ...data];
-    console.log("finalResults", finalResults.length);
   }
 
   // 최신 "created_at" 레코드만 선택하는 로직
-  const latestResults: any = {};
-  finalResults.forEach((record: any) => {
-    const existingRecord = latestResults[record.name];
-    if (
-      !existingRecord ||
-      new Date(record.created_at) > new Date(existingRecord.created_at)
-    ) {
-      latestResults[record.name] = record;
-    }
-  });
+  // const latestResults: any = {};
+  // finalResults.forEach((record: any) => {
+  //   const existingRecord = latestResults[record.name];
+  //   if (
+  //     !existingRecord ||
+  //     new Date(record.created_at) > new Date(existingRecord.created_at)
+  //   ) {
+  //     latestResults[record.name] = record;
+  //   }
+  // });
 
-  return { data: Object.values(latestResults), error };
+  console.log("finalResults", finalResults.length);
+
+  return finalResults;
 }
