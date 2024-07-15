@@ -62,10 +62,4 @@ export default defineNuxtConfig({
       link: [{ rel: "canonical", href: "https://stock-inpiniti.vercel.app/" }],
     },
   },
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: ["/sitemap.xml", "/robots.txt"],
-    },
-  },
 });
