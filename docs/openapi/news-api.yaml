@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: News API
+  description: This is a simple API for fetching news articles.
+  version: 1.0.0
+servers:
+  - url: http://example.com/api
+    description: Main production server
+paths:
+  /articles:
+    get:
+      summary: List all articles
+      description: This endpoint returns all articles.
+      responses:
+        "200":
+          description: A JSON array of articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The article ID.
+        title:
+          type: string
+          description: The article title.
+        content:
+          type: string
+          description: The article content.
+        author:
+          type: string
+          description: The author of the article.

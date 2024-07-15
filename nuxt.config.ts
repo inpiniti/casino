@@ -6,6 +6,25 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@nuxt/test-utils/module",
     "nuxt-scheduler",
+    [
+      "nuxt-openapi-docs-module",
+      {
+        folder: "./docs/openapi", // Path to the folder containing OpenAPI specification files
+        name: "OpenApiDocs", // Name of the main component
+        files: function () {
+          // Function returning an object mapping file names to display names
+          return {
+            "news-api": "News API",
+            "pages-api": "Pages API docs",
+            "tradingview-api": "TradingView API docs",
+          };
+        },
+        debug: true, // Enable debug mode to print information to the console
+        list: true, // Toggle the display of document listings
+        locales: ["en", "fr", "es"], // Define supported locales
+        footer: "© 2024 Company Name. All rights reserved.", // Custom footer content
+      },
+    ],
   ],
   css: [
     "@/assets/css/swagger-ui.css",

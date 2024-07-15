@@ -24,6 +24,7 @@
     "lucide-vue-next": "^0.379.0",
     "node-fetch": "^3.3.2",
     "nuxt": "^3.11.2",
+    "nuxt-openapi-docs-module": "^5.2.11",
     "radix-vue": "^1.8.1",
     "shadcn-nuxt": "^0.10.4",
     "swagger-ui": "^5.17.14",
