@@ -4,7 +4,7 @@ info:
   description: This API provides trading view data for different countries.
   version: 1.0.0
 servers:
-  - url: http://localhost:3000/api
+  - url: https://stock-inpiniti.vercel.app/api
     description: Main production server
 paths:
   /tradingview/{countryCode}:
