@@ -45,4 +45,27 @@ export default defineNuxtConfig({
     host: "0.0.0.0",
     port: 3000,
   },
+  app: {
+    head: {
+      title: "Stock Rankings",
+      meta: [
+        {
+          name: "description",
+          content:
+            "Check out the latest stock rankings for KR and US markets. Find the best-performing stocks easily.",
+        },
+        {
+          name: "keywords",
+          content: "stock rankings, stock market, KR stocks, US stocks",
+        },
+      ],
+      link: [{ rel: "canonical", href: "https://stock-inpiniti.vercel.app/" }],
+    },
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ["/sitemap.xml", "/robots.txt"],
+    },
+  },
 });
