@@ -6,7 +6,9 @@ const Reference_ID = "hgzzjhjgefunjjtajsgo";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnenpqaGpnZWZ1bmpqdGFqc2dvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg2MjQ2NDcsImV4cCI6MjAzNDIwMDY0N30.hkd9fEpbYcaFuflCqsZm76ykMX0QJBlh023FsC6O0JM";
 
-const latestDataMap = new Map(); // 이전 로직에서 선언된 캐시 맵을 사용
+// 이전 로직에서 선언된 캐시 맵을 사용
+// 국가별 캐싱된 데이터를 저장할 구조로 변경
+const latestDataMap = new Map<string, Map<string, any>>();
 
 export const useSupabase = () => {
   if (!supabaseClient) {
@@ -19,7 +21,7 @@ export const useSupabase = () => {
   return supabaseClient;
 };
 
-export async function insertDataToSupabase(allData: any) {
+export async function insertDataToSupabase(allData: any, countryCode: string) {
   useSupabase();
 
   console.log("Inserting data to Supabase, total: ", allData.length);
@@ -28,30 +30,38 @@ export async function insertDataToSupabase(allData: any) {
   );
   console.log("Unique stock symbols: ", uniqueSymbols.length);
 
+  // 국가별 캐시가 없는 경우 초기화합니다.
+  if (!latestDataMap.has(countryCode)) {
+    latestDataMap.set(countryCode, new Map<string, any>());
+  }
+
+  let countryDataMap: any = latestDataMap.get(countryCode);
+
   // 메모리 캐시를 사용하여 데이터 조회
   let existingData = [];
 
   // 캐시된 데이터가 없을 경우에만 데이터베이스에서 조회
-  if (latestDataMap.size === 0) {
+  if (countryDataMap.size === 0) {
     const existingData = (await fetchStockDataInBatches(uniqueSymbols)) as any;
-
     console.log("Fetched existing data: ", existingData.length);
 
     // 조회한 데이터를 메모리에 캐싱
-    for (const record of existingData) {
-      if (!latestDataMap.has(record.name)) {
-        latestDataMap.set(record.name, record);
-      }
-    }
+    // Cache fetched data
+    existingData.forEach((record: any) => {
+      countryDataMap.set(record.name, record);
+    });
   } else {
     console.log("캐싱된 데이터가 존재함.");
   }
 
-  console.log("Latest data map size: ", latestDataMap.size);
+  console.log(
+    "Latest data map size for country " + countryCode + ": ",
+    countryDataMap.size
+  );
 
   // 새로운 데이터 처리
   const dataToInsert = allData.filter((item: any) => {
-    const latestRecord = latestDataMap.get(item.name);
+    const latestRecord = countryDataMap.get(item.name);
     const shouldInsert = latestRecord?.volume != item?.volume;
     if (!shouldInsert) {
       /* console.log(
@@ -81,7 +91,7 @@ export async function insertDataToSupabase(allData: any) {
       if (data) {
         // 삽입 성공 후 캐시 업데이트
         data.forEach((item: any) => {
-          latestDataMap.set(item.name, item);
+          countryDataMap.set(item.name, item);
         });
       }
     }

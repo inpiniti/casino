@@ -33,14 +33,22 @@ function startScheduler() {
 async function continuouslyRunTask() {
   try {
     console.log("scheduler start");
+
     const kr_data = await updateStore("kr");
-    await insertDataToSupabase(kr_data);
+    await insertDataToSupabase(kr_data, "kr");
+    console.log("kr", kr_data.length);
+
     const us_data = await updateStore("us");
-    await insertDataToSupabase(us_data);
+    await insertDataToSupabase(us_data, "us");
+    console.log("us", us_data.length);
+
     const jp_data = await updateStore("jp");
-    await insertDataToSupabase(jp_data);
+    await insertDataToSupabase(jp_data, "jp");
+    console.log("jp", jp_data.length);
+
     const cn_data = await updateStore("cn");
-    await insertDataToSupabase(cn_data);
+    await insertDataToSupabase(cn_data, "cn");
+    console.log("cn", cn_data.length);
   } catch (error) {
     console.error("An error occurred:", error);
   } finally {
