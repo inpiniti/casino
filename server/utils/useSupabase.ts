@@ -105,11 +105,11 @@ export async function insertDataToSupabase(allData: any, countryCode: string) {
       if (error) {
         console.error("Error inserting data", error);
       } else {
-        console.log("Data inserted successfully", data);
+        console.log("Data inserted successfully");
 
-        if (data) {
+        if (uniqueBatch.length > 0) {
           // 삽입 성공 후 캐시 업데이트
-          data.forEach((item: any) => {
+          uniqueBatch.forEach((item: any) => {
             countryDataMap.set(item.name, item);
           });
         }
