@@ -79,20 +79,24 @@ export async function insertDataToSupabase(allData: any, countryCode: string) {
 
   // 삽입할 데이터를 일괄 처리
   if (dataToInsert.length > 0) {
-    const { data, error } = await supabaseClient
-      .from("stock")
-      .insert(dataToInsert);
+    // Determine if data needs to be split into batches
+    const batchSize = 5000;
+    for (let i = 0; i < dataToInsert.length; i += batchSize) {
+      const batch = dataToInsert.slice(i, i + batchSize);
 
-    if (error) {
-      console.error("Error inserting data", error);
-    } else {
-      console.log("Data inserted successfully", data);
+      const { data, error } = await supabaseClient.from("stock").insert(batch);
 
-      if (data) {
-        // 삽입 성공 후 캐시 업데이트
-        data.forEach((item: any) => {
-          countryDataMap.set(item.name, item);
-        });
+      if (error) {
+        console.error("Error inserting data", error);
+      } else {
+        console.log("Data inserted successfully", data);
+
+        if (data) {
+          // 삽입 성공 후 캐시 업데이트
+          data.forEach((item: any) => {
+            countryDataMap.set(item.name, item);
+          });
+        }
       }
     }
   } else {
