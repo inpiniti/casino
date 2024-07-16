@@ -13,8 +13,18 @@ function startScheduler() {
   scheduler
     .run(async () => {
       console.log("scheduler start");
-      const data = await updateStore("kr");
-      await insertDataToSupabase(data);
+      const kr_data = await updateStore("kr");
+      await insertDataToSupabase(kr_data);
+      console.log("kr", kr_data.length);
+      const us_data = await updateStore("us");
+      console.log("us", us_data.length);
+      await insertDataToSupabase(us_data);
+      const jp_data = await updateStore("jp");
+      console.log("jp", jp_data.length);
+      await insertDataToSupabase(jp_data);
+      const cn_data = await updateStore("cn");
+      await insertDataToSupabase(cn_data);
+      console.log("cn", cn_data.length);
     })
     // 매분 실행하도록
     .cron("* * * * *");
@@ -22,8 +32,15 @@ function startScheduler() {
 
 async function continuouslyRunTask() {
   try {
-    const data = await updateStore("kr");
-    await insertDataToSupabase(data);
+    console.log("scheduler start");
+    const kr_data = await updateStore("kr");
+    await insertDataToSupabase(kr_data);
+    const us_data = await updateStore("us");
+    await insertDataToSupabase(us_data);
+    const jp_data = await updateStore("jp");
+    await insertDataToSupabase(jp_data);
+    const cn_data = await updateStore("cn");
+    await insertDataToSupabase(cn_data);
   } catch (error) {
     console.error("An error occurred:", error);
   } finally {

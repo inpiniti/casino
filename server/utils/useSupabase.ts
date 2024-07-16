@@ -54,13 +54,13 @@ export async function insertDataToSupabase(allData: any) {
     const latestRecord = latestDataMap.get(item.name);
     const shouldInsert = latestRecord?.volume != item?.volume;
     if (!shouldInsert) {
-      console.log(
+      /* console.log(
         `Skipping name: ${item.name}   ${latestRecord?.volume} == ${item?.volume}`
-      );
+      ); */
     } else {
-      console.log(
+      /* console.log(
         `Inserting name: ${item.name}   ${latestRecord?.volume} != ${item?.volume}`
-      );
+      ); */
     }
     return shouldInsert;
   });
