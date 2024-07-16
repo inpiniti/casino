@@ -84,7 +84,23 @@ export async function insertDataToSupabase(allData: any, countryCode: string) {
     for (let i = 0; i < dataToInsert.length; i += batchSize) {
       const batch = dataToInsert.slice(i, i + batchSize);
 
-      const { data, error } = await supabaseClient.from("stock").insert(batch);
+      const uniqueBatch = batch.reduce(
+        (acc: any, cur: any) => {
+          // name과 volume을 조합하여 유니크한 키 생성
+          const uniqueKey = `${cur.name}-${cur.volume}`;
+          // 해당 키가 이미 처리되지 않았다면 추가
+          if (!acc.seen[uniqueKey]) {
+            acc.result.push(cur);
+            acc.seen[uniqueKey] = true; // 키를 처리된 것으로 표시
+          }
+          return acc;
+        },
+        { result: [], seen: {} }
+      ).result;
+
+      const { data, error } = await supabaseClient
+        .from("stock")
+        .insert(uniqueBatch);
 
       if (error) {
         console.error("Error inserting data", error);
