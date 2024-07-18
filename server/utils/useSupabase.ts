@@ -143,18 +143,6 @@ async function fetchStockDataInBatches(uniqueSymbols: any[]) {
     finalResults = [...finalResults, ...data];
   }
 
-  // 최신 "created_at" 레코드만 선택하는 로직
-  // const latestResults: any = {};
-  // finalResults.forEach((record: any) => {
-  //   const existingRecord = latestResults[record.name];
-  //   if (
-  //     !existingRecord ||
-  //     new Date(record.created_at) > new Date(existingRecord.created_at)
-  //   ) {
-  //     latestResults[record.name] = record;
-  //   }
-  // });
-
   console.log("finalResults", finalResults.length);
 
   return finalResults;
