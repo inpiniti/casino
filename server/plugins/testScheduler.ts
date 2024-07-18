@@ -3,8 +3,8 @@ import { updateStore } from "../api/tradingview/[countryCode]";
 import { useScheduler } from "#scheduler";
 
 export default defineNitroPlugin(() => {
-  //startScheduler();
-  continuouslyRunTask();
+  startScheduler();
+  //continuouslyRunTask();
 });
 
 function startScheduler() {
@@ -14,20 +14,22 @@ function startScheduler() {
     .run(async () => {
       console.log("scheduler start");
       const kr_data = await updateStore("kr");
-      await insertDataToSupabase(kr_data);
+      await insertDataToSupabase(kr_data, "kr");
       console.log("kr", kr_data.length);
       const us_data = await updateStore("us");
       console.log("us", us_data.length);
-      await insertDataToSupabase(us_data);
-      const jp_data = await updateStore("jp");
-      console.log("jp", jp_data.length);
-      await insertDataToSupabase(jp_data);
-      const cn_data = await updateStore("cn");
-      await insertDataToSupabase(cn_data);
-      console.log("cn", cn_data.length);
+      await insertDataToSupabase(us_data, "us");
+      //const jp_data = await updateStore("jp");
+      //console.log("jp", jp_data.length);
+      //await insertDataToSupabase(jp_data);
+      //const cn_data = await updateStore("cn");
+      //await insertDataToSupabase(cn_data);
+      //console.log("cn", cn_data.length);
     })
     // 매분 실행하도록
-    .cron("* * * * *");
+    //.cron("* * * * *");
+    // 10분 주기
+    .everyTenMinutes();
 }
 
 async function continuouslyRunTask() {
