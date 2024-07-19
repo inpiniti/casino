@@ -35,15 +35,12 @@ const selectedCountry = useState<any>("selectedCountry");
 
 const nameTo = ({ name, indiceList }: { name: string; indiceList: any }) => {
   selectedCountry.value = { name, indiceList };
-  exchange.value = undefined;
   const router = useRouter();
   router.push({ path: `/stock/${nameList[name]}` });
 };
-
-const exchange = useExchange();
 </script>
 <template>
-  <div class="shrink-0 h-14 px-2 flex items-center">
+  <div class="flex items-center px-2 shrink-0 h-14">
     <input
       class="px-4 py-1.5 w-full focus:outline-none border rounded"
       type="text"
@@ -55,7 +52,7 @@ const exchange = useExchange();
     <div
       v-if="indices"
       v-for="[name, indiceList] in Object.entries(cIndices)"
-      class="px-4 py-2 mx-2 my-1 rounded cursor-pointer text-xs flex gap-2 items-center"
+      class="flex items-center gap-2 px-4 py-2 mx-2 my-1 text-xs rounded cursor-pointer"
       :class="[
         selectedCountry.name === name
           ? 'bg-black text-white hover:bg-neutral-800'
@@ -72,7 +69,7 @@ const exchange = useExchange();
       "
     >
       <img
-        class="rounded-full border border-neutral-600"
+        class="border rounded-full border-neutral-600"
         :src="`https://s3-symbol-logo.tradingview.com/country/${nameList[
           name
         ].toUpperCase()}.svg`"

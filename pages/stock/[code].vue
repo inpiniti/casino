@@ -4,7 +4,6 @@ const route = useRoute();
 const selectedCountry = useState<any>("selectedCountry");
 const stockList = useState<any[]>("stockList", () => []);
 
-const exchange = useExchange();
 const { count, loading } = useLoading().value;
 
 watch(
@@ -16,22 +15,8 @@ watch(
   }
 );
 
-watch(
-  () => exchange.value,
-  () => {
-    loading.value = true;
-    count.value = 0;
-  }
-);
-
 const getInvesting = () => {
-  if (exchange.value == undefined) {
-    loading.value = false;
-    count.value = 60;
-    return;
-  }
-
-  fetch(`/api/stock/${route.params.code}/${exchange.value}`, {
+  fetch(`/api/stock/${route.params.code}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -120,9 +105,7 @@ const openTradingview = (code: string) => {
                 <TableRow>
                   <TableHead>종목명</TableHead>
                   <TableHead>종목코드</TableHead>
-                  <TableHead>점수</TableHead>
                   <TableHead>섹터</TableHead>
-                  <TableHead>산업</TableHead>
                   <TableHead>거래량 율</TableHead>
                   <TableHead>변동률</TableHead>
 
@@ -135,9 +118,9 @@ const openTradingview = (code: string) => {
                   <TableCell>
                     <ContextMenu>
                       <ContextMenuTrigger
-                        class="text-red-400 flex items-center gap-2 cursor-pointer"
+                        class="flex items-center gap-2 text-red-400 cursor-pointer"
                       >
-                        {{ stock.viewData.name }}
+                        {{ stock.description }}
                         <font-awesome-icon icon="computer-mouse" />
                       </ContextMenuTrigger>
                       <ContextMenuContent>
@@ -153,17 +136,15 @@ const openTradingview = (code: string) => {
                       </ContextMenuContent>
                     </ContextMenu>
                   </TableCell>
-                  <TableCell>{{ stock.viewData.symbol }}</TableCell>
-                  <TableCell>{{ stock.score }}</TableCell>
-                  <TableCell>{{ stock.sector_trans }}</TableCell>
-                  <TableCell>{{ stock.industry_trans }}</TableCell>
-                  <TableCell> {{ stock.volumeRate }}% </TableCell>
-                  <TableCell> {{ stock.daily }}%</TableCell>
-                  <TableCell>{{ stock.last }}</TableCell>
-                  <TableCell class="p-0 w-32">
+                  <TableCell>{{ stock.name }}</TableCell>
+                  <TableCell>{{ stock.sector }}</TableCell>
+                  <TableCell> stock.volumeRate % </TableCell>
+                  <TableCell> stock.daily %</TableCell>
+                  <TableCell> stock.last </TableCell>
+                  <TableCell class="w-32 p-0">
                     <img
                       :src="`https://ssl.pstatic.net/imgfinance/chart/item/area/day/${
-                        stock.viewData.symbol
+                        stock.name
                       }.png?sidcode=${Date.now()}`"
                     />
                   </TableCell>

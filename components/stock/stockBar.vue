@@ -15,7 +15,6 @@ const changeCondition = () => {
   emit("update:modelValue", condition.value);
 };
 
-const exchange = useExchange();
 const windowLayout = useWindowLayout();
 </script>
 <template>
@@ -57,37 +56,6 @@ const windowLayout = useWindowLayout();
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="flex items-center gap-2 px-4 shrink-0 h-14"
-        v-if="selectedCountry"
-      >
-        <Select v-model="exchange" v-if="selectedCountry?.name == 'Korea'">
-          <SelectTrigger>
-            <SelectValue placeholder="거래소" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>거래소</SelectLabel>
-              <SelectItem value="60"> 코스피 </SelectItem>
-              <SelectItem value="130"> 코넥스 </SelectItem>
-              <SelectItem value="110"> 코스닥 </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Select v-model="exchange" v-else-if="selectedCountry?.name == 'US'">
-          <SelectTrigger>
-            <SelectValue placeholder="거래소" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>거래소</SelectLabel>
-              <SelectItem value="95"> OTC Markets </SelectItem>
-              <SelectItem value="2"> 나스닥 </SelectItem>
-              <SelectItem value="1"> 뉴욕 </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
       </div>
     </div>
     <div class="flex items-center gap-2">
