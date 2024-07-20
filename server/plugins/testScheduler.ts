@@ -3,7 +3,7 @@ import { updateStore } from "../api/tradingview/[countryCode]";
 import { useScheduler } from "#scheduler";
 
 export default defineNitroPlugin(() => {
-  startScheduler();
+  //startScheduler();
   //continuouslyRunTask();
 });
 

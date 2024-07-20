@@ -13,6 +13,7 @@
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@supabase/supabase-js": "^2.43.5",
+    "@tensorflow/tfjs-node": "^4.20.0",
     "@types/puppeteer": "^7.0.4",
     "@types/swagger-ui": "^3.52.4",
     "@unovis/ts": "^1.4.1",
@@ -21,6 +22,7 @@
     "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "csv-parse": "^5.5.6",
     "lucide-vue-next": "^0.379.0",
     "node-fetch": "^3.3.2",
     "nuxt": "^3.11.2",
