@@ -32,7 +32,14 @@ const preprocessData1Day10Percent = (data: any) => {
   data.forEach((row: any) => {
     // 예제상 간단하게 전 처리 하는 코드를 작성합니다.
     // 실제 데이터에서는 사전 정제 과정을 거치는 것이 좋습니다.
-    const feature = Object.values(row).slice(0, -1) as unknown as number[];
+    // 각 행의 특징을 숫자 배열로 변환합니다.
+    const feature = Object.values(row)
+      .slice(0, -1)
+      .map((value: any) => {
+        // 숫자로 변환 가능한지 확인하고, 가능하면 변환합니다.
+        // 숫자로 변환할 수 없는 경우 0으로 처리합니다.
+        return isNaN(parseFloat(value)) ? 0 : parseFloat(value);
+      }) as number[];
     const label = row.percent_change > 5 ? 1 : 0; // 컬럼 이름은 실제 데이터에 맞게 수정
 
     features.push(feature);
@@ -87,10 +94,13 @@ const predict1Day10Percent = (model: tf.LayersModel, data: any) => {
 };
 
 // 실제로 사용하는 예제 코드
-const main1Day10Percent = async () => {
+export const main1Day10Percent = async () => {
   try {
     const data = await fetchData1Day10Percent();
+    console.log("data", data);
     const { features, labels } = preprocessData1Day10Percent(data);
+    console.log("features", features);
+    console.log("labels", labels);
 
     // 모델 훈련
     const model = await trainModel1Day10Percent(features, labels);
